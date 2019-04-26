@@ -25,7 +25,10 @@ def run(opts):
         'horn_test/views/test_session.py.tmpl',
     ]
 
-    if bindings.get('bare'):
-        copy('./templates/horn_proj', bindings.get('folder'), data=bindings, exclude=bare_list)
+    if bindings.get('repo'):
+        copy(bindings.get('repo'), bindings.get('folder'), data=bindings)
     else:
-        copy('./templates/horn_proj', bindings.get('folder'), data=bindings)
+        if bindings.get('bare'):
+            copy('./templates/horn_proj', bindings.get('folder'), data=bindings, exclude=bare_list)
+        else:
+            copy('./templates/horn_proj', bindings.get('folder'), data=bindings)
