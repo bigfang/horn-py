@@ -1,3 +1,6 @@
+import toml
+
+
 class Naming(object):
 
     @classmethod
@@ -15,3 +18,8 @@ class Naming(object):
     @classmethod
     def unsuffix(cls, value):
         return value
+
+
+def get_proj_meta():
+    data = toml.load('./proj.toml')
+    return data.get('meta')

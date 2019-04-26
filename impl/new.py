@@ -4,7 +4,7 @@ import subprocess
 
 from copier import copy
 
-from .naming import Naming
+from .utils import Naming
 
 
 def clone(url, checkout=None):

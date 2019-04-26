@@ -10,6 +10,7 @@ flake8 = "*"
 docopt = "*"
 copier = "*"
 pampy = "*"
+toml = "*"
 
 [requires]
 python_version = "3.7"

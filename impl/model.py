@@ -1,6 +1,7 @@
+from pampy import match, _, TAIL
 from copier import copy
 
-from pampy import match, _, TAIL
+from .utils import get_proj_meta
 
 
 TYPES = {
@@ -28,7 +29,10 @@ def run(opts):
         'fields': parse_fields(opts.get('<fields>'))
     }
 
+    bindings.update(get_proj_meta())
+
     print(bindings)
+    # copy('./templates/horn_model', f'{bindings.get("folder")}', data=bindings)
 
 
 def validate_type(arg):
