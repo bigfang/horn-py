@@ -39,7 +39,7 @@ ACTIONS = list(ACTION_MAP.keys())
 class Hub(object):
 
     @classmethod
-    def filter_opt(cls, action, params):
+    def filter_opts(cls, action, params):
         keys = ACTION_MAP.get(action)
         return {k: v for k, v in params.items() if k in keys}
 
@@ -47,7 +47,7 @@ class Hub(object):
     def run(cls, args):
         for action in ACTIONS:
             if args.get(action):
-                opts = cls.filter_opt(action, args)
+                opts = cls.filter_opts(action, args)
                 getattr(impl, action).run(opts)
                 break
 
