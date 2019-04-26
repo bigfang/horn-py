@@ -28,7 +28,6 @@ def run(opts):
         'fields': parse_fields(opts.get('<fields>'))
     }
 
-    bindings.update(opts)
     print(bindings)
 
 
@@ -39,7 +38,7 @@ def validate_type(arg):
     return TYPES.get(arg)
 
 
-def validate_tail(*args):
+def validate_attr(*args):
     affix = ['uniq', 'null']
     for arg in args:
         if arg not in affix:
@@ -59,6 +58,6 @@ def parse_fields(fields):
     return [match(attr,
                 [_, _],              lambda x, y: {'field': x, 'type': validate_type(y)}, # noqa
                 [_, 'ref', _],       lambda x, table: {'field': x, 'type': validate_type('ref'), 'table': table},  # noqa
-                [_, 'ref', _, TAIL], lambda x, table, t: compose_field({'field': x, 'type': validate_type('ref'), 'table': table}, validate_tail(*t)),  # noqa
-                [_, _, TAIL],        lambda x, y, t: compose_field({'field': x, 'type': validate_type(y)}, validate_tail(*t))  # noqa
+                [_, 'ref', _, TAIL], lambda x, table, t: compose_field({'field': x, 'type': validate_type('ref'), 'table': table}, validate_attr(*t)),  # noqa
+                [_, _, TAIL],        lambda x, y, t: compose_field({'field': x, 'type': validate_type(y)}, validate_attr(*t))  # noqa
     ) for attr in attrs]

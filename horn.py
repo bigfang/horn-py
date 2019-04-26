@@ -1,6 +1,6 @@
 """
 Usage:
-  horn new <folder> [--app=<app> --proj=<proj> --pypi=<pypi> --bare --repo=<repo> ]
+  horn new <folder> [--app=<app> --proj=<proj> --pypi=<pypi> --bare] [--repo=<repo> [--checkout=<checkout>]]
   horn gen (api | service) <service> <module> <table> <fields>...
   horn gen model <service> <module> <table> <fields>...
   horn gen schema <module> <fields>...
@@ -8,12 +8,14 @@ Usage:
   horn --version
 
 Options:
-  -h --help         Show this screen.
-  --version         Show version.
-  --app=<app>       App name [default: app].
-  --proj=<proj>     Project name.
-  --pypi=<pypi>     Pypi domain [default: pypi.org].
-  --bare            Bare project.
+  -h --help               Show this screen.
+  --version               Show version.
+  --app=<app>             App name [default: app].
+  --proj=<proj>           Project name.
+  --pypi=<pypi>           Pypi domain [default: pypi.org].
+  --repo=<repo>           Git repo url.
+  --checkout=<checkout>   Git branch tag or refs.
+  --bare                  Bare project.
 
 """
 from docopt import docopt
@@ -24,7 +26,7 @@ __version__ = '0.1.0'
 
 
 ACTION_MAP = {
-    'new': ['<folder>', '--app', '--repo', '--proj', '--bare', '--pypi'],
+    'new': ['<folder>', '--app', '--repo', '--proj', '--bare', '--pypi', '--checkout'],
     'api': ['<service>', '<module>', '<table>', '<fields>'],
     'service': ['<service>', '<module>', '<table>', '<fields>'],
     'model': ['<service>', '<module>', '<table>', '<fields>'],
