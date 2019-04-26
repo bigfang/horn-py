@@ -24,7 +24,7 @@ __version__ = '0.1.0'
 
 
 ACTION_MAP = {
-    'new': ['<folder>', '--app', '--proj', '--bare', '--pypi'],
+    'new': ['<folder>', '--app', '--repo', '--proj', '--bare', '--pypi'],
     'api': ['<service>', '<module>', '<table>', '<fields>'],
     'service': ['<service>', '<module>', '<table>', '<fields>'],
     'model': ['<module>', '<table>', '<fields>'],
@@ -53,8 +53,3 @@ class Hub(object):
 def main():
     args = docopt(__doc__, version=f'Horn {__version__}')
     Hub.run(args)
-    # print(args)
-
-
-if __name__ == '__main__':
-    main()
