@@ -1,0 +1,25 @@
+[loggers]
+keys=root
+
+[handlers]
+keys=root
+
+[formatters]
+keys=timedRotatingFormatter
+
+[formatter_timedRotatingFormatter]
+format=%(asctime)s pid:%(process)d - %(module)s::%(funcName)s(ln:%(lineno)d) - %(levelname)s: %(message)s
+datefmt=%m-%d %H:%M:%S
+
+
+[logger_root]
+level=INFO
+handlers=root
+qualname=root
+
+[handler_root]
+level=INFO
+class=handlers.TimedRotatingFileHandler
+formatter=timedRotatingFormatter
+args=('%(logdir)s/[[ app ]].log', 'D', 1, 30)
+
