@@ -1,3 +1,4 @@
+import secrets
 import tempfile
 import shutil
 import subprocess
@@ -24,8 +25,12 @@ def run(opts):
         'bare': opts.get('--bare'),
         'pypi': opts.get('--pypi'),
         'repo': opts.get('--repo'),
-        'checkout': opts.get('--checkout')
+        'checkout': opts.get('--checkout'),
     }
+    bindings.update({
+        'secret_key': secrets.token_urlsafe(12),
+        'prod_secret_key': secrets.token_urlsafe(24)
+    })
 
     ignore_list = [
         f'{bindings.get("app")}/helpers.py',
