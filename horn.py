@@ -2,7 +2,7 @@
 Usage:
   horn new <folder> [--app=<app> --proj=<proj> --pypi=<pypi> --bare --repo=<repo> ]
   horn gen (api | service) <service> <module> <table> <fields>...
-  horn gen model <module> <table> <fields>...
+  horn gen model <service> <module> <table> <fields>...
   horn gen schema <module> <fields>...
   horn (-h | --help)
   horn --version
@@ -27,7 +27,7 @@ ACTION_MAP = {
     'new': ['<folder>', '--app', '--repo', '--proj', '--bare', '--pypi'],
     'api': ['<service>', '<module>', '<table>', '<fields>'],
     'service': ['<service>', '<module>', '<table>', '<fields>'],
-    'model': ['<module>', '<table>', '<fields>'],
+    'model': ['<service>', '<module>', '<table>', '<fields>'],
     'schema': ['<module>', '<fields>'],
 }
 

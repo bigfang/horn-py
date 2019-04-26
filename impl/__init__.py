@@ -1,6 +1,7 @@
-from . import new
+from . import new, model
 
 
 __all__ = [
-    'new'
+    'new',
+    'model'
 ]

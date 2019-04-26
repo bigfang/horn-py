@@ -9,6 +9,7 @@ flake8 = "*"
 [packages]
 docopt = "*"
 copier = "*"
+pampy = "*"
 
 [requires]
 python_version = "3.7"
