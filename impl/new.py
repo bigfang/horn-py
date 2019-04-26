@@ -20,21 +20,22 @@ def run(opts):
     bindings = {
         'folder': opts.get('<folder>'),
         'app': opts.get('--app'),
-        'proj': Naming.camelize(opts.get('<folder>').split('/')[-1]),
+        'proj': opts.get('--proj') or Naming.camelize(opts.get('<folder>').split('/')[-1]),
         'bare': opts.get('--bare'),
         'pypi': opts.get('--pypi'),
         'repo': opts.get('--repo'),
         'checkout': opts.get('--checkout')
     }
 
-    bare_list = [
-        'horn_proj/models/user.py.tmpl',
-        'horn_proj/schemas/user.py.tmpl',
-        'horn_proj/views/user.py.tmpl',
-        'horn_proj/views/session.py.tmpl',
-        'horn_proj/helpers.py.tmpl',
-        'horn_test/views/test_user.py.tmpl',
-        'horn_test/views/test_session.py.tmpl',
+    ignore_list = [
+        f'{bindings.get("app")}/helpers.py',
+        '*/models/user.py',
+        '*/views/user.py',
+        '*/views/session.py',
+        '*/schemas/user.py',
+        '*/schemas/session.py',
+        'test/views/test_user.py',
+        'test/views/test_session.py'
     ]
 
     if bindings.get('repo'):
@@ -42,6 +43,6 @@ def run(opts):
         copy(location, bindings.get('folder'), data=bindings)
     else:
         if bindings.get('bare'):
-            copy('./templates/horn_proj', bindings.get('folder'), data=bindings, exclude=bare_list)
+            copy('./templates/horn_proj', bindings.get('folder'), data=bindings, exclude=ignore_list)
         else:
-            copy('./templates/horn_proj', bindings.get('folder'), data=bindings)
+            copy('./templates/horn_proj', bindings.get('folder'), data=bindings, include=['log/'])
