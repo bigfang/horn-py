@@ -9,6 +9,10 @@ Usage:
   horn (-h | --help)
   horn --version
 
+Examples:
+  hron repo tmp/foo_bar git@some.repo --json '{"app": "sample"}' -f conf.json
+  horn new tmp/foo_bar --app foobar --proj FooBar
+
 Options:
   -h --help                 Show this screen.
   --version                 Show version.

@@ -1,20 +1,8 @@
 import secrets
-import tempfile
-import shutil
-import subprocess
 
 from copier import copy
 
-from .utils import Naming
-
-
-def clone(url, checkout=None):
-    location = tempfile.mkdtemp()
-    shutil.rmtree(location)  # Path must not exists
-    subprocess.check_call(["git", "clone", url, location])
-    if checkout:
-        subprocess.check_call(["git", "checkout", checkout], cwd=location)
-    return location
+from .utils import Naming, clone
 
 
 def run(opts):

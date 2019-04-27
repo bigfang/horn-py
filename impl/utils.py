@@ -1,3 +1,7 @@
+import tempfile
+import shutil
+import subprocess
+
 import toml
 
 
@@ -18,6 +22,15 @@ class Naming(object):
     @classmethod
     def unsuffix(cls, value):
         return value
+
+
+def clone(url, checkout=None):
+    location = tempfile.mkdtemp()
+    shutil.rmtree(location)  # Path must not exists
+    subprocess.check_call(["git", "clone", url, location])
+    if checkout:
+        subprocess.check_call(["git", "checkout", checkout], cwd=location)
+    return location
 
 
 def get_proj_info():
