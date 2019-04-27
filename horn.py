@@ -1,4 +1,4 @@
-"""Horn.
+"""\t\t\033[1;33mHorn: A Flask scaffolding tool.\033[0m
 
 Usage:
   horn repo <folder> <url> [<ref>] [--json=<json> (-f=<file> | --file=<file>)]
@@ -9,21 +9,27 @@ Usage:
   horn (-h | --help)
   horn --version
 
-Examples:
-  hron repo tmp/foo_bar git@some.repo --json '{"app": "sample"}' -f conf.json
-  horn new tmp/foo_bar --app foobar --proj FooBar
-
 Options:
-  -h --help                 Show this screen.
-  --version                 Show version.
   --json=<json>             Json string input.
-  -f=<file> --file=<file>   Json file input.
+  -f=<file>, --file=<file>  Json file input.
+
   --app=<app>               App name [default: app].
   --proj=<proj>             Project name.
   --pypi=<pypi>             Pypi domain [default: pypi.org].
   --repo=<repo>             Git repo url.
   --checkout=<ref>          Git branch, tag or ref.
   --bare                    Bare project.
+
+  -h, --help                Show this screen.
+  --version                 Show version.
+
+Examples:
+  hron \033[34mrepo\033[0m tmp/foo_bar git@some.repo \033[32m--json\033[0m '{"app": "sample"}' \033[32m-f\033[0m conf.json
+  horn \033[34mnew\033[0m tmp/foo_bar \033[32m--app\033[0m foobar \033[32m--proj\033[0m FooBar
+  horn \033[34mgen api\033[0m Blog Post posts \033[36mtitle:string:uniq content:string:null author:ref:users\033[0m
+  horn \033[34mgen service\033[0m Blog Post posts \033[36mtitle:string:uniq content:string:null author:ref:users\033[0m
+  horn \033[34mgen model\033[0m Post posts \033[36mtitle:string:uniq content:string:null author:ref:users\033[0m
+  horn \033[34mgen schema\033[0m Post \033[36mtitle:string content:string author:nest:user\033[0m
 
 """
 from docopt import docopt
