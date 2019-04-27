@@ -1,8 +1,7 @@
-from . import repo, new, model
+from . import new, model
 
 
 __all__ = [
-    'repo',
     'new',
     'model'
 ]
