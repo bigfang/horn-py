@@ -1,7 +1,7 @@
 from pampy import match, _, TAIL
 from copier import copy
 
-from .utils import get_proj_meta
+from .utils import get_proj_info
 
 
 TYPES = {
@@ -29,7 +29,7 @@ def run(opts):
         'fields': parse_fields(opts.get('<fields>'))
     }
 
-    bindings.update(get_proj_meta())
+    bindings.update(get_proj_info())
 
     print(bindings)
     # copy('./templates/horn_model', f'{bindings.get("folder")}', data=bindings)

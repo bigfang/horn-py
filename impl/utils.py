@@ -20,6 +20,6 @@ class Naming(object):
         return value
 
 
-def get_proj_meta():
+def get_proj_info():
     data = toml.load('./proj.toml')
-    return data.get('meta')
+    return data.get('project')

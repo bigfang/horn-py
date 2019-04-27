@@ -30,7 +30,7 @@ __version__ = '0.1.0'
 
 
 ACTION_MAP = {
-    'repo': ['<folder>', '<url>', '<ref>', '<attrs'],
+    'repo': ['<folder>', '<url>', '<ref>', '--json', '--file'],
     'new': ['<folder>', '--app', '--repo', '--proj', '--bare', '--pypi', '--checkout'],
     'api': ['<service>', '<module>', '<table>', '<fields>'],
     'service': ['<service>', '<module>', '<table>', '<fields>'],
