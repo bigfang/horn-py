@@ -23,7 +23,7 @@ TYPES = {
 
 def run(opts):
     bindings = {
-        'service': opts.get('<service>'),
+        # 'service': opts.get('<service>'),
         'module': opts.get('<module>'),
         'table': opts.get('<table>'),
         'fields': parse_fields(opts.get('<fields>'))
