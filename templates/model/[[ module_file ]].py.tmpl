@@ -10,7 +10,7 @@ class [[ module ]](Model):
     id = Column(db.Integer, primary_key=True, doc='id')
     [% for field in fields if not field.type == 'reference' %]
     [[ field.field ]] = Column(db.[[ field.type ]]
-    [%- if field.default %], default='[[ field.default ]]' [%- endif %]
+    [%- if field.default %], default=[[ field.default|safe]] [%- endif %]
     [%- if field.uniq %], unique=True [%- endif %]
     [%- if field.index %], index=True [%- endif %]
     [%- if field.nonull %], nullable=False [%- endif %], doc='[[module]] [[field.field]]')

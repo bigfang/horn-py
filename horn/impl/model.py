@@ -41,13 +41,29 @@ def run(opts):
     copy(f'{TPL_PATH}/model', f'{bindings.get("app")}/models', data=bindings)
 
 
+def resolve_default(ftype, default):
+    rv = default
+    if default == 'none':
+        rv = 'None'
+    elif ftype in ['integer', 'float', 'decimal']:
+        pass
+    elif ftype in ['boolen']:
+        if default in ['true', 'false']:
+            rv = Naming.camelize(default)
+        else:
+            print(f'Boolean field error: {default}')
+    else:
+        rv = f"'{rv}'"
+    return rv
+
+
 def parse_fields(fields):
     attrs = [f.split(':') for f in fields]
     return [match(attr,
                 [_, _],              lambda x, y: {'field': x, 'type': validate_type(y, TYPES)},  # noqa
                 [_, 'ref', _],       lambda x, table: {'field': x, 'type': validate_type('ref', TYPES), 'table': table},  # noqa
                 [_, 'ref', _, TAIL], lambda x, table, t: merge_fields({'field': x, 'type': validate_type('ref', TYPES), 'table': table}, validate_attr(AFFIX,*t)),  # noqa
-                [_, _, 'default', _],       lambda x, y, default: {'field': x, 'type': validate_type(y, TYPES), 'default': default},  # noqa
-                [_, _, 'default', _, TAIL], lambda x, y, default, t: merge_fields({'field': x, 'type': validate_type(y, TYPES), 'default': default}, validate_attr(AFFIX, *t)),  # noqa
+                [_, _, 'default', _],       lambda x, y, default: {'field': x, 'type': validate_type(y, TYPES), 'default': resolve_default(y, default)},  # noqa
+                [_, _, 'default', _, TAIL], lambda x, y, default, t: merge_fields({'field': x, 'type': validate_type(y, TYPES), 'default': resolve_default(y, default)}, validate_attr(AFFIX, *t)),  # noqa
                 [_, _, TAIL],        lambda x, y, t: merge_fields({'field': x, 'type': validate_type(y, TYPES)}, validate_attr(AFFIX, *t))  # noqa
     ) for attr in attrs]
