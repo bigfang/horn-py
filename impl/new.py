@@ -55,4 +55,4 @@ def run(opts):
         })
 
         location = clone(bindings.get('repo'), bindings.get('checkout'))
-        copy(location, bindings.get('folder'), data=attrs)
+        copy(f'{location}/new', bindings.get('folder'), data=attrs)

@@ -34,5 +34,5 @@ def clone(url, checkout=None):
 
 
 def get_proj_info():
-    data = toml.load('./proj.toml')
+    data = toml.load('./project.toml')
     return data.get('project')
