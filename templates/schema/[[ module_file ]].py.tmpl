@@ -1,0 +1,28 @@
+from [[ app ]].core.schema import [% if model %]Model[% endif %]Schema, fields
+
+[% if model -%] from [[ app ]].models import [[ model ]] [%- endif %]
+
+from .helpers import SchemaMixin
+
+
+class [[ module ]]Schema([% if model %]Model[% endif %]Schema, SchemaMixin):
+    [% for field in fields if field.type != 'Nested' %]
+    [[ field.field ]] = fields.[[ field.type ]](required=[%- if field.required %]True[% else %]False[%- endif %]
+    [%- if field.load %], load_only=True [%- endif %]
+    [%- if field.dump %], dump_only=True [%- endif %])
+    [%- endfor %]
+
+    [% for field in fields if field.type == 'Nested' -%]
+    [[ field.field ]] = fields.[[ field.type ]]('[[ field.schema ]]', required=[%- if field.required %]True[% else %]False[%- endif %]
+    [%- if field.load %], load_only=True [%- endif %]
+    [%- if field.dump %], dump_only=True [%- endif %])
+    [%- endfor %]
+
+    class Meta:
+        strict = True
+        [% if model -%]
+        model = [[ model ]]
+        [% endif -%]
+        [% if fields -%]
+        fields = ([% for field in fields -%] '[[ field.field ]]', [% endfor %])
+        [%- endif %]

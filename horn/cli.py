@@ -7,7 +7,7 @@ Usage:
                        [-f=PATH | --file=PATH])
   horn gen (api | service) <service> <module> <table> <fields>...
   horn gen model <module> <table> <fields>...
-  horn gen schema <module> <fields>...
+  horn gen schema <module> [<fields>...] [--model=<model>]
   horn (-h | --help)
   horn --version
 
@@ -20,6 +20,8 @@ Options:
   --checkout=<ref>          Git branch, tag or ref.
   --json=<json>             Json string [default: {}].
   -f=PATH, --file=PATH      Json file PATH.
+
+  --model=<model>           Schema baseed on model.
 
   -h, --help                Show this screen.
   --version                 Show version.
@@ -44,7 +46,7 @@ ACTION_MAP = {
     'api': ['<service>', '<module>', '<table>', '<fields>'],
     'service': ['<service>', '<module>', '<table>', '<fields>'],
     'model': ['<module>', '<table>', '<fields>'],
-    'schema': ['<module>', '<fields>'],
+    'schema': ['<module>', '<fields>', '--model'],
 }
 
 ACTIONS = list(ACTION_MAP.keys())

@@ -1,7 +1,7 @@
 from pampy import match, _, TAIL
 from copier import copy
 
-from horn.utils import Naming, get_proj_info, get_tpl_path
+from horn.utils import Naming, get_proj_info, get_tpl_path, merge_fields
 
 
 TPL_PATH = get_tpl_path('..', 'templates')
@@ -55,18 +55,13 @@ def validate_attr(*args):
     return dict(zip(args, [True for i in args]))
 
 
-def compose_field(base, affix={}):
-    base.update(affix)
-    return base
-
-
 def parse_fields(fields):
     attrs = [f.split(':') for f in fields]
     return [match(attr,
-                [_, _],              lambda x, y: {'field': x, 'type': validate_type(y)}, # noqa
+                [_, _],              lambda x, y: {'field': x, 'type': validate_type(y)},  # noqa
                 [_, 'ref', _],       lambda x, table: {'field': x, 'type': validate_type('ref'), 'table': table},  # noqa
-                [_, 'ref', _, TAIL], lambda x, table, t: compose_field({'field': x, 'type': validate_type('ref'), 'table': table}, validate_attr(*t)),  # noqa
+                [_, 'ref', _, TAIL], lambda x, table, t: merge_fields({'field': x, 'type': validate_type('ref'), 'table': table}, validate_attr(*t)),  # noqa
                 [_, _, 'default', _],       lambda x, y, default: {'field': x, 'type': validate_type(y), 'default': default},  # noqa
-                [_, _, 'default', _, TAIL], lambda x, y, default, t: compose_field({'field': x, 'type': validate_type(y), 'default': default}, validate_attr(*t)),  # noqa
-                [_, _, TAIL],        lambda x, y, t: compose_field({'field': x, 'type': validate_type(y)}, validate_attr(*t))  # noqa
+                [_, _, 'default', _, TAIL], lambda x, y, default, t: merge_fields({'field': x, 'type': validate_type(y), 'default': default}, validate_attr(*t)),  # noqa
+                [_, _, TAIL],        lambda x, y, t: merge_fields({'field': x, 'type': validate_type(y)}, validate_attr(*t))  # noqa
     ) for attr in attrs]

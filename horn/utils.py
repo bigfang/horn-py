@@ -44,3 +44,8 @@ def clone(url, checkout=None):
 def get_proj_info():
     data = toml.load('./project.toml')
     return data.get('project')
+
+
+def merge_fields(base, affix={}):
+    base.update(affix)
+    return base
