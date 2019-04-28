@@ -49,7 +49,7 @@ def validate_attr(*args):
     affix = ['uniq', 'nonull', 'index']
     for arg in args:
         if arg not in affix:
-            print(f'fields type error: {":".join(args)}')
+            print(f'field type error: {":".join(args)}')
             exit(1)
 
     return dict(zip(args, [True for i in args]))

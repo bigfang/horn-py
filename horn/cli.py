@@ -62,8 +62,18 @@ class Hub(object):
         for action in ACTIONS:
             if args.get(action):
                 opts = cls.filter_opts(action, args)
-                getattr(impl, action).run(opts)
+                cls.dispatch_action(action, opts)
                 break
+
+    @classmethod
+    def dispatch_action(cls, action, opts):
+        if action == 'new':
+            if opts.get('<repo>'):
+                impl.repo.run(opts)
+            else:
+                impl.new.run(opts)
+        else:
+            getattr(impl, action).run(opts)
 
 
 def main():

@@ -2,7 +2,6 @@ from [[ app ]].core.database import db, Column, Model
 [%- for field in fields if field.type == 'reference' -%]
 , reference_col, relationship
 [%- endfor %]
-from [[ app ]].exts import bcrypt
 
 
 class [[ module ]](Model):
