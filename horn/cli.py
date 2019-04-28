@@ -7,7 +7,7 @@ Usage:
                        [-f=PATH | --file=PATH])
   horn gen (api | service) <service> <module> <table> <fields>...
   horn gen model <module> <table> <fields>...
-  horn gen schema <module> [<fields>...] [--model=<model>]
+  horn gen schema <module> (<fields>... | --model=<model> | <fields>...  --model=<model>)
   horn (-h | --help)
   horn --version
 
