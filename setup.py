@@ -17,7 +17,9 @@ setup_data = {
     ],
     'install_requires': [
         'docopt>=0.6',
+        'toml>=0.10.0',
         'copier>=2.3.3',
+        'pampy==0.2.1',
     ],
     'entry_points': {
         'console_scripts': ['horn = horn:main', ],
