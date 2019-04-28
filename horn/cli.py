@@ -34,6 +34,13 @@ Examples:
   horn \033[34mgen model\033[0m Post posts \033[36mtitle:string:uniq:index content:string:nonull author:ref:users:nonull\033[0m
   horn \033[34mgen schema\033[0m Post \033[36mtitle:string content:string author:nest:user\033[0m
 
+Notes:
+  Model fields: uniq => unique=True, nonull => nullable=False,
+                index => index=True, default:val => default=val
+  Schema fields: dump => dump_only, load => load_only, exclude => exclude
+                 missing:val => missing=val, default:val => default=val
+                 required => required=True, none => allow_none=True
+
 """
 from docopt import docopt
 from . import impl
