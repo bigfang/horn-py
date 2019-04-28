@@ -1,8 +1,10 @@
 from pampy import match, _, TAIL
 from copier import copy
 
-from horn.utils import get_proj_info
+from horn.utils import Naming, get_proj_info, get_tpl_path
 
+
+TPL_PATH = get_tpl_path('..', 'templates')
 
 TYPES = {
     'integer': 'Integer',
@@ -23,16 +25,15 @@ TYPES = {
 
 def run(opts):
     bindings = {
-        # 'service': opts.get('<service>'),
         'module': opts.get('<module>'),
+        'module_file': Naming.underscore(opts.get('<module>')),
         'table': opts.get('<table>'),
         'fields': parse_fields(opts.get('<fields>'))
     }
 
     bindings.update(get_proj_info())
 
-    print(bindings)
-    # copy('./templates/horn_model', f'{bindings.get("folder")}', data=bindings)
+    copy(f'{TPL_PATH}/model', f'{bindings.get("app")}/models', data=bindings)
 
 
 def validate_type(arg):
@@ -43,7 +44,7 @@ def validate_type(arg):
 
 
 def validate_attr(*args):
-    affix = ['uniq', 'null']
+    affix = ['uniq', 'nonull', 'index']
     for arg in args:
         if arg not in affix:
             print(f'fields type error: {":".join(args)}')

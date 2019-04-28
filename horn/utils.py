@@ -17,19 +17,19 @@ class Naming(object):
 
     @classmethod
     def camelize(cls, value, lower=False):
-        return value
+        return value.capitalize()
 
     @classmethod
     def humanize(cls, value):
-        return value
+        return value.lower()
 
     @classmethod
     def underscore(cls, value):
-        return value
+        return value.lower()
 
     @classmethod
     def unsuffix(cls, value):
-        return value
+        return value.upper()
 
 
 def clone(url, checkout=None):

@@ -1,0 +1,29 @@
+from [[ app ]].core.database import db, Column, Model
+[%- for field in fields if field.type == 'reference' -%]
+, reference_col, relationship
+[%- endfor %]
+from [[ app ]].exts import bcrypt
+
+
+class [[ module ]](Model):
+    __tablename__ = '[[ table ]]'
+
+    id = Column(db.Integer, primary_key=True, doc='id')
+    [% for field in fields if not field.type == 'reference' %]
+    [[ field.field ]] = Column(db.[[ field.type ]]
+    [%- if field.uniq %], unique=True[%- endif %]
+    [%- if field.index %], index=True[%- endif %]
+    [%- if field.nonull %], nullable=False[%- endif %], doc='[[module]] [[field.field]]')
+    [%- endfor %]
+    [% for field in fields if field.type == 'reference' %]
+    [[ field.field ]]_id = reference_col('[[ field.table ]]'
+    [%- if field.uniq %], unique=True[%- endif %]
+    [%- if field.index %], index=True[%- endif %], doc='[[ field.field]] id')
+    [[ field.field ]] = relationship('[[ field.field.capitalize() ]]', back_populates='[[ table ]]')
+    [%- endfor %]
+
+    inserted_at = Column(db.DateTime, nullable=False, index=True,
+                         server_default=db.func.now(), doc='insert time')
+    updated_at = Column(db.DateTime, nullable=False, index=True,
+                        server_default=db.func.now(), onupdate=db.func.now(),
+                        doc='update time')

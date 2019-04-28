@@ -54,7 +54,8 @@ def run(opts):
                 attrs.update(conf)
         attrs.update({
             'folder': bindings.get('folder'),
-            'proj': Naming.camelize(opts.get('<folder>').split('/')[-1])
+            'app': Naming.humanize(bindings.get('folder').split('/')[-1]),
+            'proj': Naming.camelize(bindings.get('folder').split('/')[-1])
         })
 
         location = clone(bindings.get('repo'), bindings.get('checkout'))
