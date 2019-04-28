@@ -3,7 +3,10 @@ import json
 
 from copier import copy
 
-from horn.utils import TPL_PATH, Naming, clone
+from horn.utils import Naming, clone, get_tpl_path
+
+
+TPL_PATH = get_tpl_path('..', 'templates')
 
 
 def run(opts):

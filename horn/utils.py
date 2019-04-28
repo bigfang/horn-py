@@ -6,7 +6,11 @@ import subprocess
 import toml
 
 
-TPL_PATH = '{}/templates'.format(os.path.split(os.path.abspath(__name__))[0])
+def get_tpl_path(*args):
+    return os.path.abspath(
+        os.path.join(
+            os.path.dirname(
+                os.path.abspath(__file__)), *args))
 
 
 class Naming(object):

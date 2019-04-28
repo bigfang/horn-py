@@ -34,9 +34,10 @@ Examples:
 
 """
 from docopt import docopt
-from horn import __version__
 from . import impl
 
+
+__version__ = '0.1.0'
 
 ACTION_MAP = {
     'new': ['<folder>', '--app', '<repo>', '--proj', '--bare', '--pypi', '--checkout', '--json', '--file'],
