@@ -1,7 +1,7 @@
 from pampy import match, _, TAIL
 from copier import copy
 
-from .utils import get_proj_info
+from horn.utils import get_proj_info
 
 
 TYPES = {

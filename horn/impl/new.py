@@ -3,7 +3,7 @@ import json
 
 from copier import copy
 
-from .utils import Naming, clone
+from horn.utils import Naming, clone
 
 
 def run(opts):

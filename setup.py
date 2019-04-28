@@ -20,7 +20,7 @@ setup_data = {
         'copier>=2.3.3',
     ],
     'entry_points': {
-        'console_scripts': ['horn = horn:main', ],
+        'console_scripts': ['horn = horn.cli:main', ],
     }
 }
 

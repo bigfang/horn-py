@@ -34,10 +34,8 @@ Examples:
 
 """
 from docopt import docopt
-import impl
-
-
-__version__ = '0.1.0'
+from horn import __version__
+from . import impl
 
 
 ACTION_MAP = {
