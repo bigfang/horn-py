@@ -29,7 +29,7 @@ Examples:
   horn \033[34mnew\033[0m tmp/foo_bar \033[32m--repo\033[0m git@some.repo \033[32m--json\033[0m '{"app":"someapp"}' \033[32m-f\033[0m conf.json
   horn \033[34mgen api\033[0m Blog Post posts \033[36mtitle:string:uniq content:string:nonull author:ref:users\033[0m
   horn \033[34mgen service\033[0m Blog Post posts \033[36mtitle:string:uniq content:string:nonull author:ref:users\033[0m
-  horn \033[34mgen model\033[0m Post posts \033[36mtitle:string:uniq:index content:string:nonull author:ref:users\033[0m
+  horn \033[34mgen model\033[0m Post posts \033[36mtitle:string:uniq:index content:string:nonull author:ref:users:nonull\033[0m
   horn \033[34mgen schema\033[0m Post \033[36mtitle:string content:string author:nest:user\033[0m
 
 """

@@ -19,7 +19,9 @@ TYPES = {
     'uuid': 'UUID',
     'json': 'JSON',
     'array': 'ARRAY',
-    'ref': 'reference'
+
+    'ref': 'reference',
+    'default': 'default'
 }
 
 
@@ -64,5 +66,7 @@ def parse_fields(fields):
                 [_, _],              lambda x, y: {'field': x, 'type': validate_type(y)}, # noqa
                 [_, 'ref', _],       lambda x, table: {'field': x, 'type': validate_type('ref'), 'table': table},  # noqa
                 [_, 'ref', _, TAIL], lambda x, table, t: compose_field({'field': x, 'type': validate_type('ref'), 'table': table}, validate_attr(*t)),  # noqa
+                [_, _, 'default', _],       lambda x, y, default: {'field': x, 'type': validate_type(y), 'default': default},  # noqa
+                [_, _, 'default', _, TAIL], lambda x, y, default, t: compose_field({'field': x, 'type': validate_type(y), 'default': default}, validate_attr(*t)),  # noqa
                 [_, _, TAIL],        lambda x, y, t: compose_field({'field': x, 'type': validate_type(y)}, validate_attr(*t))  # noqa
     ) for attr in attrs]
