@@ -30,10 +30,11 @@ TYPES = {
 
     'required': 'required',
     'dump': 'dump_only',
-    'load': 'load_only'
+    'load': 'load_only',
+    'exclude': 'exclude'
 }
 
-AFFIX = ('required', 'dump', 'load')
+AFFIX = ('required', 'dump', 'load', 'exclude')
 
 
 def run(opts):
@@ -45,8 +46,27 @@ def run(opts):
     }
 
     bindings.update(get_proj_info())
+    bindings.update(collect_meta(bindings.get('fields')))
 
     copy(f'{TPL_PATH}/schema', f'{bindings.get("app")}/schemas', data=bindings)
+
+
+def collect_meta(fields):
+    dump_only = []
+    load_only = []
+    exclude = []
+    for field in fields:
+        if field.get('dump'):
+            dump_only.append(field['field'])
+        elif field.get('load'):
+            load_only.append(field['field'])
+        elif field.get('exclude'):
+            exclude.append(field['field'])
+    return {
+        'dump_only': dump_only,
+        'load_only': load_only,
+        'exclude': exclude,
+    }
 
 
 def parse_fields(fields):
