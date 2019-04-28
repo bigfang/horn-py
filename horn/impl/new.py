@@ -3,7 +3,7 @@ import json
 
 from copier import copy
 
-from horn.utils import Naming, clone
+from horn.utils import TPL_PATH, Naming, clone
 
 
 def run(opts):
@@ -33,9 +33,9 @@ def run(opts):
         ]
 
         if bindings.get('bare'):
-            copy('./templates/horn_proj', bindings.get('folder'), data=bindings, exclude=ignore_list)
+            copy(f'{TPL_PATH}/new', bindings.get('folder'), data=bindings, exclude=ignore_list)
         else:
-            copy('./templates/horn_proj', bindings.get('folder'), data=bindings, include=['log/'])
+            copy(f'{TPL_PATH}/new', bindings.get('folder'), data=bindings, include=['log/'])
     else:
         bindings.update({
             'repo': opts.get('<repo>'),

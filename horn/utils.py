@@ -1,8 +1,12 @@
+import os
 import tempfile
 import shutil
 import subprocess
 
 import toml
+
+
+TPL_PATH = '{}/templates'.format(os.path.split(os.path.abspath(__name__))[0])
 
 
 class Naming(object):
