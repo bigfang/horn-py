@@ -37,3 +37,7 @@ class [[ module ]]Schema([% if model %]Model[% endif %]Schema, SchemaMixin):
         [%- if exclude -%]
         exclude = ([% for attr in exclude %]'[[ attr ]]', [% endfor %])
         [%- endif %]
+
+
+[[ singular ]]_schema = [[ module ]]Schema()
+[[ singular ]]_schemas = [[ module ]]Schema(many=True)

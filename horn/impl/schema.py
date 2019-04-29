@@ -35,7 +35,7 @@ AFFIX = ('none', 'required', 'dump', 'load', 'exclude')
 def run(opts):
     bindings = {
         'module': opts.get('<module>'),
-        'module_file': Naming.underscore(opts.get('<module>')),
+        'singular': Naming.underscore(opts.get('<module>')),
         'model': opts.get('--model'),
         'fields': parse_fields(opts.get('<fields>')),
     }

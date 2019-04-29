@@ -30,7 +30,7 @@ AFFIX = ('uniq', 'nonull', 'index')
 def run(opts):
     bindings = {
         'module': opts.get('<module>'),
-        'module_file': Naming.underscore(opts.get('<module>')),
+        'singular': Naming.underscore(opts.get('<module>')),
         'table': opts.get('<table>'),
         'fields': parse_fields(opts.get('<fields>'))
     }
