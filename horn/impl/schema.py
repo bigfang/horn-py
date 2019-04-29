@@ -34,7 +34,7 @@ TYPES = {
     'exclude': 'exclude'
 }
 
-AFFIX = ('required', 'dump', 'load', 'exclude')
+AFFIX = ('none', 'required', 'dump', 'load', 'exclude')
 
 
 def run(opts):
