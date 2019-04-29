@@ -3,5 +3,8 @@ folder = "[[ folder.split('/')[-1] ]]"
 proj = "[[ proj ]]"
 app = "[[ app ]]"
 [%- if repo %]
-repo = "[ repo ]"
-[% endif %]
+repo = "[[ repo ]]"
+[%- if checkout %]
+checkout = "[[ checkout ]]"
+[%- endif -%]
+[%- endif %]

@@ -1,8 +1,8 @@
 from pampy import match, _, TAIL
 from copier import copy
 
-from horn.utils import (Naming, get_proj_info, get_tpl_path, merge_fields,
-                        validate_type, validate_attr)
+from horn.utils import (clone, Naming, get_proj_info, get_tpl_path,
+                        merge_fields, validate_type, validate_attr)
 
 
 TPL_PATH = get_tpl_path('..', 'templates')
@@ -38,7 +38,10 @@ def run(opts):
 
     bindings.update(get_proj_info())
 
-    copy(f'{TPL_PATH}/gen', '.', data=bindings,
+    location = TPL_PATH
+    if bindings.get('repo'):
+        location = clone(bindings.get('repo'), bindings.get('checkout'))
+    copy(f'{location}/gen', '.', data=bindings,
          exclude=['*/services/*', '*/schemas/*', '*/views/*', 'test/*'])
 
 
