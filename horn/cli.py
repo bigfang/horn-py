@@ -1,9 +1,8 @@
 """\t\t\033[1;33mHorn: A Flask scaffolding tool.\033[0m
 
 Usage:
-  horn new <folder> [<repo>]
-                    ([--app=<app> --proj=<proj> --pypi=<pypi> --bare]
-                     | [--checkout=<ref>] [--json=<json>]
+  horn new <folder> ([--app=<app> --proj=<proj> --pypi=<pypi> --bare]
+                     | <repo> [--checkout=<ref>] [--json=<json>]
                        [-f=PATH | --file=PATH])
   horn gen (api | service) <service> <module> <table> <fields>...
   horn gen model <module> <table> <fields>...
@@ -37,8 +36,7 @@ Examples:
 Notes:
   Model fields: uniq => unique=True, nonull => nullable=False,
                 index => index=True, default:val => default=val
-  Schema fields: dump => dump_only, load => load_only, exclude => exclude
-                 missing:val => missing=val, default:val => default=val
+  Schema fields: dump => dump_only, load => load_only, exclude => exclude,
                  required => required=True, none => allow_none=True
 
 """

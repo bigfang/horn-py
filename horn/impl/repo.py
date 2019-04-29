@@ -10,20 +10,16 @@ def run(opts):
         'folder': opts.get('<folder>'),
         'repo': opts.get('<repo>'),
         'checkout': opts.get('--checkout'),
-        'json': opts.get('--json'),
-        'file': opts.get('--file'),
+        'app': 'app',
+        'proj': Naming.camelize(opts.get('<folder>').split('/')[-1]),
+        'file': opts.get('--file')
     }
+    bindings.update(json.loads(opts.get('--json')))
 
-    attrs = json.loads(bindings.get('json'))
     if bindings.get('file'):
         with open(bindings.get('file')) as f:
             conf = json.load(f)
-            attrs.update(conf)
-    attrs.update({
-        'folder': bindings.get('folder'),
-        'app': Naming.humanize(bindings.get('folder').split('/')[-1]),
-        'proj': Naming.camelize(bindings.get('folder').split('/')[-1])
-    })
+            bindings.update(conf)
 
     location = clone(bindings.get('repo'), bindings.get('checkout'))
-    copy(f'{location}/new', bindings.get('folder'), data=attrs)
+    copy(f'{location}/new', bindings.get('folder'), data=bindings)

@@ -33,4 +33,4 @@ def run(opts):
     if bindings.get('bare'):
         copy(f'{TPL_PATH}/new', bindings.get('folder'), data=bindings, exclude=ignore_list)
     else:
-        copy(f'{TPL_PATH}/new', bindings.get('folder'), data=bindings, include=['log/'])
+        copy(f'{TPL_PATH}/new', bindings.get('folder'), data=bindings)

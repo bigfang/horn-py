@@ -3,13 +3,12 @@
 ```console
 
 Usage:
-  horn new <folder> [<repo>]
-                    ([--app=<app> --proj=<proj> --pypi=<pypi> --bare]
-                     | [--checkout=<ref>] [--json=<json>]
+  horn new <folder> ([--app=<app> --proj=<proj> --pypi=<pypi> --bare]
+                     | <repo> [--checkout=<ref>] [--json=<json>]
                        [-f=PATH | --file=PATH])
   horn gen (api | service) <service> <module> <table> <fields>...
   horn gen model <module> <table> <fields>...
-  horn gen schema <module> [<fields>...] [--model=<model>]
+  horn gen schema <module> (<fields>... | --model=<model> | <fields>...  --model=<model>)
   horn (-h | --help)
   horn --version
 
@@ -27,6 +26,5 @@ Options:
 
   -h, --help                Show this screen.
   --version                 Show version.
-
 
 ```
