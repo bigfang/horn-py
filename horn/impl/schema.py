@@ -48,7 +48,8 @@ def run(opts):
     bindings.update(get_proj_info())
     bindings.update(collect_meta(bindings.get('fields')))
 
-    copy(f'{TPL_PATH}/schema', f'{bindings.get("app")}/schemas', data=bindings)
+    copy(f'{TPL_PATH}/gen', '.', data=bindings,
+         exclude=['*/services/*', '*/models/*', '*/views/*', 'test/*'])
 
 
 def collect_meta(fields):

@@ -38,7 +38,8 @@ def run(opts):
 
     bindings.update(get_proj_info())
 
-    copy(f'{TPL_PATH}/model', f'{bindings.get("app")}/models', data=bindings)
+    copy(f'{TPL_PATH}/gen', '.', data=bindings,
+         exclude=['*/services/*', '*/schemas/*', '*/views/*', 'test/*'])
 
 
 def resolve_default(ftype, default):
