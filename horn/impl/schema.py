@@ -27,11 +27,6 @@ TYPES = {
     'email': 'Email',
 
     'nest': 'Nested',
-
-    'required': 'required',
-    'dump': 'dump_only',
-    'load': 'load_only',
-    'exclude': 'exclude'
 }
 
 AFFIX = ('none', 'required', 'dump', 'load', 'exclude')
@@ -75,9 +70,10 @@ def collect_meta(fields):
 
 def parse_fields(fields):
     attrs = [f.split(':') for f in fields]
-    return [match(attr,
-                [_, _],               lambda x, y: {'field': x, 'type': validate_type(y, TYPES)},  # noqa
-                [_, 'nest', _],       lambda x, schema: {'field': x, 'type': 'Nested', 'schema': f'{Naming.camelize(schema)}Schema'},  # noqa
-                [_, 'nest', _, TAIL], lambda x, schema, t: merge_fields({'field': x, 'type': 'Nested', 'schema': f'{Naming.camelize(schema)}Schema'}, validate_attr(AFFIX, *t)),  # noqa
-                [_, _, TAIL],         lambda x, y, t: merge_fields({'field': x, 'type': validate_type(y, TYPES)}, validate_attr(AFFIX, *t))  # noqa
+    return [match(
+        attr,
+        [_, _],               lambda x, y: {'field': x, 'type': validate_type(y, TYPES)},  # noqa
+        [_, 'nest', _],       lambda x, schema: {'field': x, 'type': 'Nested', 'schema': f'{Naming.camelize(schema)}Schema'},  # noqa
+        [_, 'nest', _, TAIL], lambda x, schema, t: merge_fields({'field': x, 'type': 'Nested', 'schema': f'{Naming.camelize(schema)}Schema'}, validate_attr(AFFIX, *t)),  # noqa
+        [_, _, TAIL],         lambda x, y, t: merge_fields({'field': x, 'type': validate_type(y, TYPES)}, validate_attr(AFFIX, *t))  # noqa
     ) for attr in attrs]
