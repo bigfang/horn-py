@@ -1,9 +1,8 @@
 """\t\t\033[1;33mHorn: A Flask scaffolding tool.\033[0m
 
 Usage:
-  horn new <folder> ([--app=<app> --proj=<proj> --pypi=<pypi> --bare]
-                     | <repo> [<checkout>] [--json=<json>]
-                       [-f=PATH | --file=PATH])
+  horn new <target> [--app=<app> --proj=<proj> --pypi=<pypi> --bare]
+  horn new <target> <from> [<checkout>] [--json=<json>] [-f=PATH | --file=PATH]
   horn gen (api | service) <service> <module> <table> <fields>...
   horn gen model <module> <table> <fields>...
   horn gen schema <module> (<fields>... | --model=<model> | <fields>...  --model=<model>)
@@ -15,6 +14,7 @@ Options:
   --proj=<proj>             Project name.
   --pypi=<pypi>             Pypi domain [default: pypi.org].
   --bare                    Bare project.
+
   --json=<json>             Json string [default: {}].
   -f=PATH, --file=PATH      Json file PATH.
 
@@ -45,7 +45,7 @@ from . import impl
 __version__ = '0.1.0'
 
 ACTION_MAP = {
-    'new': ['<folder>', '--app', '--proj', '--bare', '--pypi', '<repo>', '<checkout>', '--json', '--file'],
+    'new': ['<target>', '--app', '--proj', '--bare', '--pypi', '<from>', '<checkout>', '--json', '--file'],
     'api': ['<service>', '<module>', '<table>', '<fields>'],
     'service': ['<service>', '<module>', '<table>', '<fields>'],
     'model': ['<module>', '<table>', '<fields>'],
@@ -73,7 +73,7 @@ class Hub(object):
     @classmethod
     def dispatch_action(cls, action, opts):
         if action == 'new':
-            if opts.get('<repo>'):
+            if opts.get('<from>'):
                 impl.repo.run(opts)
             else:
                 impl.new.run(opts)

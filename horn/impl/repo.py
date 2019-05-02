@@ -2,16 +2,16 @@ import json
 
 from copier import copy
 
-from horn.utils import Naming, clone
+from horn.utils import Naming, get_location
 
 
 def run(opts):
     bindings = {
-        'folder': opts.get('<folder>'),
-        'repo': opts.get('<repo>'),
+        'target': opts.get('<target>'),
+        'from': opts.get('<from>'),
         'checkout': opts.get('<checkout>'),
         'app': 'app',
-        'proj': Naming.camelize(opts.get('<folder>').split('/')[-1]),
+        'proj': Naming.camelize(opts.get('<target>').split('/')[-1]),
         'file': opts.get('--file')
     }
     opt_json = json.loads(opts.get('--json'))
@@ -24,16 +24,16 @@ def run(opts):
             check_conflict(conf)
             bindings.update(conf)
 
-    location = clone(bindings.get('repo'), bindings.get('checkout'))
+    location = get_location(bindings)
     try:
-        copy(f'{location}/new', bindings.get('folder'), data=bindings)
+        copy(f'{location}/new', bindings.get('target'), data=bindings)
     except ValueError as err:
         print(f'Error: {err}')
 
 
 def check_conflict(opt):
-    only_keys = ["folder", 'repo', 'checkout', 'file']
-    for ok in only_keys:
-        if ok in opt:
-            print(f'Conflict field found: {{{ok}: {opt.get(ok)}}}')
+    reserved_words = ["target", 'from', 'checkout', 'file']
+    for rw in reserved_words:
+        if rw in opt:
+            print(f'Conflict field found: {{{rw}: {opt.get(rw)}}}')
             exit(1)

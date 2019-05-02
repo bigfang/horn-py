@@ -1,9 +1,9 @@
 [project]
-folder = "[[ folder.split('/')[-1] ]]"
+target = "[[ target.split('/')[-1] ]]"
 proj = "[[ proj ]]"
 app = "[[ app ]]"
-[%- if repo %]
-repo = "[[ repo ]]"
+[%- if from %]
+from = "[[ from ]]"
 [%- if checkout %]
 checkout = "[[ checkout ]]"
 [%- endif -%]

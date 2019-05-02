@@ -3,9 +3,8 @@
 ```console
 
 Usage:
-  horn new <folder> ([--app=<app> --proj=<proj> --pypi=<pypi> --bare]
-                     | <repo> [<checkout>] [--json=<json>]
-                       [-f=PATH | --file=PATH])
+  horn new <target> [--app=<app> --proj=<proj> --pypi=<pypi> --bare]
+  horn new <target> <from> [<checkout>] [--json=<json>] [-f=PATH | --file=PATH]
   horn gen (api | service) <service> <module> <table> <fields>...
   horn gen model <module> <table> <fields>...
   horn gen schema <module> (<fields>... | --model=<model> | <fields>...  --model=<model>)
@@ -17,6 +16,7 @@ Options:
   --proj=<proj>             Project name.
   --pypi=<pypi>             Pypi domain [default: pypi.org].
   --bare                    Bare project.
+
   --json=<json>             Json string [default: {}].
   -f=PATH, --file=PATH      Json file PATH.
 

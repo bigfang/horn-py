@@ -1,6 +1,10 @@
 [[ '[[' ]]source[[ ']]' ]]
 name = "pypi"
+[% if pypi -%]
 url = "https://[[ pypi ]]/simple"
+[%- else -%]
+url = "https://pypi.org/simple"
+[%- endif %]
 verify_ssl = true
 
 [packages]

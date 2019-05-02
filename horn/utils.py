@@ -6,13 +6,6 @@ import subprocess
 import toml
 
 
-def get_tpl_path(*args):
-    return os.path.abspath(
-        os.path.join(
-            os.path.dirname(
-                os.path.abspath(__file__)), *args))
-
-
 class Naming(object):
 
     @classmethod
@@ -30,6 +23,20 @@ class Naming(object):
     @classmethod
     def unsuffix(cls, value):
         return value.upper()
+
+
+def get_tpl_path(*args):
+    return os.path.abspath(
+        os.path.join(
+            os.path.dirname(
+                os.path.abspath(__file__)), *args))
+
+
+def get_location(bindings):
+    location = bindings.get('from')
+    if location.startswith('http') or location.startswith('git@') or location.startswith('ssh:'):
+        location = clone(bindings.get('from'), bindings.get('checkout'))
+    return location
 
 
 def clone(url, checkout=None):
