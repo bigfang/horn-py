@@ -2,13 +2,14 @@ import json
 
 from copier import copy
 
-from horn.utils import Naming, get_location
+from horn.naming import Naming
+from horn.path import get_location, convert_path
 
 
 def run(opts):
     bindings = {
         'target': opts.get('<target>'),
-        'from': opts.get('<from>'),
+        'from': convert_path(opts.get('<from>')),
         'checkout': opts.get('<checkout>'),
         'app': 'app',
         'proj': Naming.camelize(opts.get('<target>').split('/')[-1]),

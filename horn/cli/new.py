@@ -2,7 +2,8 @@ import secrets
 
 from copier import copy
 
-from horn.utils import Naming, get_tpl_path
+from horn.naming import Naming
+from horn.path import get_tpl_path
 
 
 TPL_PATH = get_tpl_path('..', 'templates')

@@ -1,8 +1,9 @@
 from pampy import match, _, TAIL
 from copier import copy
 
-from horn.utils import (clone, Naming, get_proj_info, get_tpl_path,
-                        merge_fields, validate_type, validate_attr, get_location)
+from horn.naming import Naming
+from horn.path import get_tpl_path, get_location
+from horn.tpl import get_proj_info, merge_fields, validate_type, validate_attr
 
 
 TPL_PATH = get_tpl_path('..', 'templates')
