@@ -1,9 +1,10 @@
-from . import repo, new, model, schema
+from . import repo, new, model, schema, service
 
 
 __all__ = [
     'repo',
     'new',
     'model',
-    'schema'
+    'schema',
+    'service'
 ]

@@ -1,0 +1,24 @@
+from [[ app ]].models import [[ module ]]
+
+
+class [[ module ]]Service:
+
+    @classmethod
+    def list_[[ mod ]]s(cls):
+        return [[ module ]].query.all()          
+
+    @classmethod
+    def get_[[ mod ]](cls, pk):
+        return [[ module ]].query.get(pk)
+
+    @classmethod
+    def create_[[ mod ]](cls, commit=True, **attrs):
+        [[ module ]](**attrs).save(commit=commit) 
+
+    @classmethod
+    def update_[[ mod ]](cls, instance, **attrs):
+        instance.update(**attrs)
+
+    @classmethod
+    def delete_[[ mod ]](cls, instance, commit=True):
+        instance.delete(commit=commit)
