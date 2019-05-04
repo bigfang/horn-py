@@ -1,0 +1,63 @@
+from flask import Blueprint
+
+from sqlalchemy.exc import IntegrityError
+
+from [[ app ]].core import jwt_required, doc, use_kwargs, marshal_with
+from [[ app ]].core.database import db, atomic
+from [[ app ]].schemas import [[ singular ]]_schema, [[ singular ]]_schemas
+from [[ app ]].services import [[ service ]]Service
+
+
+bp = Blueprint('[[ singular ]]', __name__)
+
+
+@doc(tags=['[[ module ]]'], description='list [[ plural ]]')
+@bp.route('/[[ plural ]]', methods=['GET'], provide_automatic_options=False)
+@jwt_required
+@marshal_with([[ singular ]]_schemas, code=200)
+def index():
+    [[ plural ]] = [[ service ]]Service.list_[[ plural ]]()
+    return [[ plural ]]
+
+
+@doc(tags=['[[ module ]]'], description='create [[ singular ]]')
+@bp.route('/[[ plural ]]', methods=['POST'], provide_automatic_options=False)
+@jwt_required
+@use_kwargs([[ singular ]]_schema)
+@marshal_with([[ singular ]]_schema, code=201)
+def create(**attrs):
+    [[ singular ]] = [[ service ]]Service.create(**attrs)
+    return [[ singular ]], 201
+
+
+@doc(tags=['[[ module ]]'], description='show [[ singular ]]')
+@bp.route('/[[ plural ]]/<int:pk>', methods=['GET'], provide_automatic_options=False)
+@jwt_required
+@marshal_with([[ singular ]]_schema, code=200)
+def show(pk):
+    [[ singular ]] = [[ service ]]Service.get_[[ singular ]](pk)
+    return [[ singular ]]
+
+
+@doc(tags=['[[ module ]]'], description='update [[ singular ]]')
+@bp.route('/[[ plural ]]/<int:pk>', methods=['PUT'], provide_automatic_options=False)
+@jwt_required
+@use_kwargs([[ singular ]]_schema)
+@marshal_with([[ singular ]]_schema, code=200)
+def update(pk, **attrs):
+    [[ singular ]] = [[ service ]]Service.get_[[ singular ]](pk)
+    return [[ service ]]Service.update_[[ singular ]]([[ singular ]], **attrs)
+
+
+@doc(tags=['[[ module ]]'], description='delete [[ singular ]]')
+@bp.route('/[[ plural ]]/<int:pk>', methods=['DELETE'], provide_automatic_options=False)
+@jwt_required
+@marshal_with(None, code=204)   # FIXME
+@atomic(db.session)
+def delete(pk):
+    [[ singular ]] = [[ service ]]Service.get_[[ singular ]](pk)
+    try:
+        [[ singular ]].delete(commit=False)
+    except IntegrityError as e:
+        raise e
+    return True
