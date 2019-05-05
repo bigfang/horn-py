@@ -13,12 +13,13 @@ class [[ module ]]Service:
 
     @classmethod
     def create_[[ mod ]](cls, commit=True, **attrs):
-        [[ module ]](**attrs).save(commit=commit) 
+        return [[ module ]](**attrs).save(commit=commit) 
 
     @classmethod
     def update_[[ mod ]](cls, instance, **attrs):
         instance.update(**attrs)
+        return instance
 
     @classmethod
     def delete_[[ mod ]](cls, instance, commit=True):
-        instance.delete(commit=commit)
+        return instance.delete(commit=commit)
