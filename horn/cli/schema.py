@@ -3,7 +3,7 @@ from copier import copy
 
 from horn.naming import Naming
 from horn.path import get_tpl_path, get_location
-from horn.tpl import get_proj_info, merge_fields, validate_type, validate_attr
+from horn.tpl import get_proj_info, merge_fields, validate_type, validate_attr, validate_opts
 
 
 TPL_PATH = get_tpl_path('..', 'templates')
@@ -34,13 +34,14 @@ AFFIX = ('none', 'required', 'dump', 'load', 'exclude')
 
 
 def run(opts):
+    validate_opts(opts)
+
     bindings = {
         'module': opts.get('<module>'),
         'singular': Naming.underscore(opts.get('<module>')),
         'model': opts.get('--model'),
         'fields': parse_fields(opts.get('<fields>')),
     }
-
     bindings.update(get_proj_info())
     bindings.update(collect_meta(bindings.get('fields')))
 

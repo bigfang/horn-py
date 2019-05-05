@@ -23,6 +23,14 @@ def merge_fields(base, attach={}):
     return base
 
 
+def validate_opts(opts):
+    for k, v in opts.items():
+        if k.startswith('<'):
+            if ':' in v:
+                print(f'Error: Options error {k}: {v}')
+                exit(1)
+
+
 def validate_type(arg, types):
     if arg not in types:
         print(f'Error: field type error: {arg}')

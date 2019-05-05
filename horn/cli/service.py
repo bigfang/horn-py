@@ -3,7 +3,7 @@ from copier import copy
 
 from horn.naming import Naming
 from horn.path import get_tpl_path, get_location
-from horn.tpl import get_proj_info
+from horn.tpl import get_proj_info, validate_opts
 from . import model, schema
 
 
@@ -14,6 +14,8 @@ def run(opts):
     model.run(opts)
     sch_opts = ref_to_nest(opts)
     schema.run(sch_opts)
+
+    validate_opts(opts)
 
     bindings = {
         'service': opts.get('<service>'),

@@ -19,7 +19,6 @@ def run(opts):
         'singular': Naming.underscore(opts.get('<module>')),
         'plural': opts.get('<table>')
     }
-
     bindings.update(get_proj_info())
 
     location = get_location(bindings) or TPL_PATH
