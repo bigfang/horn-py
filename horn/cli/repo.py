@@ -15,15 +15,16 @@ def run(opts):
         'proj': Naming.camelize(opts.get('<target>').split('/')[-1]),
         'file': opts.get('--file')
     }
-    opt_json = json.loads(opts.get('--json'))
-    check_conflict(opt_json)
-    bindings.update(opt_json)
 
     if bindings.get('file'):
         with open(bindings.get('file')) as f:
             conf = json.load(f)
             check_conflict(conf)
             bindings.update(conf)
+
+    opt_json = json.loads(opts.get('--json'))
+    check_conflict(opt_json)
+    bindings.update(opt_json)
 
     location = get_location(bindings)
     try:
