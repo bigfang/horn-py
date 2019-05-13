@@ -54,7 +54,7 @@ def resolve_assign(ftype, default):
         if default in ['true', 'false']:
             rv = Naming.camelize(default)
         else:
-            print(f'Error: Boolean field error: {default}')
+            print(f'Error: Boolean field error, {default}')
             exit(1)
     else:
         rv = f"'{rv}'"

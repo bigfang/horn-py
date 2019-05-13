@@ -55,6 +55,7 @@ def collect_meta(fields):
     load_only = []
     exclude = []
     for field in fields:
+        check_meta_keys(field)
         if field.get('dump'):
             dump_only.append(field['field'])
         elif field.get('load'):
@@ -77,3 +78,11 @@ def parse_fields(fields):
         [_, 'nest', _, TAIL], lambda x, schema, t: merge_fields({'field': x, 'type': 'Nested', 'schema': f'{Naming.camelize(schema)}Schema'}, validate_attr(AFFIX, *t)),  # noqa
         [_, _, TAIL],         lambda x, y, t: merge_fields({'field': x, 'type': validate_type(y, TYPES)}, validate_attr(AFFIX, *t))  # noqa
     ) for attr in attrs]
+
+
+def check_meta_keys(field):
+    meta_keys = {'dump', 'load', 'exclude'}
+    intersection = meta_keys & set(field)
+    if len(intersection) > 1:
+        print(f'Error: Field attributes error, {intersection} conflict')
+        exit(1)

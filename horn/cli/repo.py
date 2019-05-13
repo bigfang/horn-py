@@ -37,5 +37,5 @@ def check_conflict(opt):
     reserved_words = ["target", 'from', 'checkout', 'file']
     for rw in reserved_words:
         if rw in opt:
-            print(f'Error: Conflict field found: {{{rw}: {opt.get(rw)}}}')
+            print(f'Error: Conflict field found, {{{rw}: {opt.get(rw)}}}')
             exit(1)
