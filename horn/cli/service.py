@@ -38,7 +38,14 @@ def ref_to_nest(opts):
     rv['<fields>'] = [':'.join(match(
         field.split(':'),
         [_, 'ref', _],       lambda x, y: [x, 'nest', Naming.singular(y)],  # noqa
-        [_, 'ref', _, TAIL], lambda x, y, t: [x, 'nest', Naming.singular(y)] + t,  # noqa
-        list,                lambda x: x  # noqa
+        [_, 'ref', _, TAIL], lambda x, y, t: [x, 'nest', Naming.singular(y)] + drop_pair(t),  # noqa
+        list,                lambda x: drop_pair(x)  # noqa
     )) for field in fields]
     return rv
+
+
+def drop_pair(attrs, key='default'):
+    if key in attrs:
+        idx = attrs.index(key)
+        del attrs[idx:idx+2]    # noqa: E226
+    return attrs
