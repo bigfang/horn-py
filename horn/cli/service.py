@@ -2,12 +2,9 @@ from pampy import match, _, TAIL
 from copier import copy
 
 from horn.naming import Naming
-from horn.path import get_tpl_path, get_location
+from horn.path import TPL_PATH, get_location
 from horn.tpl import get_proj_info, validate_opts
 from . import model, schema
-
-
-TPL_PATH = get_tpl_path('..', 'templates')
 
 
 def run(opts):

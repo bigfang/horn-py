@@ -4,8 +4,7 @@ import shutil
 import subprocess
 
 
-def get_tpl_path(*args):
-    return os.path.join(os.path.abspath(__file__), *args)
+TPL_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), 'templates'))
 
 
 def convert_path(path):

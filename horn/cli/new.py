@@ -3,10 +3,7 @@ import secrets
 from copier import copy
 
 from horn.naming import Naming
-from horn.path import get_tpl_path
-
-
-TPL_PATH = get_tpl_path('..', 'templates')
+from horn.path import TPL_PATH
 
 
 def run(opts):
@@ -20,18 +17,17 @@ def run(opts):
         'pypi': opts.get('--pypi'),
     }
 
-    ignore_list = [
-        f'{bindings.get("app")}/helpers.py',
-        '*/models/user.py',
-        '*/views/user.py',
-        '*/views/session.py',
-        '*/schemas/user.py',
-        '*/schemas/session.py',
-        'test/views/test_user.py',
-        'test/views/test_session.py'
-    ]
-
+    ignore_list = []
     if bindings.get('bare'):
-        copy(f'{TPL_PATH}/new', bindings.get('target'), data=bindings, exclude=ignore_list)
-    else:
-        copy(f'{TPL_PATH}/new', bindings.get('target'), data=bindings)
+        ignore_list = [
+            f'{bindings.get("app")}/helpers.py',
+            '*/models/user.py',
+            '*/views/user.py',
+            '*/views/session.py',
+            '*/schemas/user.py',
+            '*/schemas/session.py',
+            'test/views/test_user.py',
+            'test/views/test_session.py'
+        ]
+
+    copy(f'{TPL_PATH}/new', bindings.get('target'), data=bindings, exclude=ignore_list)

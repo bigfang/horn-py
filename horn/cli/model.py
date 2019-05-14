@@ -2,11 +2,9 @@ from pampy import match, _, TAIL
 from copier import copy
 
 from horn.naming import Naming
-from horn.path import get_tpl_path, get_location
+from horn.path import TPL_PATH, get_location
 from horn.tpl import get_proj_info, merge_fields, validate_type, validate_attr, validate_opts
 
-
-TPL_PATH = get_tpl_path('..', 'templates')
 
 TYPES = {
     'integer': 'Integer',
@@ -25,7 +23,7 @@ TYPES = {
     'ref': 'reference',
 }
 
-AFFIX = ('uniq', 'nonull', 'index')
+AFFIXES = ('uniq', 'nonull', 'index')
 
 
 def run(opts):
@@ -67,8 +65,8 @@ def parse_fields(fields):
         attr,
         [_, _],              lambda x, y: {'field': x, 'type': validate_type(y, TYPES)},  # noqa
         [_, 'ref', _],       lambda x, table: {'field': x, 'type': validate_type('ref', TYPES), 'table': table},  # noqa
-        [_, 'ref', _, TAIL], lambda x, table, t: merge_fields({'field': x, 'type': validate_type('ref', TYPES), 'table': table}, validate_attr(AFFIX,*t)),  # noqa
+        [_, 'ref', _, TAIL], lambda x, table, t: merge_fields({'field': x, 'type': validate_type('ref', TYPES), 'table': table}, validate_attr(AFFIXES,*t)),  # noqa
         [_, _, 'default', _],       lambda x, y, val: {'field': x, 'type': validate_type(y, TYPES), 'default': resolve_assign(y, val)},  # noqa
-        [_, _, 'default', _, TAIL], lambda x, y, val, t: merge_fields({'field': x, 'type': validate_type(y, TYPES), 'default': resolve_assign(y, val)}, validate_attr(AFFIX, *t)),  # noqa
-        [_, _, TAIL],        lambda x, y, t: merge_fields({'field': x, 'type': validate_type(y, TYPES)}, validate_attr(AFFIX, *t))  # noqa
+        [_, _, 'default', _, TAIL], lambda x, y, val, t: merge_fields({'field': x, 'type': validate_type(y, TYPES), 'default': resolve_assign(y, val)}, validate_attr(AFFIXES, *t)),  # noqa
+        [_, _, TAIL],        lambda x, y, t: merge_fields({'field': x, 'type': validate_type(y, TYPES)}, validate_attr(AFFIXES, *t))  # noqa
     ) for attr in attrs]

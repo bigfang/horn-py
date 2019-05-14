@@ -1,13 +1,10 @@
 from copier import copy
 
 from horn.naming import Naming
-from horn.path import get_tpl_path, get_location
+from horn.path import TPL_PATH, get_location
 from horn.tpl import get_proj_info
 
 from . import service
-
-
-TPL_PATH = get_tpl_path('..', 'templates')
 
 
 def run(opts):

@@ -38,8 +38,8 @@ def validate_type(arg, types):
     return types.get(arg)
 
 
-def validate_attr(affix, *args):
+def validate_attr(affixes, *args):
     for arg in args:
-        if arg not in affix:
+        if arg not in affixes:
             print(f'Warning: Field type not found, {arg} in {":".join(args)}')
     return dict(zip(args, [True for i in args]))
