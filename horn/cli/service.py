@@ -5,6 +5,7 @@ from horn.naming import Naming
 from horn.path import TPL_PATH, get_location
 from horn.tpl import get_proj_info, validate_opts
 from . import model, schema
+from .model import AFFIXES as MODEL_AFFIXES
 
 
 TYPE_MAP = {
@@ -49,7 +50,7 @@ def run(opts):
 
 def opt_pipe(opts):
     o = prepare_opts(opts)
-    p = drop_assign(o)
+    p = slim_field(o)
     t = convert_type(p)
     s = ref_to_nest(t)
     return s
@@ -63,27 +64,29 @@ def prepare_opts(opts):
     return rv
 
 
-def drop_assign(opts):
+def slim_field(opts):
     opts['<fields>'] = [':'.join(match(
         field.split(':'),
-        [_, _],        lambda x, y: [x, y],  # noqa
-        [_, _, TAIL],  lambda x, y, t: [x, y] + drop_pair(t)  # noqa
+        [_, _],        lambda x, y: [x, y],  # noqa: E241,E272
+        [_, _, TAIL],  lambda x, y, t: [x, y] + drop_attr(t)  # noqa: E241,E272
     )) for field in opts['<fields>']]
     return opts
 
 
-def drop_pair(attrs, key='default'):
+def drop_attr(attrs, key='default'):
     if key in attrs:
         idx = attrs.index(key)
         del attrs[idx:idx+2]    # noqa: E226
-    return attrs
+
+    diff = set(attrs) - set(MODEL_AFFIXES)
+    return list(diff)
 
 
 def convert_type(opts):
     opts['<fields>'] = [':'.join(match(
         field.split(':'),
-        [_, _],        lambda x, y: [x, TYPE_MAP.get(y, 'string')],  # noqa
-        [_, _, TAIL],  lambda x, y, t: [x, TYPE_MAP.get(y, 'string')] + t ,  # noqa
+        [_, _],        lambda x, y: [x, TYPE_MAP.get(y, 'string')],  # noqa: E241,E272
+        [_, _, TAIL],  lambda x, y, t: [x, TYPE_MAP.get(y, 'string')] + t,  # noqa: E241,E272
     )) for field in opts['<fields>']]
     return opts
 
@@ -91,8 +94,8 @@ def convert_type(opts):
 def ref_to_nest(opts):
     opts['<fields>'] = [':'.join(match(
         field.split(':'),
-        [_, 'ref', _],       lambda x, y: [x, 'nest', Naming.singular(y)],  # noqa
-        [_, 'ref', _, TAIL], lambda x, y, t: [x, 'nest', Naming.singular(y)] + t,  # noqa
-        list,                lambda x: x  # noqa
+        [_, 'ref', _],       lambda x, y: [x, 'nest', Naming.singular(y)],  # noqa: E241,E272
+        [_, 'ref', _, TAIL], lambda x, y, t: [x, 'nest', Naming.singular(y)] + t,  # noqa: E241,E272
+        list,                lambda x: x  # noqa: E241,E272
     )) for field in opts['<fields>']]
     return opts
