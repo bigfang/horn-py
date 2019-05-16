@@ -3,7 +3,7 @@
 Usage:
   horn new <target> [--app=<app> --proj=<proj> --pypi=<pypi> --bare]
   horn new <target> <from> [<checkout>] [--json=<json>] [-f=PATH | --file=PATH]
-  horn gen (api | service) <service> <module> <table> <fields>...
+  horn gen api <module> <table> <fields>...
   horn gen model <module> <table> <fields>...
   horn gen schema <module> (<fields>... | --model=<model> | <fields>...  --model=<model>)
   horn (-h | --help)
@@ -26,8 +26,7 @@ Options:
 Examples:
   horn \033[34mnew\033[0m tmp/foo_bar \033[32m--app\033[0m foobar \033[32m--proj\033[0m FooBar
   horn \033[34mnew\033[0m tmp/foo_bar git@github.com:someone/sometpl.git \033[32m--json\033[0m '{"app":"someapp"}' \033[32m-f\033[0m conf.json
-  horn \033[34mgen api\033[0m Blog Post posts \033[36mtitle:string:uniq content:string:nonull author:ref:users\033[0m
-  horn \033[34mgen service\033[0m Blog Post posts \033[36mtitle:string:uniq content:string:nonull author:ref:users\033[0m
+  horn \033[34mgen api\033[0m Post posts \033[36mtitle:string:uniq content:string:nonull author:ref:users\033[0m
   horn \033[34mgen model\033[0m Post posts \033[36mtitle:string:uniq:index content:string:nonull author:ref:users:nonull\033[0m
   horn \033[34mgen schema\033[0m Post \033[36mtitle:string content:string author:nest:user\033[0m
 
@@ -49,8 +48,7 @@ __version__ = '0.1.0'
 
 ACTION_MAP = {
     'new': ['<target>', '--app', '--proj', '--bare', '--pypi', '<from>', '<checkout>', '--json', '--file'],
-    'api': ['<service>', '<module>', '<table>', '<fields>'],
-    'service': ['<service>', '<module>', '<table>', '<fields>'],
+    'api': ['<module>', '<table>', '<fields>'],
     'model': ['<module>', '<table>', '<fields>'],
     'schema': ['<module>', '<fields>', '--model'],
 }
