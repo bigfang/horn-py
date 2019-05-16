@@ -4,8 +4,8 @@ from sqlalchemy.exc import IntegrityError
 
 from [[ app ]].core import jwt_required, doc, use_kwargs, marshal_with
 from [[ app ]].core.database import db, atomic
+from [[ app ]].model import [[ module ]]
 from [[ app ]].schemas import [[ singular ]]_schema, [[ singular ]]_schemas
-from [[ app ]].services import [[ service ]]Service
 
 
 bp = Blueprint('[[ singular ]]', __name__)
@@ -16,7 +16,7 @@ bp = Blueprint('[[ singular ]]', __name__)
 @jwt_required
 @marshal_with([[ singular ]]_schemas, code=200)
 def index():
-    [[ plural ]] = [[ service ]]Service.list_[[ plural ]]()
+    [[ plural ]] = [[ module ]].query.all()
     return [[ plural ]]
 
 
@@ -26,7 +26,7 @@ def index():
 @use_kwargs([[ singular ]]_schema)
 @marshal_with([[ singular ]]_schema, code=201)
 def create(**attrs):
-    [[ singular ]] = [[ service ]]Service.create(**attrs)
+    [[ singular ]] = [[ module ]].create(**attrs)
     return [[ singular ]], 201
 
 
@@ -35,7 +35,7 @@ def create(**attrs):
 @jwt_required
 @marshal_with([[ singular ]]_schema, code=200)
 def show(pk):
-    [[ singular ]] = [[ service ]]Service.get_[[ singular ]](pk)
+    [[ singular ]] = [[ module ]].get_or_404(pk)
     return [[ singular ]]
 
 
@@ -45,19 +45,18 @@ def show(pk):
 @use_kwargs([[ singular ]]_schema)
 @marshal_with([[ singular ]]_schema, code=200)
 def update(pk, **attrs):
-    [[ singular ]] = [[ service ]]Service.get_[[ singular ]](pk)
-    return [[ service ]]Service.update_[[ singular ]]([[ singular ]], **attrs)
+    [[ singular ]] = [[ module ]].get_or_404(pk)
+    return [[ singular ]].update(**attrs)
 
 
 @doc(tags=['[[ module ]]'], description='delete [[ singular ]]')
 @bp.route('/[[ plural ]]/<int:pk>', methods=['DELETE'], provide_automatic_options=False)
 @jwt_required
 @marshal_with(None, code=204)   # FIXME
-@atomic(db.session)
 def delete(pk):
-    [[ singular ]] = [[ service ]]Service.get_[[ singular ]](pk)
+    [[ singular ]] = [[ module ]].get_or_404(pk)
     try:
-        [[ singular ]].delete(commit=False)
-    except IntegrityError as e:
-        raise e
+        [[ singular ]].delete()
+    except IntegrityError as err:
+        raise err
     return True

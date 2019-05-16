@@ -20,4 +20,4 @@ def run(opts):
 
     location = get_location(bindings) or TPL_PATH
     copy(f'{location}/gen', '.', data=bindings,
-         exclude=['*/services/*', '*/models/*', '*/schemas/*', 'test/*'])
+         exclude=['*/models/*', '*/schemas/*', 'test/*'])

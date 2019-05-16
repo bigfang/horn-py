@@ -45,7 +45,7 @@ def run(opts):
 
     location = get_location(bindings) or TPL_PATH
     copy(f'{location}/gen', '.', data=bindings,
-         exclude=['*/services/*', '*/models/*', '*/views/*', 'test/*'])
+         exclude=['*/models/*', '*/views/*', 'test/*'])
 
 
 def collect_meta(fields):
