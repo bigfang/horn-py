@@ -7,9 +7,27 @@ from horn.tpl import get_proj_info, validate_opts
 from . import model, schema
 
 
+TYPE_MAP = {
+    'integer': 'integer',
+    'float': 'float',
+    'decimal': 'decimal',
+    'boolean': 'boolean',
+    'string': 'string',
+    'date': 'date',
+    'time': 'time',
+    'datetime': 'datetime',
+    'uuid': 'uuid',
+
+    'ref': 'ref',
+    'nest': 'nest',
+
+    'array': 'list'
+}
+
+
 def run(opts):
     model.run(opts)
-    sch_opts = ref_to_nest(opts)
+    sch_opts = opt_pipe(opts)
     schema.run(sch_opts)
 
     validate_opts(opts)
@@ -29,19 +47,29 @@ def run(opts):
          exclude=['*/models/*', '*/schemas/*', '*/views/*', 'test/*'])
 
 
-def ref_to_nest(opts):
+def opt_pipe(opts):
+    o = prepare_opts(opts)
+    p = drop_assign(o)
+    t = convert_type(p)
+    s = ref_to_nest(t)
+    return s
+
+
+def prepare_opts(opts):
     rv = opts.copy()
     rv.update({
         '--model': opts.get('<module>')
     })
-    fields = rv.get('<fields>')
-    rv['<fields>'] = [':'.join(match(
-        field.split(':'),
-        [_, 'ref', _],       lambda x, y: [x, 'nest', Naming.singular(y)],  # noqa
-        [_, 'ref', _, TAIL], lambda x, y, t: [x, 'nest', Naming.singular(y)] + drop_pair(t),  # noqa
-        list,                lambda x: drop_pair(x)  # noqa
-    )) for field in fields]
     return rv
+
+
+def drop_assign(opts):
+    opts['<fields>'] = [':'.join(match(
+        field.split(':'),
+        [_, _],        lambda x, y: [x, y],  # noqa
+        [_, _, TAIL],  lambda x, y, t: [x, y] + drop_pair(t)  # noqa
+    )) for field in opts['<fields>']]
+    return opts
 
 
 def drop_pair(attrs, key='default'):
@@ -49,3 +77,22 @@ def drop_pair(attrs, key='default'):
         idx = attrs.index(key)
         del attrs[idx:idx+2]    # noqa: E226
     return attrs
+
+
+def convert_type(opts):
+    opts['<fields>'] = [':'.join(match(
+        field.split(':'),
+        [_, _],        lambda x, y: [x, TYPE_MAP.get(y, 'string')],  # noqa
+        [_, _, TAIL],  lambda x, y, t: [x, TYPE_MAP.get(y, 'string')] + t ,  # noqa
+    )) for field in opts['<fields>']]
+    return opts
+
+
+def ref_to_nest(opts):
+    opts['<fields>'] = [':'.join(match(
+        field.split(':'),
+        [_, 'ref', _],       lambda x, y: [x, 'nest', Naming.singular(y)],  # noqa
+        [_, 'ref', _, TAIL], lambda x, y, t: [x, 'nest', Naming.singular(y)] + t,  # noqa
+        list,                lambda x: x  # noqa
+    )) for field in opts['<fields>']]
+    return opts
