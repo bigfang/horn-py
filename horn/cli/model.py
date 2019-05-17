@@ -39,7 +39,7 @@ def run(opts):
 
     location = get_location(bindings) or TPL_PATH
     copy(f'{location}/gen', '.', data=bindings,
-         exclude=['*/services/*', '*/schemas/*', '*/views/*', 'test/*'])
+         exclude=['*/schemas/*', '*/views/*', 'test/*'])
 
 
 def resolve_assign(ftype, default):
