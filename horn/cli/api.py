@@ -1,7 +1,7 @@
+import inflection
 from pampy import match, _, TAIL
 from copier import copy
 
-from horn.naming import Naming
 from horn.path import TPL_PATH, get_location
 from horn.tpl import get_proj_info
 from . import model, schema
@@ -32,7 +32,7 @@ def run(opts):
 
     bindings = {
         'module': opts.get('<module>'),
-        'singular': Naming.underscore(opts.get('<module>')),
+        'singular': inflection.underscore(opts.get('<module>')),
         'plural': opts.get('<table>'),
         'table': opts.get('<table>'),
         'fields': opts.get('<fields>')
@@ -88,8 +88,8 @@ def convert_type(opts):
 def ref_to_nest(opts):
     opts['<fields>'] = [':'.join(match(
         field.split(':'),
-        [_, 'ref', _],       lambda x, y: [x, 'nest', Naming.singular(y)],  # noqa: E241,E272
-        [_, 'ref', _, TAIL], lambda x, y, t: [x, 'nest', Naming.singular(y)] + t,  # noqa: E241,E272
+        [_, 'ref', _],       lambda x, y: [x, 'nest', inflection.singularize(y)],  # noqa: E241,E272
+        [_, 'ref', _, TAIL], lambda x, y, t: [x, 'nest', inflection.singularize(y)] + t,  # noqa: E241,E272
         list,                lambda x: x  # noqa: E241,E272
     )) for field in opts['<fields>']]
     return opts

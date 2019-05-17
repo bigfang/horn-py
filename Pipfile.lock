@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "39d71dab35e6795bf1388fb32c0bd4cd8181b609bdb9af1f4dbf95a271cc4be4"
+            "sha256": "17bdce07af1a863e26a70bb575475d697d51d5c5b568835d917f29d90020eb01"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -37,6 +37,13 @@
             ],
             "index": "pypi",
             "version": "==0.6.2"
+        },
+        "inflection": {
+            "hashes": [
+                "sha256:18ea7fb7a7d152853386523def08736aa8c32636b047ade55f7578c4edeb16ca"
+            ],
+            "index": "pypi",
+            "version": "==0.3.1"
         },
         "jinja2": {
             "hashes": [

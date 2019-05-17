@@ -1,8 +1,8 @@
 import json
 
+import inflection
 from copier import copy
 
-from horn.naming import Naming
 from horn.path import get_location, convert_path
 
 
@@ -12,7 +12,7 @@ def run(opts):
         'from': convert_path(opts.get('<from>')),
         'checkout': opts.get('<checkout>'),
         'app': 'app',
-        'proj': Naming.camelize(opts.get('<target>').split('/')[-1]),
+        'proj': inflection.camelize(opts.get('<target>').split('/')[-1]),
         'file': opts.get('--file')
     }
 

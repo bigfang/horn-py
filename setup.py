@@ -2,8 +2,10 @@ from setuptools import find_packages, setup
 
 from horn import __version__
 
+
 with open('README.md', 'r') as f:
     readme = f.read()
+
 
 setup_data = {
     'name': 'horn-py',
@@ -26,8 +28,9 @@ setup_data = {
     'install_requires': [
         'docopt>=0.6',
         'toml>=0.10.0',
-        'copier==2.3.3',
+        'inflection>=0.3.1',
         'pampy==0.2.1',
+        'copier==2.3.3',
     ],
     'entry_points': {
         'console_scripts': ['horn = horn:main'],

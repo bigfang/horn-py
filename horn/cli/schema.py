@@ -1,7 +1,7 @@
+import inflection
 from pampy import match, _, TAIL
 from copier import copy
 
-from horn.naming import Naming
 from horn.path import TPL_PATH, get_location
 from horn.tpl import get_proj_info, merge_fields, validate_type, validate_attr, validate_opts
 
@@ -36,7 +36,7 @@ def run(opts):
 
     bindings = {
         'module': opts.get('<module>'),
-        'singular': Naming.underscore(opts.get('<module>')),
+        'singular': inflection.underscore(opts.get('<module>')),
         'model': opts.get('--model'),
         'fields': parse_fields(opts.get('<fields>')),
     }
@@ -74,8 +74,8 @@ def parse_fields(fields):
     return [match(
         attr,
         [_, _],               lambda x, y: {'field': x, 'type': validate_type(y, TYPES)},  # noqa: E241,E272
-        [_, 'nest', _],       lambda x, schema: {'field': x, 'type': 'Nested', 'schema': f'{Naming.camelize(schema)}Schema'},  # noqa: E241,E272
-        [_, 'nest', _, TAIL], lambda x, schema, t: merge_fields({'field': x, 'type': 'Nested', 'schema': f'{Naming.camelize(schema)}Schema'}, validate_attr(t, AFFIXES, MOD_AFFIXES)),  # noqa: E241,E272
+        [_, 'nest', _],       lambda x, schema: {'field': x, 'type': 'Nested', 'schema': f'{inflection.camelize(schema)}Schema'},  # noqa: E241,E272
+        [_, 'nest', _, TAIL], lambda x, schema, t: merge_fields({'field': x, 'type': 'Nested', 'schema': f'{inflection.camelize(schema)}Schema'}, validate_attr(t, AFFIXES, MOD_AFFIXES)),  # noqa: E241,E272
         [_, _, TAIL],         lambda x, y, t: merge_fields({'field': x, 'type': validate_type(y, TYPES)}, validate_attr(t, AFFIXES, MOD_AFFIXES))  # noqa: E241,E272
     ) for attr in attrs]
 

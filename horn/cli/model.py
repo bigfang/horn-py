@@ -1,7 +1,7 @@
+import inflection
 from pampy import match, _, TAIL
 from copier import copy
 
-from horn.naming import Naming
 from horn.path import TPL_PATH, get_location
 from horn.tpl import get_proj_info, merge_fields, validate_type, validate_attr, validate_opts
 
@@ -31,7 +31,7 @@ def run(opts):
 
     bindings = {
         'module': opts.get('<module>'),
-        'singular': Naming.underscore(opts.get('<module>')),
+        'singular': inflection.underscore(opts.get('<module>')),
         'table': opts.get('<table>'),
         'fields': parse_fields(opts.get('<fields>'))
     }
@@ -50,7 +50,7 @@ def resolve_assign(ftype, default):
         pass
     elif ftype in ['boolen']:
         if default in ['true', 'false']:
-            rv = Naming.camelize(default)
+            rv = inflection.camelize(default)
         else:
             print(f'Error: Boolean field error, {default}')
             exit(1)

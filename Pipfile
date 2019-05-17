@@ -12,6 +12,7 @@ docopt = "*"
 copier = "*"
 pampy = "*"
 toml = "*"
+inflection = "*"
 
 [requires]
 python_version = "3.7"
