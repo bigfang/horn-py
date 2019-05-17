@@ -61,6 +61,7 @@ def resolve_assign(ftype, default):
 
 def parse_fields(fields):
     from .schema import AFFIXES as SCH_AFFIXES
+
     attrs = [f.split(':') for f in fields]
     return [match(
         attr,
