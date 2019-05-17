@@ -17,9 +17,9 @@ def run(opts):
         'pypi': opts.get('--pypi'),
     }
 
-    ignore_list = []
+    ignore_list = ['*/__pycache__/*']
     if bindings.get('bare'):
-        ignore_list = [
+        ignore_list.extend([
             f'{bindings.get("app")}/helpers.py',
             '*/models/user.py',
             '*/views/user.py',
@@ -28,6 +28,6 @@ def run(opts):
             '*/schemas/session.py',
             'test/views/test_user.py',
             'test/views/test_session.py'
-        ]
+        ])
 
     copy(f'{TPL_PATH}/new', bindings.get('target'), data=bindings, exclude=ignore_list)
