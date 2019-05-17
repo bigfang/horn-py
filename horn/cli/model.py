@@ -60,13 +60,14 @@ def resolve_assign(ftype, default):
 
 
 def parse_fields(fields):
+    from .schema import AFFIXES as SCH_AFFIXES
     attrs = [f.split(':') for f in fields]
     return [match(
         attr,
         [_, _],              lambda x, y: {'field': x, 'type': validate_type(y, TYPES)},  # noqa: E241,E272
         [_, 'ref', _],       lambda x, table: {'field': x, 'type': validate_type('ref', TYPES), 'table': table},  # noqa: E241,E272
-        [_, 'ref', _, TAIL], lambda x, table, t: merge_fields({'field': x, 'type': validate_type('ref', TYPES), 'table': table}, validate_attr(t, AFFIXES)),  # noqa: E241,E272
+        [_, 'ref', _, TAIL], lambda x, table, t: merge_fields({'field': x, 'type': validate_type('ref', TYPES), 'table': table}, validate_attr(t, AFFIXES, SCH_AFFIXES)),  # noqa: E241,E272
         [_, _, 'default', _],       lambda x, y, val: {'field': x, 'type': validate_type(y, TYPES), 'default': resolve_assign(y, val)},  # noqa: E241,E272
-        [_, _, 'default', _, TAIL], lambda x, y, val, t: merge_fields({'field': x, 'type': validate_type(y, TYPES), 'default': resolve_assign(y, val)}, validate_attr(t, AFFIXES)),  # noqa: E241,E272
-        [_, _, TAIL],        lambda x, y, t: merge_fields({'field': x, 'type': validate_type(y, TYPES)}, validate_attr(t, AFFIXES))  # noqa: E241,E272
+        [_, _, 'default', _, TAIL], lambda x, y, val, t: merge_fields({'field': x, 'type': validate_type(y, TYPES), 'default': resolve_assign(y, val)}, validate_attr(t, AFFIXES, SCH_AFFIXES)),  # noqa: E241,E272
+        [_, _, TAIL],        lambda x, y, t: merge_fields({'field': x, 'type': validate_type(y, TYPES)}, validate_attr(t, AFFIXES, SCH_AFFIXES))  # noqa: E241,E272
     ) for attr in attrs]

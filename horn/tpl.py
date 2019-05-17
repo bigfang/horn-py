@@ -38,8 +38,10 @@ def validate_type(arg, types):
     return types.get(arg)
 
 
-def validate_attr(attrs, affixes):
-    for attr in attrs:
+def validate_attr(attrs, affixes, exclude=tuple()):
+    diff = set(attrs) - set(exclude)
+    for attr in diff:
         if attr not in affixes:
-            print(f'Warning: Field type not found, {attr} in {":".join(attrs)}')
+            print(f'Error: Unknown attribute, {attr}')
+            exit(1)
     return dict(zip(attrs, [True for i in attrs]))

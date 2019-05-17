@@ -5,7 +5,6 @@ from horn.naming import Naming
 from horn.path import TPL_PATH, get_location
 from horn.tpl import get_proj_info
 from . import model, schema
-from .model import AFFIXES as MODEL_AFFIXES
 
 
 TYPE_MAP = {
@@ -65,18 +64,16 @@ def slim_field(opts):
     opts['<fields>'] = [':'.join(match(
         field.split(':'),
         [_, _],        lambda x, y: [x, y],  # noqa: E241,E272
-        [_, _, TAIL],  lambda x, y, t: [x, y] + drop_attr(t)  # noqa: E241,E272
+        [_, _, TAIL],  lambda x, y, t: [x, y] + drop_pair(t)  # noqa: E241,E272
     )) for field in opts['<fields>']]
     return opts
 
 
-def drop_attr(attrs, key='default'):
+def drop_pair(attrs, key='default'):
     if key in attrs:
         idx = attrs.index(key)
         del attrs[idx:idx+2]    # noqa: E226
-
-    diff = set(attrs) - set(MODEL_AFFIXES)
-    return list(diff)
+    return attrs
 
 
 def convert_type(opts):
