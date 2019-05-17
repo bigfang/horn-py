@@ -28,7 +28,7 @@ def run(opts):
 
     location = get_location(bindings)
     try:
-        copy(f'{location}/new', bindings.get('target'), data=bindings)
+        copy(f'{location}/new', bindings.get('target'), data=bindings, exclude=['*/__pycache__/*'])
     except ValueError as err:
         print(f'Error: {err}')
 
