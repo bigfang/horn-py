@@ -47,7 +47,11 @@ def resolve_assign(ftype, default):
     if default == 'none':
         rv = 'None'
     elif ftype == 'ref':
-        rv = int(default)
+        try:
+            rv = int(default)
+        except ValueError:
+            print('Error: Default value must be an integer')
+            exit(1)
     elif ftype in ['integer', 'float', 'decimal']:
         pass
     elif ftype in ['boolen']:
