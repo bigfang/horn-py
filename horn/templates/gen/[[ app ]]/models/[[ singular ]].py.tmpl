@@ -17,6 +17,7 @@ class [[ module ]](Model):
     [%- endfor %]
     [% for field in fields if field.type == 'reference' %]
     [[ field.field ]]_id = reference_col('[[ field.table ]]'
+    [%- if field.default %], default=[[ field.default|safe]] [%- endif %]
     [%- if field.uniq %], unique=True [%- endif %]
     [%- if field.index %], index=True [%- endif %]
     [%- if field.nonull %], nullable=False [%- endif %], doc='[[ field.field]] id')
