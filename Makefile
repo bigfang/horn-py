@@ -8,7 +8,7 @@ help:
 	@echo "pypi - clean package and upload"
 
 pkg:
-	pipenv run python setup.py sdist bdist_wheel
+	pipenv run python setup.py bdist_wheel
 
 clean: clean-build clean-pyc
 
