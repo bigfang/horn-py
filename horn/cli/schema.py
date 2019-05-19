@@ -73,8 +73,6 @@ def parse_fields(fields):
     attrs = [f.split(':') for f in fields]
     return [match(
         attr,
-        [_, _],               lambda x, y: {'field': x, 'type': validate_type(y, TYPES)},  # noqa: E241,E272
-        [_, 'nest', _],       lambda x, schema: {'field': x, 'type': 'Nested', 'schema': f'{inflection.camelize(schema)}Schema'},  # noqa: E241,E272
         [_, 'nest', _, TAIL], lambda x, schema, t: merge_fields({'field': x, 'type': 'Nested', 'schema': f'{inflection.camelize(schema)}Schema'}, validate_attr(t, AFFIXES, MOD_AFFIXES)),  # noqa: E241,E272
         [_, _, TAIL],         lambda x, y, t: merge_fields({'field': x, 'type': validate_type(y, TYPES)}, validate_attr(t, AFFIXES, MOD_AFFIXES))  # noqa: E241,E272
     ) for attr in attrs]
