@@ -1,8 +1,10 @@
 
 # ![flask](chili.png)  Horn: A Flask scaffolding tool
 
-[![PyPI - License](https://img.shields.io/pypi/l/horn-py.svg)](https://mit-license.org)
+[![PyPI - License](https://img.shields.io/pypi/l/horn-py.svg)](https://pypi.org/project/horn-py)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/horn-py.svg)](https://pypi.org/project/horn-py)
 [![PyPI](https://img.shields.io/pypi/v/horn-py.svg)](https://pypi.org/project/horn-py)
+[![PyPI - Wheel](https://img.shields.io/pypi/wheel/horn-py.svg)](https://pypi.org/project/horn-py)
 
 
 ## Installation

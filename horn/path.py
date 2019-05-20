@@ -1,16 +1,17 @@
-import os
 import tempfile
 import shutil
 import subprocess
 
+from pathlib import Path
 
-TPL_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), 'templates'))
+
+TPL_PATH = Path(__file__).parent.joinpath('templates')
 
 
 def convert_path(path):
     rv = path
     if not (path.startswith('http') or path.startswith('git@') or path.startswith('ssh://')):
-        rv = os.path.abspath(path)
+        rv = str(Path(path).resolve())
     return rv
 
 

@@ -19,7 +19,8 @@ setup_data = {
     'keywords': 'flask scaffolding',
     'classifiers': [
         'Topic :: Utilities',
-        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
         'License :: OSI Approved :: MIT License',
     ],
     'zip_safe': True,
@@ -29,7 +30,7 @@ setup_data = {
         'docopt>=0.6',
         'toml>=0.10.0',
         'inflection>=0.3.1',
-        'pampy==0.2.1',
+        'pampy>=0.2.1',
         'copier==2.3.3',
     ],
     'entry_points': {
