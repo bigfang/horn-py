@@ -29,6 +29,11 @@ def validate_opts(opts):
             if ':' in v:
                 print(f'Error: Options error, {k}: {v}')
                 exit(1)
+        if k == '<fields>':
+            for attrs in v:
+                if ':' not in attrs:
+                    print(f'Error: Options error, {k}: {attrs}')
+                    exit(1)
 
 
 def validate_type(arg, types):
