@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
+<url> <loc>https://bigfang.github.io/horn-py/help</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> <xhtml:link rel="alternate" hreflang="en" href="https://bigfang.github.io/horn-py/en/help" /> </url>
+<url> <loc>https://bigfang.github.io/horn-py/index</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> <xhtml:link rel="alternate" hreflang="en" href="https://bigfang.github.io/horn-py/en/index" /> </url>
+<url> <loc>https://bigfang.github.io/horn-py/docs/gen-api</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://bigfang.github.io/horn-py/docs/gen-api" /> </url>
+<url> <loc>https://bigfang.github.io/horn-py/docs/gen-model</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://bigfang.github.io/horn-py/docs/gen-model" /> </url>
+<url> <loc>https://bigfang.github.io/horn-py/docs/gen-schema</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://bigfang.github.io/horn-py/docs/gen-schema" /> </url>
+<url> <loc>https://bigfang.github.io/horn-py/docs/new</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://bigfang.github.io/horn-py/docs/new" /> </url>
+<url> <loc>https://bigfang.github.io/horn-py/docs/adding-pages</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://bigfang.github.io/horn-py/docs/adding-pages" /> </url>
+<url> <loc>https://bigfang.github.io/horn-py/docs/quickstart</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://bigfang.github.io/horn-py/docs/quickstart" /> </url>
+<url> <loc>https://bigfang.github.io/horn-py/docs/structure</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://bigfang.github.io/horn-py/docs/structure" /> </url>
+</urlset>
