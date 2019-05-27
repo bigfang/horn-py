@@ -2,6 +2,7 @@ help:
 	@echo "pkg - package python wheel"
 	@echo "clean - remove built python artifacts"
 	@echo "flake - check style with flake8"
+	@echo "test - run unit tests"
 	@echo "install - install for development"
 	@echo "uninstall - uninstall for development"
 	@echo "upload - upload to pypi"
@@ -24,13 +25,16 @@ clean-pyc:
 	find . -name '.pytest_cache' -exec rm -rf {} +
 
 flake:
-	pipenv run flake8 --config=setup.cfg horn
+	@pipenv run flake8
+
+test:
+	@pipenv run py.test $(add)
 
 install:
-	pip install -e .
+	@pip install -e .
 
 uninstall:
-	pip uninstall horn-py
+	@pip uninstall horn-py
 
 upload:
 	@pipenv run twine upload dist/*
