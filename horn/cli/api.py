@@ -53,6 +53,11 @@ def opt_pipe(opts):
 
 
 def prepare_opts(opts):
+    """
+    >>> opts = {'<module>': 'Blog'}
+    >>> prepare_opts(opts)
+    {'<module>': 'Blog', '--model': 'Blog'}
+    """
     rv = opts.copy()
     rv.update({
         '--model': opts.get('<module>')
@@ -70,6 +75,11 @@ def slim_field(opts):
 
 
 def drop_pair(attrs, key='default'):
+    """
+    >>> attrs = ['default', 'none', 'nonull', 'load']
+    >>> drop_pair(attrs)
+    ['nonull', 'load']
+    """
     if key in attrs:
         idx = attrs.index(key)
         del attrs[idx:idx+2]    # noqa: E226

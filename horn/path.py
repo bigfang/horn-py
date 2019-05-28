@@ -8,13 +8,6 @@ from pathlib import Path
 TPL_PATH = Path(__file__).parent.joinpath('templates')
 
 
-def convert_path(path):
-    rv = path
-    if not (path.startswith('http') or path.startswith('git@') or path.startswith('ssh://')):
-        rv = str(Path(path).resolve())
-    return rv
-
-
 def get_location(bindings):
     location = bindings.get('from')
     if location and (location.startswith('http') or location.startswith('git@') or location.startswith('ssh://')):

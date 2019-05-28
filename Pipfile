@@ -8,6 +8,7 @@ flake8 = "*"
 twine = "*"
 pytest = "*"
 pytest-cov = "*"
+pytest-spec = "*"
 
 [packages]
 docopt = "*"

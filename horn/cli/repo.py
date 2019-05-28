@@ -1,9 +1,10 @@
 import json
+from pathlib import Path
 
 import inflection
 from copier import copy
 
-from horn.path import get_location, convert_path
+from horn.path import get_location
 
 
 def run(opts):
@@ -33,7 +34,22 @@ def run(opts):
         print(f'Error: {err}')
 
 
+def convert_path(path):
+    rv = path
+    if not (path.startswith('http') or path.startswith('git@') or path.startswith('ssh://')):
+        rv = str(Path(path).resolve())
+    return rv
+
+
 def check_conflict(opt):
+    """
+    >>> check_conflict({'app': 'foobar'})
+    >>> try:
+    ...     check_conflict({'from': 'bbb'})
+    ... except:
+    ...     pass
+    Error: Conflict field found, {from: bbb}
+    """
     reserved_words = ["target", 'from', 'checkout', 'file']
     for rw in reserved_words:
         if rw in opt:

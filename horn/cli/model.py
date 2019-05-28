@@ -43,6 +43,28 @@ def run(opts):
 
 
 def resolve_assign(ftype, default):
+    """
+    >>> resolve_assign('xxx', 'none')
+    'None'
+    >>> resolve_assign('ref', '100')
+    100
+    >>> try:
+    ...     resolve_assign('ref', 'apple')
+    ... except:
+    ...     pass
+    Error: Default value must be an integer
+    >>> resolve_assign('float', '99.9')
+    '99.9'
+    >>> resolve_assign('boolean', 'false')
+    'False'
+    >>> try:
+    ...     resolve_assign('boolean', 'apple')
+    ... except:
+    ...     pass
+    Error: Boolean field error, apple
+    >>> resolve_assign('ooo', 'elixir')
+    "'elixir'"
+    """
     rv = default
     if default == 'none':
         rv = 'None'
