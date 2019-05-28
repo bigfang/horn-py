@@ -54,7 +54,7 @@ def resolve_assign(ftype, default):
             exit(1)
     elif ftype in ['integer', 'float', 'decimal']:
         pass
-    elif ftype in ['boolen']:
+    elif ftype in ['boolean']:
         if default in ['true', 'false']:
             rv = inflection.camelize(default)
         else:
