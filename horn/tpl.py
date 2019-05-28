@@ -49,4 +49,4 @@ def validate_attr(attrs, affixes, exclude=tuple()):
         if attr not in affixes:
             print(f'Error: Unknown attribute, {attr}')
             exit(1)
-    return dict(zip(attrs, [True for i in attrs]))
+    return dict(zip(diff, [True for i in diff]))
