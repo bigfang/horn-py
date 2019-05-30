@@ -37,8 +37,11 @@ setup_data = {
         'copier==2.3.3',
     ],
     'tests_require': [
+        'flake8',
         'pytest',
-        'pytest-cov'
+        'pytest-cov',
+        'pytest-spec',
+        'tox'
     ],
     'entry_points': {
         'console_scripts': ['horn = horn:main'],

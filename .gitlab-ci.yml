@@ -1,0 +1,29 @@
+# Change pip's cache directory to be inside the project directory since we can
+# only cache local items.
+variables:
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+
+cache:
+  paths:
+    - .cache/pip
+
+before_script:
+  - python -V
+  - pip install pipenv
+
+py36:
+  image: python:3.6
+  stage: test
+  script:
+    - pipenv --python 3.6
+    - pipenv install --dev
+    - pipenv run tox -epy36
+
+py37:
+  image: python:3.7
+  stage: test
+  script:
+    - pipenv --python 3.7
+    - pipenv install --dev
+    - pipenv run tox -epy37
+  coverage: '/^TOTAL(?:\s+\d+){4}\s+(\d+\%)$/'
