@@ -49,6 +49,13 @@ def run(opts):
 
 
 def collect_meta(fields):
+    """
+    >>> fields = [{'field': 'title', 'type': 'String', 'uniq': True},
+    ... {'field': 'content', 'type': 'String', 'nonull': True, 'dump': True},
+    ... {'field': 'author', 'type': 'Nested', 'schema': 'UserSchema', 'exclude': True}]
+    >>> collect_meta(fields)
+    {'dump_only': ['content'], 'load_only': [], 'exclude': ['author']}
+    """
     dump_only = []
     load_only = []
     exclude = []
@@ -79,8 +86,17 @@ def parse_fields(fields):
 
 
 def check_meta_keys(field):
+    """
+    >>> check_meta_keys({'field': 'title', 'type': 'String', 'uniq': True})
+
+    >>> try:
+    ...     check_meta_keys({'field': 'title', 'type': 'String', 'dump': True, 'load': True})
+    ... except:
+    ...     pass
+    Error: Field attributes error, ['dump', 'load'] conflict
+    """
     meta_keys = {'dump', 'load', 'exclude'}
     intersection = meta_keys & set(field)
     if len(intersection) > 1:
-        print(f'Error: Field attributes error, {intersection} conflict')
+        print(f'Error: Field attributes error, {sorted(intersection)} conflict')
         exit(1)

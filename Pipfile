@@ -6,6 +6,9 @@ verify_ssl = true
 [dev-packages]
 flake8 = "*"
 twine = "*"
+pytest = "*"
+pytest-cov = "*"
+pytest-spec = "*"
 
 [packages]
 docopt = "*"

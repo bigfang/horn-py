@@ -19,6 +19,12 @@ def get_proj_info():
 
 
 def merge_fields(base, attach={}):
+    """
+    >>> merge_fields({'a': 1})
+    {'a': 1}
+    >>> merge_fields({'a': 1}, {'b': 2})
+    {'a': 1, 'b': 2}
+    """
     base.update(attach)
     return base
 
@@ -37,6 +43,16 @@ def validate_opts(opts):
 
 
 def validate_type(arg, types):
+    """
+    >>> types = {'string': 'String'}
+    >>> validate_type('string', types)
+    'String'
+    >>> try:
+    ...     validate_type('bbb', types)
+    ... except:
+    ...     pass
+    Error: Field type error, bbb
+    """
     if arg not in types:
         print(f'Error: Field type error, {arg}')
         exit(1)
@@ -44,9 +60,22 @@ def validate_type(arg, types):
 
 
 def validate_attr(attrs, affixes, exclude=tuple()):
+    """
+    >>> attrs = ['nonull', 'load']
+    >>> affixes = ('uniq', 'nonull', 'index')
+    >>> exclude = ('none', 'required', 'dump', 'load', 'exclude')
+    >>> validate_attr(attrs, affixes, exclude)
+    {'nonull': True}
+    >>> attrs.append('bbb')
+    >>> try:
+    ...     validate_attr(attrs, affixes, exclude)
+    ... except:
+    ...     pass
+    Error: Unknown attribute, bbb
+    """
     diff = set(attrs) - set(exclude)
     for attr in diff:
         if attr not in affixes:
             print(f'Error: Unknown attribute, {attr}')
             exit(1)
-    return dict(zip(attrs, [True for i in attrs]))
+    return dict(zip(diff, [True for i in diff]))
