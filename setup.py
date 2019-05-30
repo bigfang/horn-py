@@ -40,6 +40,7 @@ setup_data = {
         'flake8',
         'pytest',
         'pytest-cov',
+        'pytest-spec',
         'tox'
     ],
     'entry_points': {
