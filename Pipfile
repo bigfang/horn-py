@@ -9,6 +9,7 @@ twine = "*"
 pytest = "*"
 pytest-cov = "*"
 pytest-spec = "*"
+tox = "*"
 
 [packages]
 docopt = "*"
