@@ -10,20 +10,24 @@ cache:
 before_script:
   - python -V
   - pip install pipenv
+  - pipenv install --dev
 
 py36:
   image: python:3.6
   stage: test
   script:
-    - pipenv --python 3.6
-    - pipenv install --dev
     - pipenv run tox -epy36
 
 py37:
   image: python:3.7
   stage: test
   script:
-    - pipenv --python 3.7
-    - pipenv install --dev
     - pipenv run tox -epy37
   coverage: '/^TOTAL(?:\s+\d+){4}\s+(\d+\%)$/'
+
+pypy:
+  image: pypy:3.6
+  stage: test
+  script:
+    - pypy3 -V
+    - pipenv run tox -epypy3
