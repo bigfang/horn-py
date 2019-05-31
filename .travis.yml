@@ -1,0 +1,20 @@
+language: python
+cache: pip
+sudo: false
+
+python:
+  - 3.6
+  - 3.7
+  - pypy3
+
+install:
+  - pip install pipenv
+  - pip install codecov
+  - pipenv install --dev
+before_script:
+  - pipenv --python $TRAVIS_PYTHON_VERSION
+script:
+  - pipenv run tox
+
+after_success:
+  - codecov
