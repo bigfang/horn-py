@@ -3,8 +3,8 @@
 
 [![PyPI - License](https://img.shields.io/pypi/l/horn-py.svg)](https://pypi.org/project/horn-py)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/horn-py.svg)](https://pypi.org/project/horn-py)
+[![PyPI - Implementation](https://img.shields.io/pypi/implementation/horn-py.svg)](https://pypi.org/project/horn-py)
 [![PyPI](https://img.shields.io/pypi/v/horn-py.svg)](https://pypi.org/project/horn-py)
-[![PyPI - Wheel](https://img.shields.io/pypi/wheel/horn-py.svg)](https://pypi.org/project/horn-py)
 [![Build Status](https://travis-ci.org/bigfang/horn-py.svg?branch=master)](https://travis-ci.org/bigfang/horn-py)
 [![Codecov](https://img.shields.io/codecov/c/gh/bigfang/horn-py.svg)](https://codecov.io/gh/bigfang/horn-py)
 
