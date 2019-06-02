@@ -1,4 +1,3 @@
-
 # ![flask](chili.png)  Horn: A Flask scaffolding tool
 
 [![PyPI - License](https://img.shields.io/pypi/l/horn-py.svg)](https://pypi.org/project/horn-py)
@@ -7,6 +6,7 @@
 [![PyPI - Wheel](https://img.shields.io/pypi/wheel/horn-py.svg)](https://pypi.org/project/horn-py)
 [![Build Status](https://travis-ci.org/bigfang/horn-py.svg?branch=master)](https://travis-ci.org/bigfang/horn-py)
 [![Codecov](https://img.shields.io/codecov/c/gh/bigfang/horn-py.svg)](https://codecov.io/gh/bigfang/horn-py)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fbigfang%2Fhorn-py.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fbigfang%2Fhorn-py?ref=badge_shield)
 
 
 ## Installation
@@ -44,3 +44,7 @@ Options:
   --version                 Show version.
 
 ```
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fbigfang%2Fhorn-py.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fbigfang%2Fhorn-py?ref=badge_large)
