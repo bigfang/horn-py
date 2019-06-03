@@ -40,6 +40,10 @@ def validate_opts(opts):
                 if ':' not in attrs:
                     print(f'Error: Options error, {k}: {attrs}')
                     exit(1)
+        if k == '<module>':
+            if v[0].islower() or v == v.lower() or v == v.upper() or "_" in v:
+                print(f'Error: Module name must be upper camel case')
+                exit(1)
 
 
 def validate_type(arg, types):

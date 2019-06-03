@@ -15,5 +15,5 @@ def proj_path(tmp_path_factory, request):
     execli(f'new {basetmp.name}/{fn.name} {request.param}')
     yield fn
 
-    os.chdir(basetmp / '..')
-    shutil.rmtree(fn)
+    os.chdir(str(basetmp / '..'))
+    shutil.rmtree(str(fn))

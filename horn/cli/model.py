@@ -32,7 +32,7 @@ def run(opts):
     bindings = {
         'module': opts.get('<module>'),
         'singular': inflection.underscore(opts.get('<module>')),
-        'table': opts.get('<table>'),
+        'table': inflection.underscore(opts.get('<table>')),
         'fields': parse_fields(opts.get('<fields>'))
     }
     bindings.update(get_proj_info())
