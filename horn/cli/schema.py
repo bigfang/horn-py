@@ -37,7 +37,7 @@ def run(opts):
     bindings = {
         'module': opts.get('<module>'),
         'singular': inflection.underscore(opts.get('<module>')),
-        'model': opts.get('--model'),
+        'model': inflection.camelize(opts.get('--model')) if opts.get('--model') else '',
         'fields': parse_fields(opts.get('<fields>')),
     }
     bindings.update(get_proj_info())
@@ -50,11 +50,11 @@ def run(opts):
 
 def collect_meta(fields):
     """
-    >>> fields = [{'field': 'title', 'type': 'String', 'uniq': True},
+    >>> fields = [{'field': 'title', 'type': 'String', 'uniq': True, 'load': True},
     ... {'field': 'content', 'type': 'String', 'nonull': True, 'dump': True},
     ... {'field': 'author', 'type': 'Nested', 'schema': 'UserSchema', 'exclude': True}]
     >>> collect_meta(fields)
-    {'dump_only': ['content'], 'load_only': [], 'exclude': ['author']}
+    {'dump_only': ['content'], 'load_only': ['title'], 'exclude': ['author']}
     """
     dump_only = []
     load_only = []
