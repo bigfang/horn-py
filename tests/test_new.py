@@ -123,7 +123,7 @@ class TestRepo:
         with open(tmp_path / 'project.toml') as f:
             assert re.search(r'^from = "{repo}"$', f.read(), re.M)
 
-    @pytest.mark.skip(reason='remote repo not ready')
+    @pytest.mark.xfail(reason='remote repo not ready')
     @pytest.mark.parametrize('opts', ['--json={"app": "foobar"}'])
     def test_repo_with_json_config(self, tmp_path, opts):
         opts = execli(f'new {tmp_path} ./horn/templates {opts}')
@@ -136,10 +136,10 @@ class TestRepo:
             text = f.read()
             assert re.search('^# FooBar$', text, re.M)
 
-    @pytest.mark.skip(reason='remote repo not ready')
+    @pytest.mark.xfail(reason='remote repo not ready')
     def test_repo_with_file_config(self):
-        pass
+        assert False
 
-    @pytest.mark.skip(reason='remote repo not ready')
+    @pytest.mark.xfail(reason='remote repo not ready')
     def test_repo_json_config_should_override_file_config(self):
-        pass
+        assert False
