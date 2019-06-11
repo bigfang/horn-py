@@ -86,6 +86,17 @@ class TestGenSchema:
             assert "\n        model = BlogPost\n" in text
 
     @pytest.mark.parametrize('module,model,fields',
+                             [('Post', '', 'xxx'),
+                              ('', '', 'title:string content:string author:nest:user')])
+    def test_with_wrong_opts(self, proj_path, module, model, fields, capsys):
+        model_opt = f'--model={model}' if model else ''
+        with pytest.raises(SystemExit):
+            execli(f'gen schema {module} {model_opt} {fields}', proj_path)
+        captured = capsys.readouterr()
+
+        assert re.search('^Error: Options error, <.+>: .+$', captured.out, re.M)
+
+    @pytest.mark.parametrize('module,model,fields',
                              [('Post', 'Post', 'title:int content:string author:nest:user'),
                               ('Post', '', 'title:string content:string author:ref:user')])
     def test_with_wrong_field_type(self, proj_path, module, model, fields, capsys, monkeypatch):

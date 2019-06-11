@@ -66,6 +66,17 @@ class TestGenModel:
             assert re.search(r"^\s{4}__tablename__ = 'blog_posts'$", text, re.M)
 
     @pytest.mark.parametrize('module,table,fields',
+                             [('Post', 'posts', 'xxx'),
+                              ('Post', '', 'title:string content:text author:ref:users'),
+                              ('', '', 'title:string content:text author:ref:users')])
+    def test_with_wrong_opts(self, proj_path, module, table, fields, capsys):
+        with pytest.raises(SystemExit):
+            execli(f'gen model {module} {table} {fields}', proj_path)
+        captured = capsys.readouterr()
+
+        assert re.search('^Error: Options error, <.+>: .+$', captured.out, re.M)
+
+    @pytest.mark.parametrize('module,table,fields',
                              [('Post', 'posts', 'title:int author:ref:users'),
                               ('Post', 'posts', 'title:string author:nest:users')])
     def test_with_wrong_field_type(self, proj_path, module, table, fields, capsys):
