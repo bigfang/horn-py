@@ -1,3 +1,4 @@
+import os
 import re
 
 import inflection
@@ -32,6 +33,23 @@ class TestNew:
         assert fset == {'logging.ini', 'app', 'pytest.ini', 'test', 'README.md',
                         'Pipfile', '.gitignore', 'instance', 'log', 'project.toml'}
         assert 'user.py' not in {i.name for i in tmp_path.glob('app/**/*.py')}
+
+    @pytest.mark.parametrize('opts', ['--bare'])
+    def test_with_dot__target_should_be_convert_to_proj(self, tmp_path, opts):
+        cwd = os.getcwd()
+
+        wdir = tmp_path / 'foo_bar'
+        os.mkdir(str(wdir))
+        os.chdir(str(wdir))
+        execli(f'new . {opts}')
+
+        os.chdir(cwd)
+
+        with open(wdir / 'README.md') as f:
+            text = f.read()
+            assert '# FooBar\n' in text
+            assert '# .\n' not in text
+            assert '\nProject .' not in text
 
     @pytest.mark.parametrize('opts', ['--app=foobar'])
     def test_new_with_options_app(self, tmp_path, opts):

@@ -9,11 +9,11 @@ from horn.path import get_location
 
 def run(opts):
     bindings = {
-        'target': opts.get('<target>'),
+        'target': Path(opts.get('<target>')).resolve().name,
         'from': convert_path(opts.get('<from>')),
         'checkout': opts.get('<checkout>'),
         'app': 'app',
-        'proj': inflection.camelize(opts.get('<target>').split('/')[-1]),
+        'proj': inflection.camelize(Path(opts.get('<target>')).resolve().name),
         'file': opts.get('--file')
     }
 
@@ -29,7 +29,7 @@ def run(opts):
 
     location = get_location(bindings)
     try:
-        copy(f'{location}/new', bindings.get('target'), data=bindings, exclude=['*/__pycache__/*'])
+        copy(f'{location}/new', opts.get('<target>'), data=bindings, exclude=['*/__pycache__/*'])
     except ValueError as err:
         print(f'Error: {err}')
 
