@@ -7,7 +7,7 @@ from . import execli
 
 
 @pytest.fixture(scope='module',
-                params=['', '--app=foobar --proj=FooBar'])
+                params=['', '--bare', '--app=foobar --proj=FooBar'])
 def proj_path(tmp_path_factory, request):
     basetmp = tmp_path_factory.getbasetemp()
     path = basetmp / 'test_site'
