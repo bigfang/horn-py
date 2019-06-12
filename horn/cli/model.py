@@ -38,8 +38,7 @@ def run(opts):
     bindings.update(get_proj_info())
 
     location = get_location(bindings) or TPL_PATH
-    copy(f'{location}/gen', '.', data=bindings,
-         exclude=['*/schemas/*', '*/views/*', 'test/*'])
+    copy(f'{location}/gen', '.', data=bindings, exclude=['*/schemas/*', '*/views/*', 'test/*'])
 
 
 def resolve_assign(ftype, default):
