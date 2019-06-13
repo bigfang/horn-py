@@ -32,9 +32,17 @@ def run(opts):
         copy(f'{location}/new', opts.get('<target>'), data=bindings, exclude=['*/__pycache__/*'])
     except ValueError as err:
         print(f'Error: {err}')
+        exit(1)
 
 
 def convert_path(path):
+    """
+    >>> p = convert_path('foobar')
+    >>> p.endswith('/foobar')
+    True
+    >>> convert_path('https://github.com')
+    'https://github.com'
+    """
     rv = path
     if not (path.startswith('http') or path.startswith('git@') or path.startswith('ssh://')):
         rv = str(Path(path).resolve())

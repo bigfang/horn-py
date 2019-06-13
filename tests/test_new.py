@@ -1,5 +1,6 @@
 import os
 import re
+from pathlib import Path
 
 import inflection
 import pytest
@@ -123,27 +124,32 @@ class TestNew:
 
 
 class TestRepo:
-    def test_repo_without_config(self, tmp_path):
-        options = execli(f'new {tmp_path} ./horn/templates')
+    @pytest.mark.parametrize('opts', ['--json={"app":"foobar","bare":true}'])
+    def test_from_local(self, tmp_path, opts):
+        options = execli(f'new {tmp_path} ./horn/templates {opts}')
 
         assert options['<from>'] == './horn/templates'
         with open(tmp_path / 'project.toml') as f:
             text = f.read()
             assert re.search(r'^from = ".+/horn/templates"$', text, re.M)
-
-    @pytest.mark.skip(reason='remote repo not ready')
-    @pytest.mark.parametrize('opts', ['--json='])
-    def test_repo_remote(self, tmp_path, opts):
-        repo = 'https://github.com/bigfang/horn-py-tpl.git'
-        options = execli(f'new {tmp_path} {repo}')
-
-        assert options['<from>'] == repo
-        with open(tmp_path / 'project.toml') as f:
-            assert re.search(r'^from = "{repo}"$', f.read(), re.M)
+            assert '\napp_name = "foobar"\n' in text
+            assert '\nbare = true\n' in text
 
     @pytest.mark.xfail(reason='remote repo not ready')
-    @pytest.mark.parametrize('opts', ['--json={"app": "foobar"}'])
-    def test_repo_with_json_config(self, tmp_path, opts):
+    def test_remote_repo(self):
+        assert False
+
+    @pytest.mark.parametrize('checkout', ['', 'master'])
+    def test_remote_with_wrong_repo(self, tmp_path, checkout, capsys):
+        repo = 'https://gist.github.com/bb1f8b136f5a9e4abc0bfc07b832257e.git'
+        with pytest.raises(SystemExit):
+            execli(f'new {tmp_path} {repo} {checkout}')
+        captured = capsys.readouterr()
+
+        assert 'Error: Project template not found\n' == captured.out
+
+    @pytest.mark.parametrize('opts', ['--json={"app":"foobar","proj":"FooBar"}'])
+    def test_with_json_config(self, tmp_path, opts):
         opts = execli(f'new {tmp_path} ./horn/templates {opts}')
         fset = {i.name for i in tmp_path.glob('*')}
 
@@ -154,10 +160,25 @@ class TestRepo:
             text = f.read()
             assert re.search('^# FooBar$', text, re.M)
 
-    @pytest.mark.xfail(reason='remote repo not ready')
-    def test_repo_with_file_config(self):
-        assert False
+    def test_with_file_config(self, tmp_path):
+        file_opt = Path(__file__).parent.joinpath('fixture.json')
+        options = execli(f'new {tmp_path} ./horn/templates --file={file_opt}')
 
-    @pytest.mark.xfail(reason='remote repo not ready')
-    def test_repo_json_config_should_override_file_config(self):
-        assert False
+        assert options['<from>'] == './horn/templates'
+        with open(tmp_path / 'project.toml') as f:
+            text = f.read()
+            assert re.search(r'^from = ".+/horn/templates"$', text, re.M)
+            assert '\napp_name = "ohmygod"\n' in text
+            assert 'bare' not in text
+
+    @pytest.mark.parametrize('opts', ['--json={"app":"foobar","bare":true}'])
+    def test_json_config_should_override_file_config(self, tmp_path, opts):
+        file_opt = Path(__file__).parent.joinpath('fixture.json')
+        options = execli(f'new {tmp_path} ./horn/templates {opts} --file={file_opt}')
+
+        assert options['<from>'] == './horn/templates'
+        with open(tmp_path / 'project.toml') as f:
+            text = f.read()
+            assert re.search(r'^from = ".+/horn/templates"$', text, re.M)
+            assert '\napp_name = "foobar"\n' in text
+            assert '\nbare = true\n' in text
