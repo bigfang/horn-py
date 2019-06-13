@@ -40,8 +40,7 @@ def run(opts):
     bindings.update(get_proj_info())
 
     location = get_location(bindings) or TPL_PATH
-    copy(f'{location}/gen', '.', data=bindings,
-         exclude=['*/models/*', '*/schemas/*', 'test/*'])
+    copy(f'{location}/gen', '.', data=bindings, exclude=['*/models/*', '*/schemas/*', 'test/*'])
 
 
 def opt_pipe(opts):

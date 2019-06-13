@@ -13,6 +13,7 @@ def get_proj_info():
         'target': project.get('directory'),
         'proj': project.get('project_name'),
         'app': project.get('app_name'),
+        'bare': project.get('bare'),
         'from': project.get('from'),
         'checkout': project.get('checkout')
     }

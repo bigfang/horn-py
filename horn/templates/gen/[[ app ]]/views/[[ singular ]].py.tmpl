@@ -2,7 +2,7 @@ from flask import Blueprint
 
 from sqlalchemy.exc import IntegrityError
 
-from [[ app ]].core import jwt_required, doc, use_kwargs, marshal_with
+from [[ app ]].core import doc, use_kwargs, marshal_with[% if not bare %], jwt_required[% endif %]
 from [[ app ]].core.database import db, atomic
 from [[ app ]].models import [[ module ]]
 from [[ app ]].schemas import [[ singular ]]_schema, [[ singular ]]_schemas
@@ -13,7 +13,9 @@ bp = Blueprint('[[ singular ]]', __name__)
 
 @doc(tags=['[[ module ]]'], description='list [[ plural ]]')
 @bp.route('/[[ plural ]]', methods=['GET'], provide_automatic_options=False)
+[%- if not bare %]
 @jwt_required
+[%- endif %]
 @marshal_with([[ singular ]]_schemas, code=200)
 def index():
     [[ plural ]] = [[ module ]].query.all()
@@ -22,7 +24,9 @@ def index():
 
 @doc(tags=['[[ module ]]'], description='create [[ singular ]]')
 @bp.route('/[[ plural ]]', methods=['POST'], provide_automatic_options=False)
+[%- if not bare %]
 @jwt_required
+[%- endif %]
 @use_kwargs([[ singular ]]_schema)
 @marshal_with([[ singular ]]_schema, code=201)
 def create(**attrs):
@@ -32,7 +36,9 @@ def create(**attrs):
 
 @doc(tags=['[[ module ]]'], description='show [[ singular ]]')
 @bp.route('/[[ plural ]]/<int:pk>', methods=['GET'], provide_automatic_options=False)
+[%- if not bare %]
 @jwt_required
+[%- endif %]
 @marshal_with([[ singular ]]_schema, code=200)
 def show(pk):
     [[ singular ]] = [[ module ]].get_or_404(pk)
@@ -41,7 +47,9 @@ def show(pk):
 
 @doc(tags=['[[ module ]]'], description='update [[ singular ]]')
 @bp.route('/[[ plural ]]/<int:pk>', methods=['PUT'], provide_automatic_options=False)
+[%- if not bare %]
 @jwt_required
+[%- endif %]
 @use_kwargs([[ singular ]]_schema)
 @marshal_with([[ singular ]]_schema, code=200)
 def update(pk, **attrs):
@@ -51,7 +59,9 @@ def update(pk, **attrs):
 
 @doc(tags=['[[ module ]]'], description='delete [[ singular ]]')
 @bp.route('/[[ plural ]]/<int:pk>', methods=['DELETE'], provide_automatic_options=False)
+[%- if not bare %]
 @jwt_required
+[%- endif %]
 @marshal_with(None, code=204)   # FIXME
 def delete(pk):
     [[ singular ]] = [[ module ]].get_or_404(pk)
