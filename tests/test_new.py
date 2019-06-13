@@ -16,7 +16,7 @@ class TestNew:
 
         assert len(re.findall(r'^.+create.+$', captured.out, re.M)) == \
             len([i for i in tmp_path.glob('**/*') if not i.is_dir()])
-        assert fset == {'logging.ini', 'app', 'pytest.ini', 'tests', 'README.md',
+        assert fset == {'logging.ini', 'app', 'setup.cfg', 'tests', 'README.md',
                         'Pipfile', '.gitignore', 'instance', 'log', 'project.toml'}
         assert 'user.py' in {i.name for i in tmp_path.glob('app/models/*py')}
         assert 'user.py' in {i.name for i in tmp_path.glob('app/schemas/*.py')}
@@ -31,7 +31,7 @@ class TestNew:
         execli(f'new {tmp_path} {opts}')
         fset = {i.name for i in tmp_path.glob('*')}
 
-        assert fset == {'logging.ini', 'app', 'pytest.ini', 'tests', 'README.md',
+        assert fset == {'logging.ini', 'app', 'setup.cfg', 'tests', 'README.md',
                         'Pipfile', '.gitignore', 'instance', 'log', 'project.toml'}
         assert 'user.py' not in {i.name for i in tmp_path.glob('app/**/*.py')}
 
