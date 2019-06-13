@@ -44,7 +44,7 @@ def run(opts):
     bindings.update(collect_meta(bindings.get('fields')))
 
     location = get_location(bindings) or TPL_PATH
-    copy(f'{location}/gen', '.', data=bindings, exclude=['*/models/*', '*/views/*', 'test/*'])
+    copy(f'{location}/gen', '.', data=bindings, exclude=['*/models/*', '*/views/*', 'tests/*'])
 
 
 def collect_meta(fields):
