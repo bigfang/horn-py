@@ -1,0 +1,6 @@
+
+include Pipfile
+include Pipfile.lock
+include README.md
+include logging.ini
+graft migrations
