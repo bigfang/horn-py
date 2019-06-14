@@ -1,35 +1,48 @@
+import pytest
+
 from flask import url_for
 
+from ..factories import UserFactory
 
-def _register_user(testapp):
-    return testapp.post_json(url_for('user.create'), {
-        'username': 'horn',
-        'email': 'test@horn.example',
-        'password': 'hornsecret'
-    })
+
+@pytest.fixture
+def login_user(client):
+    user = UserFactory(password='iamloggedin')
+    user.save()
+
+    payload = {
+        'username': user.username,
+        'password': 'iamloggedin'
+    }
+    client.post(url_for('session.create'), json=payload)
+    return user
 
 
 class TestSession(object):
 
-    def test_success_create(self, testapp):
-        _register_user(testapp)
-        resp = testapp.post_json(url_for('session.create'), {
-            'username': 'horn',
-            'password': 'hornsecret'
-        })
+    def test_success_create(self, client, user):
+        payload = {
+            'username': user.username,
+            'password': 'wordpass'
+        }
+        resp = client.post(url_for('session.create'), json=payload)
         assert resp.status_code == 201
         assert sorted(resp.json.keys()) == ['email', 'id', 'inserted_at',
                                             'token', 'updated_at', 'username']
-        assert resp.json['username'] == 'horn'
-        assert resp.json['email'] == 'test@horn.example'
+        assert resp.json['username'] == user.username
+        assert resp.json['email'] == user.email
 
-    def test_failed_create(self, testapp):
-        resp = testapp.post_json(url_for('session.create'), {
+    def test_failed_create(self, client):
+        payload = {
             'username': 'horn',
             'password': 'xxxxx'
-        }, status=404)
+        }
+        resp = client.post(url_for('session.create'), json=payload)
         assert resp.status_code == 404
 
-    def test_delete(self, testapp, login_user):
-        resp = testapp.delete(url_for('session.delete'))
+    def test_delete(self, client, login_user):
+        headers = {
+            'Authorization': f'Bearer {login_user.token}'
+        }
+        resp = client.delete(url_for('session.delete'), headers=headers)
         assert resp.status_code == 200
