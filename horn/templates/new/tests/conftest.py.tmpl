@@ -1,4 +1,6 @@
+[% if not bare -%]
 from flask import url_for
+[%- endif %]
 
 import pytest
 
@@ -53,10 +55,10 @@ def user(db):
 def headers(client, user):
     payload = {
         'username': user.username,
-        'password': 'wordpass' 
+        'password': 'wordpass'
     }
     client.post(url_for('session.create'), json=payload)
     return {
         'Authorization': f'Bearer {user.token}'
     }
-[% endif %]
+[%- endif %]
