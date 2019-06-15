@@ -1,3 +1,4 @@
+from [[ app ]] import __version__
 from [[ app ]].views import home
 [%- if not bare %]
 from [[ app ]].views import user, session
@@ -13,7 +14,7 @@ def register_apispec(app):
         'APISPEC_SPEC':
         APISpec(
             title='[[ proj ]]',
-            version='v0.1.0',
+            version=f'v{__version__}',
             openapi_version='2.0',
             plugins=[MarshmallowPlugin()]
         ),
@@ -24,7 +25,8 @@ def register_apispec(app):
     spec = FlaskApiSpec(app)
 
     spec.register(home.home, blueprint='home')
-    [% if not bare %]
+
+    [% if not bare -%]
     spec.register(user.index, blueprint='user')
     spec.register(user.create, blueprint='user')
     spec.register(user.show, blueprint='user')
@@ -33,4 +35,4 @@ def register_apispec(app):
 
     spec.register(session.create, blueprint='session')
     spec.register(session.delete, blueprint='session')
-    [% endif %]
+    [%- endif %]

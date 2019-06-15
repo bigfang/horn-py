@@ -1,7 +1,8 @@
+[% if not bare -%]
 from flask import url_for
+[%- endif %]
 
 import pytest
-from webtest import TestApp
 
 from [[ app ]].run import create_app
 from [[ app ]].core.database import db as _db
@@ -26,40 +27,38 @@ def app():
 
 
 @pytest.fixture(scope='session')
-def testapp(app):
-    return TestApp(app)
-
-
-@pytest.fixture(scope='module')
-def testdb(app):
+def db(app):
     _db.app = app
     with app.app_context():
         _db.create_all()
 
     yield _db
 
-    # Explicitly close DB connection
     _db.session.close()
     _db.drop_all()
 
 
+@pytest.fixture(scope='session')
+def client(app):
+    return app.test_client()
+
+
 [% if not bare -%]
-@pytest.fixture
-def user(testdb):
+@pytest.fixture(scope='module')
+def user(db):
     user = UserFactory(password='wordpass')
     user.save()
     return user
 
 
 @pytest.fixture
-def login_user(testdb, testapp):
-    user = UserFactory(password='iamloggedin')
-    user.save()
-    testapp.post_json(url_for('session.create'), {
+def headers(client, user):
+    payload = {
         'username': user.username,
-        'password': 'iamloggedin'
-    })
-    testapp.authorization = ('Bearer', user.token)
-
-    return user
-[% endif %]
+        'password': 'wordpass'
+    }
+    client.post(url_for('session.create'), json=payload)
+    return {
+        'Authorization': f'Bearer {user.token}'
+    }
+[%- endif %]

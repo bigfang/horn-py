@@ -27,8 +27,8 @@ def run(opts):
             '*/views/session.py',
             '*/schemas/user.py',
             '*/schemas/session.py',
-            'test/views/test_user.py',
-            'test/views/test_session.py'
+            'tests/views/test_user.py',
+            'tests/views/test_session.py'
         ])
 
     copy(f'{TPL_PATH}/new', opts.get('<target>'), data=bindings, exclude=ignore_list)

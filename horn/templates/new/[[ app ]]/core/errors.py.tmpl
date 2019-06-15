@@ -22,7 +22,7 @@ def template(msg=None, code=None, detail=None, status=500):
     assert isinstance(status, int)
     assert isinstance(code, int)
     assert isinstance(msg, str)
-    assert isinstance(detail, str) or detail == None
+    assert isinstance(detail, str) or detail is None
 
     payload = {
         'message': msg,

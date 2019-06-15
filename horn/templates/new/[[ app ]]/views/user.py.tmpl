@@ -40,7 +40,7 @@ def show(pk):
 
 # TODO: implement it
 @doc(tags=['User'], description='update user')
-@bp.route('/users/<int:pk>', methods=['PUT'], provide_automatic_options=False)
+@bp.route('/users/<int:pk>', methods=['PUT', 'PATCH'], provide_automatic_options=False)
 @jwt_required
 @use_kwargs(UserSchema)
 @marshal_with(UserSchema, code=200)

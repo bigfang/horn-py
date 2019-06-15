@@ -46,7 +46,7 @@ def show(pk):
 
 
 @doc(tags=['[[ module ]]'], description='update [[ singular ]]')
-@bp.route('/[[ plural ]]/<int:pk>', methods=['PUT'], provide_automatic_options=False)
+@bp.route('/[[ plural ]]/<int:pk>', methods=['PUT', 'PATCH'], provide_automatic_options=False)
 [%- if not bare %]
 @jwt_required
 [%- endif %]

@@ -16,8 +16,8 @@ class TestNew:
 
         assert len(re.findall(r'^.+create.+$', captured.out, re.M)) == \
             len([i for i in tmp_path.glob('**/*') if not i.is_dir()])
-        assert fset == {'logging.ini', 'app', 'pytest.ini', 'test', 'README.md',
-                        'Pipfile', '.gitignore', 'instance', 'log', 'project.toml'}
+        assert fset == {'.gitignore', 'app', 'tests', 'log', 'instance', 'MANIFEST.in',
+                        'logging.ini', 'README.md', 'Pipfile', 'project.toml', 'setup.cfg', 'setup.py'}
         assert 'user.py' in {i.name for i in tmp_path.glob('app/models/*py')}
         assert 'user.py' in {i.name for i in tmp_path.glob('app/schemas/*.py')}
         assert 'user.py' in {i.name for i in tmp_path.glob('app/views/*.py')}
@@ -31,8 +31,8 @@ class TestNew:
         execli(f'new {tmp_path} {opts}')
         fset = {i.name for i in tmp_path.glob('*')}
 
-        assert fset == {'logging.ini', 'app', 'pytest.ini', 'test', 'README.md',
-                        'Pipfile', '.gitignore', 'instance', 'log', 'project.toml'}
+        assert fset == {'.gitignore', 'app', 'tests', 'log', 'instance', 'MANIFEST.in',
+                        'logging.ini', 'README.md', 'Pipfile', 'project.toml', 'setup.cfg', 'setup.py'}
         assert 'user.py' not in {i.name for i in tmp_path.glob('app/**/*.py')}
 
     @pytest.mark.parametrize('opts', ['--bare'])
