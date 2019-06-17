@@ -36,7 +36,7 @@ class TestNew:
         assert 'user.py' not in {i.name for i in tmp_path.glob('app/**/*.py')}
 
     @pytest.mark.parametrize('opts', ['--bare'])
-    def test_with_dot__target_should_be_convert_to_proj(self, tmp_path, opts):
+    def test_with_dot_target_should_be_convert_to_proj(self, tmp_path, opts):
         cwd = os.getcwd()
 
         wdir = tmp_path / 'foo_bar'
