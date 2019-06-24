@@ -12,8 +12,8 @@ bcrypt = Bcrypt()
 db = SQLAlchemy()
 migrate = Migrate()
 ma = Marshmallow()
+[%- if not bare %]
 
-[% if not bare -%]
 from [[ app ]].helpers import jwt_identity, identity_loader  # noqa
 
 jwt = JWTManager()

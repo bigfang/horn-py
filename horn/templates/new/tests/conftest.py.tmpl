@@ -1,7 +1,7 @@
 [% if not bare -%]
 from flask import url_for
-[%- endif %]
 
+[% endif -%]
 import pytest
 
 from [[ app ]].run import create_app
@@ -41,9 +41,9 @@ def db(app):
 @pytest.fixture(scope='session')
 def client(app):
     return app.test_client()
+[%- if not bare %]
 
 
-[% if not bare -%]
 @pytest.fixture(scope='module')
 def user(db):
     user = UserFactory(password='wordpass')

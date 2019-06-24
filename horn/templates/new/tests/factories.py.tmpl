@@ -6,7 +6,8 @@ from factory import PostGenerationMethodCall, Sequence
 from [[ app ]].core.database import db
 [%- if not bare %]
 from [[ app ]].models import User
-[% endif %]
+[%- endif %]
+
 
 class BaseFactory(SQLAlchemyModelFactory):
     """Base factory."""
@@ -15,9 +16,9 @@ class BaseFactory(SQLAlchemyModelFactory):
         """Factory configuration."""
         abstract = True
         sqlalchemy_session = db.session
+[%- if not bare  %]
 
 
-[% if not bare  -%]
 class UserFactory(BaseFactory):
     username = Sequence(lambda n: f'user{n}')
     email = Sequence(lambda n: f'user{n}@example.com')
