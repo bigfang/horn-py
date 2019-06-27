@@ -18,7 +18,7 @@ class TestGenModel:
         assert genf.is_file()
         with open(genf, 'r') as f:
             text = f.read()
-            assert re.search(r'^class Post\(Model\):$', text, re.M)
+            assert re.search(r'^class Post\(Model, SurrogatePK\):$', text, re.M)
             assert re.search(r"^\s{4}__tablename__ = 'posts'$", text, re.M)
             assert "\n    title = Column(db.String, unique=True, index=True, nullable=False, doc='Post title')\n" in text
             assert "\n    content = Column(db.Text, default='awesome', doc='Post content')\n" in text
@@ -131,7 +131,7 @@ class TestGenModel:
         assert genf.is_file()
         with open(genf, 'r') as f:
             text = f.read()
-            assert re.search(r'^class Post\(Model\):$', text, re.M)
+            assert re.search(r'^class Post\(Model, SurrogatePK\):$', text, re.M)
             assert re.search(r"^ {4}__tablename__ = 'posts'$", text, re.M)
             assert re.search(r"^ {4}author_id = reference_col\('users', default=1, (nullable=False, )?doc='author id'\)$", text, re.M)
             assert "\n    author = relationship('Author', back_populates='posts')" in text
