@@ -12,7 +12,6 @@ class UserSchema(ModelSchema, SchemaMixin):
     token = fields.Str()
 
     class Meta:
-        strict = True
         model = User
         fields = ('id', 'username', 'password', 'email', 'token', 'inserted_at',
                   'updated_at')

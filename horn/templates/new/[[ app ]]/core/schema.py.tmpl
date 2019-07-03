@@ -1,18 +1,21 @@
-from [[ app ]].exts import ma as marshmallow
-from marshmallow import (Schema, fields, pre_load, post_load, pre_dump,
-                         post_dump)
+from marshmallow import pre_load, post_load, pre_dump, post_dump
+from [[ app ]].exts import ma
+
+
+fields = ma
+Schema = ma.Schema
 
 
 # https://github.com/sloria/webargs/issues/126
 # https://github.com/jmcarp/flask-apispec/issues/73
-class ModelSchema(marshmallow.ModelSchema):
+class ModelSchema(ma.ModelSchema):
     @post_load()
     def make_instance(self, data):
         return data
 
 
 __all__ = [
-    'marshmallow',
+    'ma',
     'ModelSchema',
     'Schema',
     'fields',

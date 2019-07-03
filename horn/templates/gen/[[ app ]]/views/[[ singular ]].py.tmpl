@@ -3,7 +3,7 @@ from flask import Blueprint
 from sqlalchemy.exc import IntegrityError
 
 from [[ app ]].core import doc, use_kwargs, marshal_with[% if not bare %], jwt_required[% endif %]
-from [[ app ]].core.database import db, atomic
+from [[ app ]].core.database import db, atomic   # noqa: F401
 from [[ app ]].models import [[ module ]]
 from [[ app ]].schemas import [[ singular ]]_schema, [[ singular ]]_schemas
 
@@ -41,7 +41,7 @@ def create(**attrs):
 [%- endif %]
 @marshal_with([[ singular ]]_schema, code=200)
 def show(pk):
-    [[ singular ]] = [[ module ]].get_or_404(pk)
+    [[ singular ]] = [[ module ]].query.get_or_404(pk)
     return [[ singular ]]
 
 
@@ -53,7 +53,7 @@ def show(pk):
 @use_kwargs([[ singular ]]_schema)
 @marshal_with([[ singular ]]_schema, code=200)
 def update(pk, **attrs):
-    [[ singular ]] = [[ module ]].get_or_404(pk)
+    [[ singular ]] = [[ module ]].query.get_or_404(pk)
     return [[ singular ]].update(**attrs)
 
 
@@ -64,7 +64,7 @@ def update(pk, **attrs):
 [%- endif %]
 @marshal_with(None, code=204)   # FIXME
 def delete(pk):
-    [[ singular ]] = [[ module ]].get_or_404(pk)
+    [[ singular ]] = [[ module ]].query.get_or_404(pk)
     try:
         [[ singular ]].delete()
     except IntegrityError as err:

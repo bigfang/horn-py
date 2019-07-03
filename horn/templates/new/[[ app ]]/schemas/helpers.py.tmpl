@@ -11,6 +11,5 @@ class SchemaMixin(object):
     updated_at = fields.DateTime('%Y-%m-%d %H:%M:%S', dump_only=True)
 
     class Meta:
-        strict = True
-        ordered = False
-        dateformat = '%Y-%m-%d %H:%M:%S'
+        ordered = True
+        datetimeformat = '%Y-%m-%d %H:%M:%S'

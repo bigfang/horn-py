@@ -27,7 +27,7 @@ class TestGenSchema:
                 assert "\n    title = fields.String()\n" in text
                 assert "\n    content = fields.String()\n" in text
                 assert "\n    author = fields.Nested('UserSchema')\n" in text
-                assert "\n        fields = ('title', 'content', 'author', )\n" in text
+                assert "\n        fields = ('id', 'title', 'content', 'author', )\n" in text
             else:
                 assert not re.search(r'^\s+fields.+$', text, re.M)
 
