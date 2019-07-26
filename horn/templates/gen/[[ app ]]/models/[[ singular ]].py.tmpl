@@ -3,29 +3,26 @@ from [[ app ]].core.database import db, Column, Model
 , reference_col, relationship
 [%- endfor %]
 
+from .helpers import SurrogatePK
 
-class [[ module ]](Model):
+
+class [[ module ]](Model, SurrogatePK):
     __tablename__ = '[[ table ]]'
 
-    id = Column(db.Integer, primary_key=True, doc='id')
-    [% for field in fields if not field.type == 'reference' %]
+    [% for field in fields if not field.type == 'reference' -%]
     [[ field.field ]] = Column(db.[[ field.type ]]
-    [%- if field.default %], default=[[ field.default|safe]] [%- endif %]
-    [%- if field.uniq %], unique=True [%- endif %]
-    [%- if field.index %], index=True [%- endif %]
-    [%- if field.nonull %], nullable=False [%- endif %], doc='[[module]] [[field.field]]')
-    [%- endfor %]
+        [%- if field.default %], default=[[ field.default|safe]] [%- endif %]
+        [%- if field.uniq %], unique=True [%- endif %]
+        [%- if field.index %], index=True [%- endif %]
+        [%- if field.nonull %], nullable=False [%- endif %], doc='[[module]] [[field.field]]')
+[% if not loop.last %]    [% endif -%]
+    [%- endfor -%]
     [% for field in fields if field.type == 'reference' %]
     [[ field.field ]]_id = reference_col('[[ field.table ]]'
-    [%- if field.default %], default=[[ field.default|safe]] [%- endif %]
-    [%- if field.uniq %], unique=True [%- endif %]
-    [%- if field.index %], index=True [%- endif %]
-    [%- if field.nonull %], nullable=False [%- endif %], doc='[[ field.field]] id')
+        [%- if field.default %], default=[[ field.default|safe]] [%- endif %]
+        [%- if field.uniq %], unique=True [%- endif %]
+        [%- if field.index %], index=True [%- endif %]
+        [%- if field.nonull %], nullable=False [%- endif %], doc='[[ field.field]] id')
     [[ field.field ]] = relationship('[[ field.field.capitalize() ]]', back_populates='[[ table ]]')
-    [%- endfor %]
-
-    inserted_at = Column(db.DateTime, nullable=False, index=True,
-                         server_default=db.func.now(), doc='insert time')
-    updated_at = Column(db.DateTime, nullable=False, index=True,
-                        server_default=db.func.now(), onupdate=db.func.now(),
-                        doc='update time')
+[% if not loop.last %][% endif -%]
+    [%- endfor -%]

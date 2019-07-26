@@ -1,7 +1,3 @@
-[% if not bare -%]
-from flask import url_for
-
-[% endif -%]
 import pytest
 
 from [[ app ]].run import create_app
@@ -12,36 +8,38 @@ from .factories import UserFactory
 
 
 @pytest.fixture(scope='session')
-def app():
+def app(request):
     _app = create_app('test')
-
-    with _app.app_context():
-        _db.create_all()
 
     ctx = _app.test_request_context()
     ctx.push()
 
-    yield _app
+    def teardown():
+        ctx.pop()
 
-    ctx.pop()
+    request.addfinalizer(teardown)
+    return _app
 
 
 @pytest.fixture(scope='session')
-def db(app):
+def db(request, app):
     _db.app = app
     with app.app_context():
         _db.create_all()
 
-    yield _db
+    def teardown():
+        _db.session.close()
+        _db.drop_all()
 
-    _db.session.close()
-    _db.drop_all()
+    request.addfinalizer(teardown)
+    return _db
+[%- if bare %]
 
 
-@pytest.fixture(scope='session')
+@pytest.fixture()
 def client(app):
     return app.test_client()
-[%- if not bare %]
+[%- else %]
 
 
 @pytest.fixture(scope='module')
@@ -51,14 +49,9 @@ def user(db):
     return user
 
 
-@pytest.fixture
-def headers(client, user):
-    payload = {
-        'username': user.username,
-        'password': 'wordpass'
-    }
-    client.post(url_for('session.create'), json=payload)
-    return {
-        'Authorization': f'Bearer {user.token}'
-    }
+@pytest.fixture()
+def client(app, user):
+    _client = app.test_client()
+    _client.environ_base['HTTP_AUTHORIZATION'] = f'Bearer {user.token}'
+    return _client
 [%- endif %]

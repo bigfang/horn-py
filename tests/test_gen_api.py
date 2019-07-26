@@ -2,7 +2,7 @@ import re
 
 import pytest
 
-from . import execli
+from . import execli, lint
 
 
 class TestGenAPI:
@@ -20,6 +20,7 @@ class TestGenAPI:
             assert m.group(1)
             genf = (proj_path / m.group(1))
             assert genf.is_file()
+            assert lint(genf)
 
     @pytest.mark.parametrize('module,table,fields',
                              [('Post', 'posts', 'title:string content:text author:ref:users')])

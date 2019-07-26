@@ -1,0 +1,40 @@
+import pytest
+from flask import url_for
+
+from app.models import [[ module ]]
+# from .factories import [[ module ]]Factory
+
+"""
+sample
+"""
+
+class Test[[ module ]](object):
+
+    def test_index(self, client, videos):
+        resp = client.get(url_for('[[ singular ]].index'))
+        assert resp.status_code == 200
+
+    @pytest.skip()
+    def test_create(self, client, videos):
+        payload = {
+        }
+        resp = client.post(url_for('[[ singular ]].create'), json=payload)
+        assert resp.status_code == 201
+        assert resp.json['url'] == payload['url']
+
+    @pytest.skip()
+    def test_update(self, client, videos):
+        payload = {
+        }
+        resp = client.put(url_for('[[ singular ]].update', pk=sample.id), json=payload)
+        assert resp.status_code == 200
+
+    @pytest.skip()
+    def test_show(self, client, videos):
+        resp = client.get(url_for('[[ singular ]].show', pk=sample.id))
+        assert resp.status_code == 200
+
+    @pytest.skip()
+    def test_delete(self, client, videos):
+        resp = client.delete(url_for('[[ singular ]].delete', pk=sample.id))
+        assert resp.status_code == 200

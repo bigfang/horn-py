@@ -41,6 +41,7 @@ def run(opts):
 
     location = get_location(bindings) or TPL_PATH
     copy(f'{location}/gen', '.', data=bindings, exclude=['*/models/*', '*/schemas/*', 'tests/*'])
+    copy(f'{location}/gen/tests', './tests', data=bindings)
 
 
 def opt_pipe(opts):

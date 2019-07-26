@@ -2,7 +2,7 @@ import re
 
 import pytest
 
-from . import execli
+from . import execli, lint
 
 
 class TestGenModel:
@@ -16,9 +16,10 @@ class TestGenModel:
         assert match.group(1)
         genf = (proj_path / match.group(1))
         assert genf.is_file()
+        assert lint(genf)
         with open(genf, 'r') as f:
             text = f.read()
-            assert re.search(r'^class Post\(Model\):$', text, re.M)
+            assert re.search(r'^class Post\(Model, SurrogatePK\):$', text, re.M)
             assert re.search(r"^\s{4}__tablename__ = 'posts'$", text, re.M)
             assert "\n    title = Column(db.String, unique=True, index=True, nullable=False, doc='Post title')\n" in text
             assert "\n    content = Column(db.Text, default='awesome', doc='Post content')\n" in text
@@ -61,6 +62,7 @@ class TestGenModel:
         assert match.group(1)
         genf = (proj_path / match.group(1))
         assert genf.is_file()
+        assert lint(genf)
         with open(genf, 'r') as f:
             text = f.read()
             assert re.search(r"^\s{4}__tablename__ = 'blog_posts'$", text, re.M)
@@ -110,6 +112,7 @@ class TestGenModel:
         assert match.group(1)
         genf = (proj_path / match.group(1))
         assert genf.is_file()
+        assert lint(genf)
         with open(genf, 'r') as f:
             text = f.read()
             assert 'dump' not in text
@@ -129,9 +132,10 @@ class TestGenModel:
         assert match.group(1)
         genf = (proj_path / match.group(1))
         assert genf.is_file()
+        assert lint(genf)
         with open(genf, 'r') as f:
             text = f.read()
-            assert re.search(r'^class Post\(Model\):$', text, re.M)
+            assert re.search(r'^class Post\(Model, SurrogatePK\):$', text, re.M)
             assert re.search(r"^ {4}__tablename__ = 'posts'$", text, re.M)
             assert re.search(r"^ {4}author_id = reference_col\('users', default=1, (nullable=False, )?doc='author id'\)$", text, re.M)
             assert "\n    author = relationship('Author', back_populates='posts')" in text

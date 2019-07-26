@@ -5,12 +5,13 @@ from pathlib import Path
 import inflection
 import pytest
 
-from . import execli
+from . import execli, lint
 
 
 class TestNew:
     def test_new_with_default_options(self, tmp_path, capsys):
         execli(f'new {tmp_path}')
+        lint(tmp_path)
         captured = capsys.readouterr()
         fset = {i.name for i in tmp_path.glob('*')}
 
@@ -29,6 +30,7 @@ class TestNew:
     @pytest.mark.parametrize('opts', ['--bare'])
     def test_new_bare_project(self, tmp_path, opts):
         execli(f'new {tmp_path} {opts}')
+        lint(tmp_path)
         fset = {i.name for i in tmp_path.glob('*')}
 
         assert fset == {'.gitignore', 'app', 'tests', 'log', 'instance', 'MANIFEST.in',
@@ -43,8 +45,9 @@ class TestNew:
         os.mkdir(str(wdir))
         os.chdir(str(wdir))
         execli(f'new . {opts}')
-
         os.chdir(cwd)
+
+        lint(wdir)
 
         with open(wdir / 'README.md') as f:
             text = f.read()
@@ -55,6 +58,7 @@ class TestNew:
     @pytest.mark.parametrize('opts', ['--app=foobar'])
     def test_new_with_options_app(self, tmp_path, opts):
         execli(f'new {tmp_path} {opts}')
+        lint(tmp_path)
         fset = {i.name for i in tmp_path.glob('*')}
 
         assert 'app' not in fset
@@ -64,6 +68,7 @@ class TestNew:
     @pytest.mark.parametrize('opts', ['--proj=FooBar'])
     def test_new_with_options_proj(self, tmp_path, opts):
         execli(f'new {tmp_path} {opts}')
+        lint(tmp_path)
         fset = {i.name for i in tmp_path.glob('*')}
 
         assert 'app' in fset
@@ -76,6 +81,7 @@ class TestNew:
     @pytest.mark.parametrize('opts', ['--pypi doubanio.com'])
     def test_new_with_options_pypi(self, tmp_path, opts):
         execli(f'new {tmp_path} {opts}')
+        lint(tmp_path)
         fset = {i.name for i in tmp_path.glob('*')}
 
         assert 'app' in fset
@@ -88,6 +94,7 @@ class TestNew:
     @pytest.mark.parametrize('opts', ['--app=foobar --proj=FooBar --pypi=doubanio.com'])
     def test_new_with_options_app_proj_pypi(self, tmp_path, opts):
         execli(f'new {tmp_path} {opts}')
+        lint(tmp_path)
         fset = {i.name for i in tmp_path.glob('*')}
 
         assert 'app' not in fset
@@ -104,6 +111,7 @@ class TestNew:
     @pytest.mark.parametrize('opts', ['--app=foo_bar', '--app=FooBar'])
     def test_new_app_should_be_underscore(self, tmp_path, opts):
         execli(f'new {tmp_path} {opts}')
+        lint(tmp_path)
         fset = {i.name for i in tmp_path.glob('*')}
 
         assert 'app' not in fset
@@ -113,6 +121,7 @@ class TestNew:
     @pytest.mark.parametrize('opts', ['--proj=foo_bar', '--proj=FooBar'])
     def test_new_with_proj_should_be_camel(self, tmp_path, opts):
         execli(f'new {tmp_path} {opts}')
+        lint(tmp_path)
         fset = {i.name for i in tmp_path.glob('*')}
 
         assert 'app' in fset
@@ -127,6 +136,7 @@ class TestRepo:
     @pytest.mark.parametrize('opts', ['--json={"app":"foobar","bare":true}'])
     def test_from_local(self, tmp_path, opts):
         options = execli(f'new {tmp_path} ./horn/templates {opts}')
+        lint(tmp_path)
 
         assert options['<from>'] == './horn/templates'
         with open(tmp_path / 'project.toml') as f:
@@ -151,6 +161,7 @@ class TestRepo:
     @pytest.mark.parametrize('opts', ['--json={"app":"foobar","proj":"FooBar"}'])
     def test_with_json_config(self, tmp_path, opts):
         opts = execli(f'new {tmp_path} ./horn/templates {opts}')
+        lint(tmp_path)
         fset = {i.name for i in tmp_path.glob('*')}
 
         assert 'app' not in fset
@@ -163,6 +174,7 @@ class TestRepo:
     def test_with_file_config(self, tmp_path):
         file_opt = Path(__file__).parent.joinpath('fixture.json')
         options = execli(f'new {tmp_path} ./horn/templates --file={file_opt}')
+        lint(tmp_path)
 
         assert options['<from>'] == './horn/templates'
         with open(tmp_path / 'project.toml') as f:
@@ -175,6 +187,7 @@ class TestRepo:
     def test_json_config_should_override_file_config(self, tmp_path, opts):
         file_opt = Path(__file__).parent.joinpath('fixture.json')
         options = execli(f'new {tmp_path} ./horn/templates {opts} --file={file_opt}')
+        lint(tmp_path)
 
         assert options['<from>'] == './horn/templates'
         with open(tmp_path / 'project.toml') as f:
