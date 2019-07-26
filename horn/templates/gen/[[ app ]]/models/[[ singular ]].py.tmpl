@@ -1,7 +1,7 @@
 from [[ app ]].core.database import db, Column, Model
-[%- for field in fields if field.type == 'reference' -%]
+[%-  if has_ref -%]
 , reference_col, relationship
-[%- endfor %]
+[%- endif %]
 
 from .helpers import SurrogatePK
 

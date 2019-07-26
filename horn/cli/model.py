@@ -33,7 +33,8 @@ def run(opts):
         'module': opts.get('<module>'),
         'singular': inflection.underscore(opts.get('<module>')),
         'table': inflection.underscore(opts.get('<table>')),
-        'fields': parse_fields(opts.get('<fields>'))
+        'fields': parse_fields(opts.get('<fields>')),
+        'has_ref': any([':ref:' in f for f in opts['<fields>']])
     }
     bindings.update(get_proj_info())
 
