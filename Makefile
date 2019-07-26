@@ -19,13 +19,13 @@ clean-build:
 	rm -rf dist
 	rm -rf *.egg-info
 	rm -rf .tox
+	rm -rf .coverage*
 
 clean-pyc:
 	find . -name '*.pyc' -exec rm -f {} +
 	find . -name '*.pyo' -exec rm -f {} +
 	find . -name '__pycache__' -exec rm -rf {} +
 	find . -name '.pytest_cache' -exec rm -rf {} +
-	find . -name '.coverage*' -exec rm -rf {} +
 tox:
 	@tox
 
