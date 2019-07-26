@@ -2,7 +2,7 @@ import re
 
 import pytest
 
-from . import execli
+from . import execli, lint
 
 
 class TestGenSchema:
@@ -20,6 +20,7 @@ class TestGenSchema:
         assert match.group(1)
         genf = (proj_path / match.group(1))
         assert genf.is_file()
+        assert lint(genf)
         with open(genf, 'r') as f:
             text = f.read()
 
@@ -80,6 +81,7 @@ class TestGenSchema:
         assert match.group(1)
         genf = (proj_path / match.group(1))
         assert genf.is_file()
+        assert lint(genf)
         with open(genf, 'r') as f:
             text = f.read()
             assert re.search(r"^class PostSchema\(.+\):$", text, re.M)
@@ -133,6 +135,7 @@ class TestGenSchema:
         assert match.group(1)
         genf = (proj_path / match.group(1))
         assert genf.is_file()
+        assert lint(genf)
         with open(genf, 'r') as f:
             text = f.read()
             assert 'null' not in text
@@ -168,6 +171,7 @@ class TestGenSchema:
         assert match.group(1)
         genf = (proj_path / match.group(1))
         assert genf.is_file()
+        assert lint(genf)
         with open(genf, 'r') as f:
             text = f.read()
             assert "\n    author = fields.Nested('BlogUserSchema')\n" in text
