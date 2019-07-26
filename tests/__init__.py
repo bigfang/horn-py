@@ -11,3 +11,8 @@ def execli(params, cwd=None):
     opts = docopt(horn.__doc__, params.split())
     horn.Hub.run(opts)
     return opts
+
+
+def lint(path):
+    out = os.popen('flake8 {str(path)}').read()
+    return False if out else True

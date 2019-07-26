@@ -25,6 +25,7 @@ clean-pyc:
 	find . -name '*.pyo' -exec rm -f {} +
 	find . -name '__pycache__' -exec rm -rf {} +
 	find . -name '.pytest_cache' -exec rm -rf {} +
+	find . -name '.coverage*' -exec rm -rf {} +
 tox:
 	@tox
 

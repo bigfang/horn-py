@@ -2,7 +2,7 @@ import re
 
 import pytest
 
-from . import execli
+from . import execli, lint
 
 
 class TestGenModel:
@@ -16,6 +16,7 @@ class TestGenModel:
         assert match.group(1)
         genf = (proj_path / match.group(1))
         assert genf.is_file()
+        assert lint(genf)
         with open(genf, 'r') as f:
             text = f.read()
             assert re.search(r'^class Post\(Model, SurrogatePK\):$', text, re.M)
@@ -61,6 +62,7 @@ class TestGenModel:
         assert match.group(1)
         genf = (proj_path / match.group(1))
         assert genf.is_file()
+        assert lint(genf)
         with open(genf, 'r') as f:
             text = f.read()
             assert re.search(r"^\s{4}__tablename__ = 'blog_posts'$", text, re.M)
@@ -110,6 +112,7 @@ class TestGenModel:
         assert match.group(1)
         genf = (proj_path / match.group(1))
         assert genf.is_file()
+        assert lint(genf)
         with open(genf, 'r') as f:
             text = f.read()
             assert 'dump' not in text
@@ -129,6 +132,7 @@ class TestGenModel:
         assert match.group(1)
         genf = (proj_path / match.group(1))
         assert genf.is_file()
+        assert lint(genf)
         with open(genf, 'r') as f:
             text = f.read()
             assert re.search(r'^class Post\(Model, SurrogatePK\):$', text, re.M)
