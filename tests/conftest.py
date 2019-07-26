@@ -2,7 +2,6 @@ import os
 import shutil
 
 import pytest
-from flake8.main import application
 
 from . import execli, lint
 
@@ -19,9 +18,3 @@ def proj_path(tmp_path_factory, request):
 
     os.chdir(str(basetmp / '..'))
     shutil.rmtree(str(fn))
-
-
-@pytest.fixture()
-def linter():
-    _linter = application.Application()
-    return _linter
