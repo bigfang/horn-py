@@ -23,6 +23,12 @@ py37:
   stage: test
   script:
     - pipenv run tox -epy37
+
+py38:
+  image: python:3.8
+  stage: test
+  script:
+    - pipenv run tox -epy38
   coverage: '/^TOTAL(?:\s+\d+){4}\s+(\d+\%)$/'
 
 pypy:
