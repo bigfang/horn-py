@@ -9,26 +9,27 @@ cache:
 
 before_script:
   - python -V
-  - pip install pipenv
-  - pipenv install --dev
+  - pip install poetry
+  - poetry install
 
 py36:
   image: python:3.6
   stage: test
   script:
-    - pipenv run tox -epy36
+    - poetry run pip install importlib_resources
+    - poetry run tox -epy36
 
 py37:
   image: python:3.7
   stage: test
   script:
-    - pipenv run tox -epy37
+    - poetry run tox -epy37
 
 py38:
   image: python:3.8
   stage: test
   script:
-    - pipenv run tox -epy38
+    - poetry run tox -epy38
   coverage: '/^TOTAL(?:\s+\d+){4}\s+(\d+\%)$/'
 
 pypy:
@@ -36,4 +37,4 @@ pypy:
   stage: test
   script:
     - pypy3 -V
-    - pipenv run tox -epypy3
+    - poetry run tox -epypy3
