@@ -16,8 +16,17 @@ py36:
   image: python:3.6
   stage: test
   script:
-    - poetry run pip install importlib_resources
-    - poetry run tox -epy36
+    - poetry run pip uninstall -y horn-py
+    - make clean
+    - poetry run pip freeze > r.txt
+    - poetry env remove 3.7
+    - pip uninstall -y poetry
+    - rm pyproject.toml
+    - sed -i '1,3d' r.txt
+    - sed -i -E '/^poetry.+$/d' r.txt
+    - pip install -r r.txt
+    - pip install -e .
+    - tox -epy36
 
 py37:
   image: python:3.7
@@ -30,11 +39,21 @@ py38:
   stage: test
   script:
     - poetry run tox -epy38
-  coverage: '/^TOTAL(?:\s+\d+){4}\s+(\d+\%)$/'
+  coverage: '/^TOTAL.+?(\d+\%)$/'
 
 pypy:
   image: pypy:3.6
   stage: test
   script:
     - pypy3 -V
-    - poetry run tox -epypy3
+    - poetry run pip uninstall -y horn-py
+    - make clean
+    - poetry run pip freeze > r.txt
+    - poetry env remove 3.7
+    - pip uninstall -y poetry
+    - rm pyproject.toml
+    - sed -i '1,3d' r.txt
+    - sed -i -E '/^poetry.+$/d' r.txt
+    - pip install -r r.txt
+    - pip install -e .
+    - tox -epypy3
