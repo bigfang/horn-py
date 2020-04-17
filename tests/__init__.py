@@ -14,5 +14,6 @@ def execli(params, cwd=None):
 
 
 def lint(path):
-    out = os.popen('flake8 {str(path)}').read()
+    out = os.popen(f'flake8 {str(path)}').read()
+    print(out)
     return False if out else True

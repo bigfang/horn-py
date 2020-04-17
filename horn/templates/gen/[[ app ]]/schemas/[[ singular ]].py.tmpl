@@ -1,4 +1,4 @@
-from [[ app ]].core.schema import [% if model %]Model[% endif %]Schema, fields
+from [[ app ]].core.schema import [% if model %]Model[% endif %]Schema[% if fields %], fields[% endif %]
 [%- if model %]
 from [[ app ]].models import [[ model ]]
 [% endif %]
@@ -21,7 +21,7 @@ class [[ module ]]Schema([% if model %]Model[% endif %]Schema, SchemaMixin):
     [% endfor %]
 
     class Meta(SchemaMixin.Meta):
-        [% if model -%]
+        [%- if model %]
         model = [[ model ]]
         [%- endif %]
         [%- if fields %]
