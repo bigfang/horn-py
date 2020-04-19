@@ -18,7 +18,7 @@ class TestNew:
         assert len(re.findall(r'^.+create.+$', captured.out, re.M)) == \
             len([i for i in tmp_path.glob('**/*') if not i.is_dir()])
         assert fset == {'.gitignore', 'app', 'tests', 'log', 'instance', 'MANIFEST.in',
-                        'logging.ini', 'README.md', 'Pipfile', 'project.toml', 'setup.cfg', 'setup.py'}
+                        'logging.ini', 'README.md', 'pyproject.toml', 'project.toml', 'setup.cfg', 'setup.py'}
         assert 'user.py' in {i.name for i in tmp_path.glob('app/models/*py')}
         assert 'user.py' in {i.name for i in tmp_path.glob('app/schemas/*.py')}
         assert 'user.py' in {i.name for i in tmp_path.glob('app/views/*.py')}
@@ -34,7 +34,7 @@ class TestNew:
         fset = {i.name for i in tmp_path.glob('*')}
 
         assert fset == {'.gitignore', 'app', 'tests', 'log', 'instance', 'MANIFEST.in',
-                        'logging.ini', 'README.md', 'Pipfile', 'project.toml', 'setup.cfg', 'setup.py'}
+                        'logging.ini', 'README.md', 'pyproject.toml', 'project.toml', 'setup.cfg', 'setup.py'}
         assert 'user.py' not in {i.name for i in tmp_path.glob('app/**/*.py')}
 
     @pytest.mark.parametrize('opts', ['--bare'])
@@ -78,7 +78,7 @@ class TestNew:
             text = f.read()
             assert re.search('^# FooBar$', text, re.M)
 
-    @pytest.mark.parametrize('opts', ['--pypi doubanio.com'])
+    @pytest.mark.parametrize('opts', ['--pypi https://pypi.doubanio.com/simple'])
     def test_new_with_options_pypi(self, tmp_path, opts):
         execli(f'new {tmp_path} {opts}')
         lint(tmp_path)
@@ -87,11 +87,11 @@ class TestNew:
         assert 'app' in fset
         assert 'foobar' not in fset
         assert 'FooBar' not in fset
-        with open(tmp_path / 'Pipfile') as f:
+        with open(tmp_path / 'pyproject.toml') as f:
             text = f.read()
-            assert re.search('^url = "https://doubanio.com/simple"$', text, re.M)
+            assert re.search('^url = "https://pypi.doubanio.com/simple"$', text, re.M)
 
-    @pytest.mark.parametrize('opts', ['--app=foobar --proj=FooBar --pypi=doubanio.com'])
+    @pytest.mark.parametrize('opts', ['--app=foobar --proj=FooBar --pypi=https://pypi.doubanio.com/simple'])
     def test_new_with_options_app_proj_pypi(self, tmp_path, opts):
         execli(f'new {tmp_path} {opts}')
         lint(tmp_path)
@@ -104,9 +104,9 @@ class TestNew:
         with open(tmp_path / 'README.md') as f:
             text = f.read()
             assert re.search('^# FooBar$', text, re.M)
-        with open(tmp_path / 'Pipfile') as f:
+        with open(tmp_path / 'pyproject.toml') as f:
             text = f.read()
-            assert re.search('^url = "https://doubanio.com/simple"$', text, re.M)
+            assert re.search('^url = "https://pypi.doubanio.com/simple"$', text, re.M)
 
     @pytest.mark.parametrize('opts', ['--app=foo_bar', '--app=FooBar'])
     def test_new_app_should_be_underscore(self, tmp_path, opts):

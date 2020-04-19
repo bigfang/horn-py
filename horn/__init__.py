@@ -12,7 +12,7 @@ Usage:
 Options:
   --app=<app>               App name [default: app].
   --proj=<proj>             Project name.
-  --pypi=<pypi>             Pypi domain [default: pypi.org].
+  --pypi=<pypi>             Pypi domain.
   --bare                    Bare project.
 
   --json=<json>             Json string [default: {}].
