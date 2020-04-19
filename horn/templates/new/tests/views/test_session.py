@@ -1,21 +1,4 @@
-import pytest
-
 from flask import url_for
-
-from ..factories import UserFactory
-
-
-@pytest.fixture
-def login_user(client):
-    user = UserFactory(password='iamloggedin')
-    user.save()
-
-    payload = {
-        'username': user.username,
-        'password': 'iamloggedin'
-    }
-    client.post(url_for('session.create'), json=payload)
-    return user
 
 
 class TestSession(object):

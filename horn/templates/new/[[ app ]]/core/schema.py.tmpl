@@ -10,7 +10,7 @@ Schema = ma.Schema
 # https://github.com/jmcarp/flask-apispec/issues/73
 class ModelSchema(ma.ModelSchema):
     @post_load()
-    def make_instance(self, data):
+    def make_instance(self, data, **kwargs):
         return data
 
 
