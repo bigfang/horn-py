@@ -18,7 +18,7 @@ class TestNew:
         assert len(re.findall(r'^.+create.+$', captured.out, re.M)) == \
             len([i for i in tmp_path.glob('**/*') if not i.is_dir()])
         assert fset == {'.gitignore', 'app', 'tests', 'log', 'instance', 'MANIFEST.in',
-                        'logging.ini', 'README.md', 'pyproject.toml', 'project.toml', 'setup.cfg', 'setup.py'}
+                        'logging.ini', 'README.md', 'pyproject.toml', 'setup.cfg', 'setup.py'}
         assert 'user.py' in {i.name for i in tmp_path.glob('app/models/*py')}
         assert 'user.py' in {i.name for i in tmp_path.glob('app/schemas/*.py')}
         assert 'user.py' in {i.name for i in tmp_path.glob('app/views/*.py')}
@@ -34,7 +34,7 @@ class TestNew:
         fset = {i.name for i in tmp_path.glob('*')}
 
         assert fset == {'.gitignore', 'app', 'tests', 'log', 'instance', 'MANIFEST.in',
-                        'logging.ini', 'README.md', 'pyproject.toml', 'project.toml', 'setup.cfg', 'setup.py'}
+                        'logging.ini', 'README.md', 'pyproject.toml', 'setup.cfg', 'setup.py'}
         assert 'user.py' not in {i.name for i in tmp_path.glob('app/**/*.py')}
 
     @pytest.mark.parametrize('opts', ['--bare'])
@@ -139,7 +139,7 @@ class TestRepo:
         lint(tmp_path)
 
         assert options['<from>'] == './horn/templates'
-        with open(tmp_path / 'project.toml') as f:
+        with open(tmp_path / 'pyproject.toml') as f:
             text = f.read()
             assert re.search(r'^from = ".+/horn/templates"$', text, re.M)
             assert '\napp_name = "foobar"\n' in text
@@ -177,7 +177,7 @@ class TestRepo:
         lint(tmp_path)
 
         assert options['<from>'] == './horn/templates'
-        with open(tmp_path / 'project.toml') as f:
+        with open(tmp_path / 'pyproject.toml') as f:
             text = f.read()
             assert re.search(r'^from = ".+/horn/templates"$', text, re.M)
             assert '\napp_name = "ohmygod"\n' in text
@@ -190,7 +190,7 @@ class TestRepo:
         lint(tmp_path)
 
         assert options['<from>'] == './horn/templates'
-        with open(tmp_path / 'project.toml') as f:
+        with open(tmp_path / 'pyproject.toml') as f:
             text = f.read()
             assert re.search(r'^from = ".+/horn/templates"$', text, re.M)
             assert '\napp_name = "foobar"\n' in text

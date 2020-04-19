@@ -2,7 +2,7 @@
 name = "[[ app ]]"
 version = "0.1.0"
 description = "[[ proj ]] backend"
-authors = [""]
+authors = ["Your Name <you@example.com>"]
 [%- if pypi %]
 [%- set domain = pypi.split('.') %]
 
@@ -38,3 +38,17 @@ pg = ["psycopg2"]
 [[ '[' ]]build-system[[ ']' ]]
 requires = ["poetry>=0.12"]
 build-backend = "poetry.masonry.api"
+
+[[ '[' ]]horn[[ ']' ]]
+directory = "[[ target ]]"
+project_name = "[[ proj ]]"
+app_name = "[[ app ]]"
+[%- if bare %]
+bare = true
+[%- endif %]
+[%- if from %]
+from = "[[ from ]]"
+[%- endif %]
+[%- if checkout %]
+checkout = "[[ checkout ]]"
+[%- endif -%]

@@ -50,7 +50,7 @@ class TestGenSchema:
             execli(f'gen schema {module} {model_opt} {fields}', tmp_path)
         captured = capsys.readouterr()
 
-        assert 'Error: Can not found project.toml\n' == captured.out
+        assert 'Error: Can not found pyproject.toml\n' == captured.out
 
     @pytest.mark.parametrize('module,model,fields',
                              [('blogPost', 'Post', 'title:string content:string author:nest:user'),
