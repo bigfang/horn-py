@@ -9,13 +9,17 @@ python:
   - pypy3
 
 install:
-  - pip install pipenv
   - pip install codecov
-  - pipenv install --dev
+  - pip install poetry
+  - poetry config virtualenvs.create false
+  - poetry install
+  - echo "$TRAVIS_PYTHON_VERSION"
 before_script:
-  - pipenv --python $TRAVIS_PYTHON_VERSION
+  - poetry about
 script:
-  - pipenv run tox
+  - "if [[ $TRAVIS_PYTHON_VERSION == 'pypy3' ]]; then poetry add importlib_resources; fi"
+  - "if [[ $TRAVIS_PYTHON_VERSION == '3.6' ]]; then poetry add importlib_resources; fi"
+  - poetry run tox
 
 after_success:
   - codecov

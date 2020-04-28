@@ -10,7 +10,7 @@ help:
 	@echo "pypi - clean package and upload"
 
 pkg:
-	pipenv run python setup.py bdist_wheel
+	poetry run python setup.py bdist_wheel
 
 clean: clean-build clean-pyc
 
@@ -30,18 +30,18 @@ tox:
 	@tox
 
 flake:
-	@pipenv run flake8
+	@poetry run flake8
 
 test:
-	@pipenv run py.test $(add)
+	@poetry run py.test $(add)
 
 install:
-	@pip install -e .
+	@poetry run pip install -e .
 
 uninstall:
-	@pip uninstall horn-py
+	@poetry run pip uninstall horn-py
 
 upload:
-	@pipenv run twine upload dist/*
+	@poetry run twine upload dist/*
 
 pypi: clean pkg upload

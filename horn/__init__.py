@@ -12,7 +12,7 @@ Usage:
 Options:
   --app=<app>               App name [default: app].
   --proj=<proj>             Project name.
-  --pypi=<pypi>             Pypi domain [default: pypi.org].
+  --pypi=<pypi>             Pypi domain.
   --bare                    Bare project.
 
   --json=<json>             Json string [default: {}].
@@ -44,7 +44,7 @@ from . import cli
 __all__ = ['main', '__version__']
 
 
-__version__ = '0.5.0'
+__version__ = '0.6.0'
 
 ACTION_MAP = {
     'new': ['<target>', '--app', '--proj', '--bare', '--pypi', '<from>', '<checkout>', '--json', '--file'],

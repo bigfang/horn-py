@@ -3,12 +3,12 @@ import toml
 
 
 def get_proj_info():
-    proj_file = 'project.toml'
+    proj_file = 'pyproject.toml'
     if not os.path.isfile(proj_file):
         print(f'Error: Can not found {proj_file}')
         exit(1)
     data = toml.load(proj_file)
-    project = data['project']
+    project = data['horn']
     return {
         'target': project.get('directory'),
         'proj': project.get('project_name'),

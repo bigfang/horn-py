@@ -1,4 +1,8 @@
 import pytest
+[%- if not bare %]
+
+from flask import url_for
+[%- endif %]
 
 from [[ app ]].run import create_app
 from [[ app ]].core.database import db as _db
@@ -54,4 +58,24 @@ def client(app, user):
     _client = app.test_client()
     _client.environ_base['HTTP_AUTHORIZATION'] = f'Bearer {user.token}'
     return _client
+
+
+@pytest.fixture
+def login_user(client):
+    user = UserFactory(password='iamloggedin')
+    user.save()
+
+    payload = {
+        'username': user.username,
+        'password': 'iamloggedin'
+    }
+    client.post(url_for('session.create'), json=payload)
+    return user
+
+
+@pytest.fixture
+def headers(login_user):
+    return {
+        'Authorization': f'Bearer {login_user.token}'
+    }
 [%- endif %]

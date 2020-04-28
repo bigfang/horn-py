@@ -30,7 +30,7 @@ class TestGenAPI:
             execli(f'gen api {module} {table} {fields}', tmp_path)
         captured = capsys.readouterr()
 
-        assert 'Error: Can not found project.toml\n' == captured.out
+        assert 'Error: Can not found pyproject.toml\n' == captured.out
 
     @pytest.mark.parametrize('module,table,fields',
                              [('Post', 'posts', 'title:string content:json')])

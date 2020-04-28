@@ -9,31 +9,51 @@ cache:
 
 before_script:
   - python -V
-  - pip install pipenv
-  - pipenv install --dev
+  - pip install poetry
+  - poetry install
 
 py36:
   image: python:3.6
   stage: test
   script:
-    - pipenv run tox -epy36
+    - poetry run pip uninstall -y horn-py
+    - make clean
+    - poetry run pip freeze > r.txt
+    - poetry env remove 3.7
+    - pip uninstall -y poetry
+    - rm pyproject.toml
+    - sed -i '1,3d' r.txt
+    - sed -i -E '/^poetry.+$/d' r.txt
+    - pip install -r r.txt
+    - pip install -e .
+    - tox -epy36
 
 py37:
   image: python:3.7
   stage: test
   script:
-    - pipenv run tox -epy37
+    - poetry run tox -epy37
 
 py38:
   image: python:3.8
   stage: test
   script:
-    - pipenv run tox -epy38
-  coverage: '/^TOTAL(?:\s+\d+){4}\s+(\d+\%)$/'
+    - poetry run tox -epy38
+  coverage: '/^TOTAL.+?(\d+\%)$/'
 
 pypy:
   image: pypy:3.6
   stage: test
   script:
     - pypy3 -V
-    - pipenv run tox -epypy3
+    - poetry run pip uninstall -y horn-py
+    - make clean
+    - poetry run pip freeze > r.txt
+    - poetry env remove 3.7
+    - pip uninstall -y poetry
+    - rm pyproject.toml
+    - sed -i '1,3d' r.txt
+    - sed -i -E '/^poetry.+$/d' r.txt
+    - pip install -r r.txt
+    - pip install -e .
+    - tox -epypy3
