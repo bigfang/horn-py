@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "horn-py"
-version = "0.5.1"
+version = "0.6.0"
 description = ""
 authors = ["bigfang <bitair@gmail.com>"]
 license = "MIT"
