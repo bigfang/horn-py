@@ -1,10 +1,11 @@
 [tool.poetry]
 name = "horn-py"
-version = "0.6.0"
-description = ""
+version = "0.6.1"
+description = "A Flask scaffolding tool"
 authors = ["bigfang <bitair@gmail.com>"]
 license = "MIT"
 packages = [{ include="horn", from="." }]
+readme = "README.md"
 
 [[tool.poetry.source]]
 name = "douban"

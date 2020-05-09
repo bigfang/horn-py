@@ -1,6 +1,5 @@
-
-include Pipfile
-include Pipfile.lock
+include pyproject.toml
+include poetry.lock
 include README.md
 include logging.ini
 graft migrations
