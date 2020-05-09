@@ -23,12 +23,13 @@ class __CRUDMixin(object):
     def save(self, commit=True):
         db.session.add(self)
         if commit:
-            db.session.commit()
+            self.commit()
         return self
 
     def delete(self, commit=True):
         db.session.delete(self)
-        return commit and db.session.commit()
+        if commit:
+            self.commit()
 
     @classmethod
     def exists(cls, id):
@@ -60,7 +61,7 @@ class __CRUDMixin(object):
         assert isinstance(rcds, list)
         db.session.add_all(rcds)
         if commit:
-            db.session.commit()
+            cls.commit()
         return True
 
     @classmethod
@@ -69,13 +70,19 @@ class __CRUDMixin(object):
         for rcd in rcds:
             db.session.delete(rcd)
         if commit:
-            db.session.commit()
+            cls.commit()
         return True
 
-    def commit(self):
-        db.session.commit()
+    @classmethod
+    def commit(cls):
+        try:
+            db.session.commit()
+        except Exception:
+            db.session.rollback()
+            raise
 
-    def flush(self):
+    @classmethod
+    def flush(cls):
         db.session.flush()
 
 

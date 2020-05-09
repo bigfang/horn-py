@@ -15,8 +15,8 @@ class TestUser(object):
         }
         resp = client.post(url_for('user.create'), json=payload)
         assert resp.status_code == 201
-        assert sorted(resp.json.keys()) == ['email', 'id', 'inserted_at',
-                                            'token', 'updated_at', 'username']
+        assert set(resp.json.keys()) == {'email', 'id', 'inserted_at',
+                                         'token', 'updated_at', 'username'}
         assert resp.json['username'] == 'horn'
         assert resp.json['email'] == 'test@horn.example'
 

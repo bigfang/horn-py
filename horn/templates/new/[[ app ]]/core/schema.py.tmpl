@@ -1,9 +1,13 @@
-from marshmallow import pre_load, post_load, pre_dump, post_dump
+from marshmallow import post_load
+from webargs.fields import DelimitedList
+
 from [[ app ]].exts import ma
 
 
 fields = ma
 Schema = ma.Schema
+
+fields.DelimitedList = DelimitedList
 
 
 # https://github.com/sloria/webargs/issues/126
@@ -18,9 +22,5 @@ __all__ = [
     'ma',
     'ModelSchema',
     'Schema',
-    'fields',
-    'pre_load',
-    'post_load',
-    'pre_dump',
-    'post_dump'
+    'fields'
 ]

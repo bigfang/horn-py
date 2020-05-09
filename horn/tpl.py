@@ -43,7 +43,7 @@ def validate_opts(opts):
                     exit(1)
         if k == '<module>':
             if v[0].islower() or v == v.lower() or v == v.upper() or "_" in v:
-                print(f'Error: Module name must be upper camel case')
+                print('Error: Module name must be upper camel case')
                 exit(1)
 
 

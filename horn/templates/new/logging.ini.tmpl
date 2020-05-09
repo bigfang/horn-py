@@ -2,24 +2,29 @@
 keys=root
 
 [handlers]
-keys=root
+keys=console, file
 
 [formatters]
-keys=timedRotatingFormatter
+keys=default
 
-[formatter_timedRotatingFormatter]
+[formatter_default]
 format=%(asctime)s pid:%(process)d - %(module)s::%(funcName)s(ln:%(lineno)d) - %(levelname)s: %(message)s
 datefmt=%m-%d %H:%M:%S
 
 
 [logger_root]
 level=INFO
-handlers=root
+handlers=file, console
 qualname=root
 
-[handler_root]
+[handler_console]
+level=INFO
+class=StreamHandler
+formatter=default
+args=(sys.stdout, )
+
+[handler_file]
 level=INFO
 class=handlers.TimedRotatingFileHandler
-formatter=timedRotatingFormatter
-args=('%(logdir)s/[[ app ]].log', 'D', 1, 30)
-
+formatter=default
+args=('%(logdir)s/app.log', 'D', 1, 30)
