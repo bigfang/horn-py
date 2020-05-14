@@ -9,7 +9,7 @@ from horn.tpl import get_proj_info, merge_fields, validate_type, validate_attr, 
 TYPES = {
     'integer': 'Integer',
     'float': 'Float',
-    'decimal': 'Decimal',
+    'numeric': 'Numeric',
     'boolean': 'Boolean',
     'string': 'String',
     'text': 'Text',
