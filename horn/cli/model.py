@@ -9,7 +9,7 @@ from horn.tpl import get_proj_info, merge_fields, validate_type, validate_attr, 
 TYPES = {
     'integer': 'Integer',
     'float': 'Float',
-    'numeric': 'Numeric',
+    'decimal': 'Numeric',
     'boolean': 'Boolean',
     'string': 'String',
     'text': 'Text',
@@ -74,7 +74,7 @@ def resolve_assign(ftype, default):
         except ValueError:
             print('Error: Default value must be an integer')
             exit(1)
-    elif ftype in ['integer', 'float', 'decimal']:
+    elif ftype in ['integer', 'float', 'numeric']:
         pass
     elif ftype in ['boolean']:
         if default in ['true', 'false']:
