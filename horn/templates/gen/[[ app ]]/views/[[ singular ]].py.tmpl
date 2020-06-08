@@ -5,7 +5,7 @@ from sqlalchemy.exc import IntegrityError
 from [[ app ]].core import doc, use_kwargs, marshal_with[% if not bare %], jwt_required[% endif %]
 from [[ app ]].core.database import db, atomic   # noqa: F401
 from [[ app ]].models import [[ module ]]
-from [[ app ]].schemas import [[ singular ]]_schema, [[ singular ]]_schemas
+from [[ app ]].schemas.[[ singular ]] import [[ singular ]]_schema, [[ singular ]]_schemas
 
 
 bp = Blueprint('[[ singular ]]', __name__)

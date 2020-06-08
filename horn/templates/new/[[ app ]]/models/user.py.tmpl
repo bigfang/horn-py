@@ -7,8 +7,8 @@ class User(Model):
 
     id = Column(db.Integer, primary_key=True, doc='id')
     username = Column(db.String(), unique=True, nullable=False, index=True, doc='user name')
-    email = Column(db.String(), unique=True, nullable=False, index=True, doc='password')
-    password = Column(db.Binary(128), nullable=True)
+    email = Column(db.String(), unique=True, nullable=False, index=True, doc='email')
+    password = Column(db.Binary(128), nullable=True, doc='passowrd')
     inserted_at = Column(db.DateTime, nullable=False, index=True,
                          server_default=db.func.now(), doc='insert time')
     updated_at = Column(db.DateTime, nullable=False, index=True,

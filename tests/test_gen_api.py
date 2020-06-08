@@ -34,7 +34,7 @@ class TestGenAPI:
 
     @pytest.mark.parametrize('module,table,fields',
                              [('Post', 'posts', 'title:string content:json')])
-    def test_should_convert_unknown_type_to_string(self, proj_path, module, table, fields, capsys, monkeypatch):
+    def test_should_convert_json_to_dict(self, proj_path, module, table, fields, capsys, monkeypatch):
         monkeypatch.setattr('builtins.input', lambda x: 'y')
         execli(f'gen api {module} {table} {fields}', proj_path)
         captured = capsys.readouterr()
@@ -50,7 +50,7 @@ class TestGenAPI:
 
         with open(proj_path / ms.group(1)) as f:
             text = f.read()
-            assert '\n    content = fields.String()\n' in text
+            assert '\n    content = fields.Dict()\n' in text
 
     @pytest.mark.parametrize('module,table,fields',
                              [('Post', 'posts', 'title:string author:ref:users')])

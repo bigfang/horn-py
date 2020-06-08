@@ -44,7 +44,7 @@ from . import cli
 __all__ = ['main', '__version__']
 
 
-__version__ = '0.6.2'
+__version__ = '0.6.3'
 
 ACTION_MAP = {
     'new': ['<target>', '--app', '--proj', '--bare', '--pypi', '<from>', '<checkout>', '--json', '--file'],

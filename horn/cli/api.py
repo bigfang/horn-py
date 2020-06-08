@@ -10,7 +10,6 @@ from . import model, schema
 TYPE_MAP = {
     'integer': 'integer',
     'float': 'float',
-    'decimal': 'decimal',
     'boolean': 'boolean',
     'string': 'string',
     'date': 'date',
@@ -18,10 +17,14 @@ TYPE_MAP = {
     'datetime': 'datetime',
     'uuid': 'uuid',
 
+    'decimal': 'decimal',
+    'numeric': 'decimal',
+
     'ref': 'ref',
     'nest': 'nest',
 
-    'array': 'list'
+    'array': 'list',
+    'json': 'dict'
 }
 
 
