@@ -9,7 +9,7 @@ from horn.tpl import get_proj_info, merge_fields, validate_type, validate_attr, 
 TYPES = {
     'integer': 'Integer',
     'float': 'Float',
-    'decimal': 'Numeric',
+    'numeric': 'Numeric',
     'boolean': 'Boolean',
     'string': 'String',
     'text': 'Text',
@@ -20,6 +20,7 @@ TYPES = {
     'json': 'JSON',
     'array': 'ARRAY',
 
+    'decimal': 'Numeric',
     'ref': 'reference',
 }
 

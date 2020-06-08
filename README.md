@@ -1,4 +1,3 @@
-
 # ![flask](chili.png)  Horn: A Flask scaffolding tool
 
 [![PyPI - License](https://img.shields.io/pypi/l/horn-py.svg)](https://pypi.org/project/horn-py)
@@ -32,7 +31,7 @@ Usage:
 Options:
   --app=<app>               App name [default: app].
   --proj=<proj>             Project name.
-  --pypi=<pypi>             Pypi domain [default: pypi.org].
+  --pypi=<pypi>             Pypi domain.
   --bare                    Bare project.
 
   --json=<json>             Json string [default: {}].
