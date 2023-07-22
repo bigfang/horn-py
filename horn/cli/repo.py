@@ -30,9 +30,12 @@ def run(opts):
     location = get_location(bindings)
     try:
         run_copy(f'{location}/new', opts.get('<target>'), data=bindings, exclude=['*/__pycache__/*'])
-    except ValueError as err:
-        print(f'Error: {err}')
-        exit(1)
+    except ValueError:
+        try:
+            run_copy(f'{location}', opts.get('<target>'), data=bindings, exclude=['*/__pycache__/*'])
+        except ValueError as err:
+            print(f'Error: {err}')
+            exit(1)
 
 
 def convert_path(path):

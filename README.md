@@ -25,7 +25,7 @@ Usage:
   horn gen api <module> <table> <fields>...
   horn gen model <module> <table> <fields>...
   horn gen schema <module> (<fields>... | --model=<model> | <fields>...  --model=<model>)
-  horn (-h | --help)
+  horn -h | --help
   horn --version
 
 Options:
@@ -42,4 +42,16 @@ Options:
   -h, --help                Show this screen.
   --version                 Show version.
 
+Examples:
+  horn new tmp/foo_bar --app foobar --proj FooBar
+  horn new tmp/foo_bar https://github.com/bigfang/drf-starter.git --json '{"app":"someapp"}'
+  horn gen api Post posts title:string:uniq content:text:nonull author:ref:users
+  horn gen model Post posts title:string:uniq:index content:string:nonull author:ref:users:nonull
+  horn gen schema Post title:string content:string author:nest:user
+
+Notes:
+  Model attrs:  uniq => unique=True, nonull => nullable=False,
+                index => index=True, default:val => default=val
+  Schema attrs: dump => dump_only, load => load_only, exclude => exclude,
+                required => required=True, none => allow_none=True
 ```
