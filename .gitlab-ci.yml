@@ -12,66 +12,56 @@ before_script:
   - pip install poetry
   - poetry install
 
-py36:
-  image: python:3.6
-  stage: test
-  script:
-    - poetry run pip uninstall -y horn-py
-    - make clean
-    - poetry run pip freeze > r.txt
-    - poetry env remove 3.7
-    - pip uninstall -y poetry
-    - rm pyproject.toml
-    - sed -i '1,3d' r.txt
-    - sed -i -E '/^poetry.+$/d' r.txt
-    - pip install -r r.txt
-    - pip install -e .
-    - tox -epy36
+# py36:
+#   image: python:3.6
+#   stage: test
+#   script:
+#     - poetry run pip uninstall -y horn-py
+#     - make clean
+#     - poetry run pip freeze > r.txt
+#     - poetry env remove 3.7
+#     - pip uninstall -y poetry
+#     - rm pyproject.toml
+#     - sed -i '1,3d' r.txt
+#     - sed -i -E '/^poetry.+$/d' r.txt
+#     - pip install -r r.txt
+#     - pip install -e .
+#     - tox -epy36
 
 py37:
   image: python:3.7
   stage: test
   script:
-    - poetry run tox -epy37
+    - poetry run pytest
 
 py38:
   image: python:3.8
   stage: test
   script:
-    - poetry run tox -epy38
+    - poetry run pytest
 
 py39:
   image: python:3.9
   stage: test
   script:
-    - poetry run tox -epy39
+    - poetry run pytest
 
 py310:
   image: python:3.10
   stage: test
   script:
-    - poetry run tox -epy310
+    - poetry run pytest
 
 py311:
   image: python:3.11
   stage: test
   script:
-    - poetry run tox -epy311
+    - poetry run pytest
   coverage: '/^TOTAL.+?(\d+\%)$/'
 
 pypy:
-  image: pypy:3.6
+  image: pypy:3
   stage: test
   script:
     - pypy3 -V
-    - poetry run pip uninstall -y horn-py
-    - make clean
-    - poetry run pip freeze > r.txt
-    - poetry env remove 3.7
-    - pip uninstall -y poetry
-    - rm pyproject.toml
-    - sed -i '1,3d' r.txt
-    - sed -i -E '/^poetry.+$/d' r.txt
-    - pip install -r r.txt
-    - pip install -e .
-    - tox -epypy3
+    - poetry run pytest
