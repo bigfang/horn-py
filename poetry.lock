@@ -27,22 +27,6 @@ url = "https://pypi.tuna.tsinghua.edu.cn/simple"
 reference = "tuna"
 
 [[package]]
-name = "cachetools"
-version = "5.3.1"
-description = "Extensible memoizing collections and decorators"
-optional = false
-python-versions = ">=3.7"
-files = [
-    {file = "cachetools-5.3.1-py3-none-any.whl", hash = "sha256:95ef631eeaea14ba2e36f06437f36463aac3a096799e876ee55e5cdccb102590"},
-    {file = "cachetools-5.3.1.tar.gz", hash = "sha256:dce83f2d9b4e1f732a8cd44af8e8fab2dbe46201467fc98b3ef8f269092bf62b"},
-]
-
-[package.source]
-type = "legacy"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
-reference = "tuna"
-
-[[package]]
 name = "certifi"
 version = "2023.5.7"
 description = "Python package for providing Mozilla's CA Bundle."
@@ -133,22 +117,6 @@ files = [
 
 [package.dependencies]
 pycparser = "*"
-
-[package.source]
-type = "legacy"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
-reference = "tuna"
-
-[[package]]
-name = "chardet"
-version = "5.1.0"
-description = "Universal encoding detector for Python 3"
-optional = false
-python-versions = ">=3.7"
-files = [
-    {file = "chardet-5.1.0-py3-none-any.whl", hash = "sha256:362777fb014af596ad31334fde1e8c327dfdb076e1960d1694662d46a6917ab9"},
-    {file = "chardet-5.1.0.tar.gz", hash = "sha256:0d62712b956bc154f85fb0a266e2a3c5913c2967e00348701b32411d6def31e5"},
-]
 
 [package.source]
 type = "legacy"
@@ -1315,30 +1283,6 @@ url = "https://pypi.tuna.tsinghua.edu.cn/simple"
 reference = "tuna"
 
 [[package]]
-name = "pyproject-api"
-version = "1.5.3"
-description = "API to interact with the python pyproject.toml based projects"
-optional = false
-python-versions = ">=3.7"
-files = [
-    {file = "pyproject_api-1.5.3-py3-none-any.whl", hash = "sha256:14cf09828670c7b08842249c1f28c8ee6581b872e893f81b62d5465bec41502f"},
-    {file = "pyproject_api-1.5.3.tar.gz", hash = "sha256:ffb5b2d7cad43f5b2688ab490de7c4d3f6f15e0b819cb588c4b771567c9729eb"},
-]
-
-[package.dependencies]
-packaging = ">=23.1"
-tomli = {version = ">=2.0.1", markers = "python_version < \"3.11\""}
-
-[package.extras]
-docs = ["furo (>=2023.5.20)", "sphinx (>=7.0.1)", "sphinx-autodoc-typehints (>=1.23,!=1.23.4)"]
-testing = ["covdefaults (>=2.3)", "importlib-metadata (>=6.6)", "pytest (>=7.3.1)", "pytest-cov (>=4.1)", "pytest-mock (>=3.10)", "setuptools (>=67.8)", "wheel (>=0.40)"]
-
-[package.source]
-type = "legacy"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
-reference = "tuna"
-
-[[package]]
 name = "pytest"
 version = "7.4.0"
 description = "pytest: simple powerful testing with Python"
@@ -1690,38 +1634,6 @@ url = "https://pypi.tuna.tsinghua.edu.cn/simple"
 reference = "tuna"
 
 [[package]]
-name = "tox"
-version = "4.6.4"
-description = "tox is a generic virtualenv management and test command line tool"
-optional = false
-python-versions = ">=3.7"
-files = [
-    {file = "tox-4.6.4-py3-none-any.whl", hash = "sha256:1b8f8ae08d6a5475cad9d508236c51ea060620126fd7c3c513d0f5c7f29cc776"},
-    {file = "tox-4.6.4.tar.gz", hash = "sha256:5e2ad8845764706170d3dcaac171704513cc8a725655219acb62fe4380bdadda"},
-]
-
-[package.dependencies]
-cachetools = ">=5.3.1"
-chardet = ">=5.1"
-colorama = ">=0.4.6"
-filelock = ">=3.12.2"
-packaging = ">=23.1"
-platformdirs = ">=3.8"
-pluggy = ">=1.2"
-pyproject-api = ">=1.5.2"
-tomli = {version = ">=2.0.1", markers = "python_version < \"3.11\""}
-virtualenv = ">=20.23.1"
-
-[package.extras]
-docs = ["furo (>=2023.5.20)", "sphinx (>=7.0.1)", "sphinx-argparse-cli (>=1.11.1)", "sphinx-autodoc-typehints (>=1.23.3,!=1.23.4)", "sphinx-copybutton (>=0.5.2)", "sphinx-inline-tabs (>=2023.4.21)", "sphinxcontrib-towncrier (>=0.2.1a0)", "towncrier (>=23.6)"]
-testing = ["build[virtualenv] (>=0.10)", "covdefaults (>=2.3)", "detect-test-pollution (>=1.1.1)", "devpi-process (>=0.3.1)", "diff-cover (>=7.6)", "distlib (>=0.3.6)", "flaky (>=3.7)", "hatch-vcs (>=0.3)", "hatchling (>=1.17.1)", "psutil (>=5.9.5)", "pytest (>=7.4)", "pytest-cov (>=4.1)", "pytest-mock (>=3.11.1)", "pytest-xdist (>=3.3.1)", "re-assert (>=1.1)", "time-machine (>=2.10)", "wheel (>=0.40)"]
-
-[package.source]
-type = "legacy"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
-reference = "tuna"
-
-[[package]]
 name = "trove-classifiers"
 version = "2023.7.6"
 description = "Canonical source for classifiers on PyPI (pypi.org)."
@@ -1836,4 +1748,4 @@ reference = "tuna"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8.1"
-content-hash = "1ef61526a8a187977364d265843e3b4c0d3ef5c79e5f1b84f79135276a110e27"
+content-hash = "eb9d633c302fc9dd220c16651a11fe0ee0a49ebc8312605290b7cb64d72f8263"
