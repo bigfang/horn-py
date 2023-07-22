@@ -1,12 +1,12 @@
 from factory.alchemy import SQLAlchemyModelFactory
-[%- if not bare %]
+{%- if not bare %}
 from factory import PostGenerationMethodCall, Sequence
-[%- endif %]
+{%- endif %}
 
-from [[ app ]].core.database import db
-[%- if not bare %]
-from [[ app ]].models import User
-[%- endif %]
+from {{ app }}.core.database import db
+{%- if not bare %}
+from {{ app }}.models import User
+{%- endif %}
 
 
 class BaseFactory(SQLAlchemyModelFactory):
@@ -16,7 +16,7 @@ class BaseFactory(SQLAlchemyModelFactory):
         """Factory configuration."""
         abstract = True
         sqlalchemy_session = db.session
-[%- if not bare  %]
+{%- if not bare  %}
 
 
 class UserFactory(BaseFactory):
@@ -26,4 +26,4 @@ class UserFactory(BaseFactory):
 
     class Meta:
         model = User
-[%- endif %]
+{%- endif %}

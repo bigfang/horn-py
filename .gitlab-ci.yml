@@ -39,6 +39,24 @@ py38:
   stage: test
   script:
     - poetry run tox -epy38
+
+py39:
+  image: python:3.9
+  stage: test
+  script:
+    - poetry run tox -epy39
+
+py310:
+  image: python:3.10
+  stage: test
+  script:
+    - poetry run tox -epy310
+
+py311:
+  image: python:3.11
+  stage: test
+  script:
+    - poetry run tox -epy311
   coverage: '/^TOTAL.+?(\d+\%)$/'
 
 pypy:

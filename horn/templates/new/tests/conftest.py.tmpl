@@ -1,14 +1,14 @@
 import pytest
-[%- if not bare %]
+{%- if not bare %}
 
 from flask import url_for
-[%- endif %]
+{%- endif %}
 
-from [[ app ]].run import create_app
-from [[ app ]].core.database import db as _db
-[%- if not bare %]
+from {{ app }}.run import create_app
+from {{ app }}.core.database import db as _db
+{%- if not bare %}
 from .factories import UserFactory
-[%- endif %]
+{%- endif %}
 
 
 @pytest.fixture(scope='session')
@@ -37,13 +37,13 @@ def db(request, app):
 
     request.addfinalizer(teardown)
     return _db
-[%- if bare %]
+{%- if bare %}
 
 
 @pytest.fixture()
 def client(app):
     return app.test_client()
-[%- else %]
+{%- else %}
 
 
 @pytest.fixture(scope='module')
@@ -78,4 +78,4 @@ def headers(login_user):
     return {
         'Authorization': f'Bearer {login_user.token}'
     }
-[%- endif %]
+{%- endif %}

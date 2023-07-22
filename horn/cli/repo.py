@@ -2,7 +2,7 @@ import json
 from pathlib import Path
 
 import inflection
-from copier import copy
+from copier import run_copy
 
 from horn.path import get_location
 
@@ -29,7 +29,7 @@ def run(opts):
 
     location = get_location(bindings)
     try:
-        copy(f'{location}/new', opts.get('<target>'), data=bindings, exclude=['*/__pycache__/*'])
+        run_copy(f'{location}/new', opts.get('<target>'), data=bindings, exclude=['*/__pycache__/*'])
     except ValueError as err:
         print(f'Error: {err}')
         exit(1)
