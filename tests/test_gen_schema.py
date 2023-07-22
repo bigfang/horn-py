@@ -2,6 +2,8 @@ import re
 
 import pytest
 
+from io import StringIO
+
 from . import execli, lint
 
 
@@ -12,11 +14,11 @@ class TestGenSchema:
                               ('Post', 'Post', '')])
     def test_gen_schema(self, proj_path, module, model, fields, capsys, monkeypatch):
         model_opt = f'--model={model}' if model else ''
-        monkeypatch.setattr('builtins.input', lambda x: 'y')
+        monkeypatch.setattr('sys.stdin', StringIO('y\n'))
         execli(f'gen schema {module} {fields} {model_opt}', proj_path)
         captured = capsys.readouterr()
 
-        match = re.search(r'^.+(?:create|force|identical).+\s+(\w+\/schemas/post.py)$', captured.out, re. M)
+        match = re.search(r'^.+(?:create|conflict|identical).+\s+(\w+\/schemas/post.py)$', captured.err, re. M)
         assert match.group(1)
         genf = (proj_path / match.group(1))
         assert genf.is_file()
@@ -45,7 +47,7 @@ class TestGenSchema:
                               ('Post', 'Post', '')])
     def test_with_wrong_path(self, tmp_path, module, model, fields, capsys, monkeypatch):
         model_opt = f'--model={model}' if model else ''
-        monkeypatch.setattr('builtins.input', lambda x: 'y')
+        monkeypatch.setattr('sys.stdin', StringIO('y\n'))
         with pytest.raises(SystemExit):
             execli(f'gen schema {module} {model_opt} {fields}', tmp_path)
         captured = capsys.readouterr()
@@ -60,7 +62,7 @@ class TestGenSchema:
                               ('BLOGPOST', 'Post', '')])
     def test_module_name_should_be_camelcase(self, proj_path, module, model, fields, capsys, monkeypatch):
         model_opt = f'--model={model}' if model else ''
-        monkeypatch.setattr('builtins.input', lambda x: 'y')
+        monkeypatch.setattr('sys.stdin', StringIO('y\n'))
         with pytest.raises(SystemExit):
             execli(f'gen schema {module} {model_opt} {fields}', proj_path)
         captured = capsys.readouterr()
@@ -73,11 +75,11 @@ class TestGenSchema:
                               ('Post', 'Blog_Post', 'title:string content:string author:nest:user')])
     def test_model_name_should_be_camelcase(self, proj_path, module, model, fields, capsys, monkeypatch):
         model_opt = f'--model={model}' if model else ''
-        monkeypatch.setattr('builtins.input', lambda x: 'y')
+        monkeypatch.setattr('sys.stdin', StringIO('y\n'))
         execli(f'gen schema {module} {model_opt} {fields}', proj_path)
         captured = capsys.readouterr()
 
-        match = re.search(r'^.+(?:create|force|identical).+\s+(\w+\/schemas/post.py)$', captured.out, re.M)
+        match = re.search(r'^.+(?:create|conflict|identical).+\s+(\w+\/schemas/post.py)$', captured.err, re.M)
         assert match.group(1)
         genf = (proj_path / match.group(1))
         assert genf.is_file()
@@ -103,7 +105,7 @@ class TestGenSchema:
                               ('Post', '', 'title:string content:string author:ref:user')])
     def test_with_wrong_field_type(self, proj_path, module, model, fields, capsys, monkeypatch):
         model_opt = f'--model={model}' if model else ''
-        monkeypatch.setattr('builtins.input', lambda x: 'y')
+        monkeypatch.setattr('sys.stdin', StringIO('y\n'))
         with pytest.raises(SystemExit):
             execli(f'gen schema {module} {model_opt} {fields}', proj_path)
         captured = capsys.readouterr()
@@ -115,7 +117,7 @@ class TestGenSchema:
                               ('Post', '', 'title:string author:nest:user:xxx')])
     def test_with_wrong_attr(self, proj_path, module, model, fields, capsys, monkeypatch):
         model_opt = f'--model={model}' if model else ''
-        monkeypatch.setattr('builtins.input', lambda x: 'y')
+        monkeypatch.setattr('sys.stdin', StringIO('y\n'))
         with pytest.raises(SystemExit):
             execli(f'gen schema {module} {model_opt} {fields}', proj_path)
         captured = capsys.readouterr()
@@ -127,11 +129,11 @@ class TestGenSchema:
                               ('Post', '', 'title:string:uniq content:string:index author:nest:user')])
     def test_schema_should_ignore_model_attrs(self, proj_path, module, model, fields, capsys, monkeypatch):
         model_opt = f'--model={model}' if model else ''
-        monkeypatch.setattr('builtins.input', lambda x: 'y')
+        monkeypatch.setattr('sys.stdin', StringIO('y\n'))
         execli(f'gen schema {module} {model_opt} {fields}', proj_path)
         captured = capsys.readouterr()
 
-        match = re.search(r'^.+(?:create|force|identical).+\s+(\w+\/schemas/post.py)$', captured.out, re.M)
+        match = re.search(r'^.+(?:create|conflict|identical).+\s+(\w+\/schemas/post.py)$', captured.err, re.M)
         assert match.group(1)
         genf = (proj_path / match.group(1))
         assert genf.is_file()
@@ -149,7 +151,7 @@ class TestGenSchema:
                               ('Post', '', 'title:string:dump:exclude:load author:nest:user:exclude:load')])
     def test_schema_meta_key_should_be_mutex(self, proj_path, module, model, fields, capsys, monkeypatch):
         model_opt = f'--model={model}' if model else ''
-        monkeypatch.setattr('builtins.input', lambda x: 'y')
+        monkeypatch.setattr('sys.stdin', StringIO('y\n'))
         with pytest.raises(SystemExit):
             execli(f'gen schema {module} {model_opt} {fields}', proj_path)
         captured = capsys.readouterr()
@@ -163,11 +165,11 @@ class TestGenSchema:
                               ('Post', '', 'title:string author:nest:Blog_User')])
     def test_nested_field_should_be_convert_to_camelcase(self, proj_path, module, model, fields, capsys, monkeypatch):
         model_opt = f'--model={model}' if model else ''
-        monkeypatch.setattr('builtins.input', lambda x: 'y')
+        monkeypatch.setattr('sys.stdin', StringIO('y\n'))
         execli(f'gen schema {module} {model_opt} {fields}', proj_path)
         captured = capsys.readouterr()
 
-        match = re.search(r'^.+(?:create|force|identical).+\s+(\w+\/schemas/post.py)$', captured.out, re.M)
+        match = re.search(r'^.+(?:create|conflict|identical).+\s+(\w+\/schemas/post.py)$', captured.err, re.M)
         assert match.group(1)
         genf = (proj_path / match.group(1))
         assert genf.is_file()

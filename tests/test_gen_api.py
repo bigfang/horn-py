@@ -2,6 +2,8 @@ import re
 
 import pytest
 
+from io import StringIO
+
 from . import execli, lint
 
 
@@ -9,13 +11,13 @@ class TestGenAPI:
     @pytest.mark.parametrize('module,table,fields',
                              [('Post', 'posts', 'title:string:uniq:nonull:index content:text:default:awesome author:ref:users:nonull')])
     def test_gen_schema(self, proj_path, module, table, fields, capsys, monkeypatch):
-        monkeypatch.setattr('builtins.input', lambda x: 'y')
+        monkeypatch.setattr('sys.stdin', StringIO('y\n'))
         execli(f'gen api {module} {table} {fields}', proj_path)
         captured = capsys.readouterr()
 
-        mm = re.search(r'^.+(?:create|force|identical).+\s+(\w+\/models/post.py)$', captured.out, re. M)
-        ms = re.search(r'^.+(?:create|force|identical).+\s+(\w+\/schemas/post.py)$', captured.out, re. M)
-        mv = re.search(r'^.+(?:create|force|identical).+\s+(\w+\/views/post.py)$', captured.out, re. M)
+        mm = re.search(r'^.+(?:create|conflict|identical).+\s+(\w+\/models/post.py)$', captured.err, re. M)
+        ms = re.search(r'^.+(?:create|conflict|identical).+\s+(\w+\/schemas/post.py)$', captured.err, re. M)
+        mv = re.search(r'^.+(?:create|conflict|identical).+\s+(\w+\/views/post.py)$', captured.err, re. M)
         for m in [mm, ms, mv]:
             assert m.group(1)
             genf = (proj_path / m.group(1))
@@ -25,7 +27,7 @@ class TestGenAPI:
     @pytest.mark.parametrize('module,table,fields',
                              [('Post', 'posts', 'title:string content:text author:ref:users')])
     def test_with_wrong_path(self, tmp_path, module, table, fields, capsys, monkeypatch):
-        monkeypatch.setattr('builtins.input', lambda x: 'y')
+        monkeypatch.setattr('sys.stdin', StringIO('y\n'))
         with pytest.raises(SystemExit):
             execli(f'gen api {module} {table} {fields}', tmp_path)
         captured = capsys.readouterr()
@@ -35,12 +37,12 @@ class TestGenAPI:
     @pytest.mark.parametrize('module,table,fields',
                              [('Post', 'posts', 'title:string content:json')])
     def test_should_convert_json_to_dict(self, proj_path, module, table, fields, capsys, monkeypatch):
-        monkeypatch.setattr('builtins.input', lambda x: 'y')
+        monkeypatch.setattr('sys.stdin', StringIO('y\n'))
         execli(f'gen api {module} {table} {fields}', proj_path)
         captured = capsys.readouterr()
 
-        mm = re.search(r'^.+(?:create|force|identical).+\s+(\w+\/models/post.py)$', captured.out, re. M)
-        ms = re.search(r'^.+(?:create|force|identical).+\s+(\w+\/schemas/post.py)$', captured.out, re. M)
+        mm = re.search(r'^.+(?:create|conflict|identical).+\s+(\w+\/models/post.py)$', captured.err, re. M)
+        ms = re.search(r'^.+(?:create|conflict|identical).+\s+(\w+\/schemas/post.py)$', captured.err, re. M)
         assert mm.group(1)
         assert ms.group(1)
 
@@ -55,12 +57,12 @@ class TestGenAPI:
     @pytest.mark.parametrize('module,table,fields',
                              [('Post', 'posts', 'title:string author:ref:users')])
     def test_should_convert_ref_to_nest(self, proj_path, module, table, fields, capsys, monkeypatch):
-        monkeypatch.setattr('builtins.input', lambda x: 'y')
+        monkeypatch.setattr('sys.stdin', StringIO('y\n'))
         execli(f'gen api {module} {table} {fields}', proj_path)
         captured = capsys.readouterr()
 
-        mm = re.search(r'^.+(?:create|force|identical).+\s+(\w+\/models/post.py)$', captured.out, re. M)
-        ms = re.search(r'^.+(?:create|force|identical).+\s+(\w+\/schemas/post.py)$', captured.out, re. M)
+        mm = re.search(r'^.+(?:create|conflict|identical).+\s+(\w+\/models/post.py)$', captured.err, re. M)
+        ms = re.search(r'^.+(?:create|conflict|identical).+\s+(\w+\/schemas/post.py)$', captured.err, re. M)
         assert mm.group(1)
         assert ms.group(1)
 
@@ -75,12 +77,12 @@ class TestGenAPI:
     @pytest.mark.parametrize('module,table,fields',
                              [('Post', 'posts', 'title:string:nonull:dump content:text:uniq:load author:ref:users:default:1:exclude')])
     def test_should_ignore_useless_attrs(self, proj_path, module, table, fields, capsys, monkeypatch):
-        monkeypatch.setattr('builtins.input', lambda x: 'y')
+        monkeypatch.setattr('sys.stdin', StringIO('y\n'))
         execli(f'gen api {module} {table} {fields}', proj_path)
         captured = capsys.readouterr()
 
-        mm = re.search(r'^.+(?:create|force|identical).+\s+(\w+\/models/post.py)$', captured.out, re. M)
-        ms = re.search(r'^.+(?:create|force|identical).+\s+(\w+\/schemas/post.py)$', captured.out, re. M)
+        mm = re.search(r'^.+(?:create|conflict|identical).+\s+(\w+\/models/post.py)$', captured.err, re. M)
+        ms = re.search(r'^.+(?:create|conflict|identical).+\s+(\w+\/schemas/post.py)$', captured.err, re. M)
         assert mm.group(1)
         assert ms.group(1)
 
