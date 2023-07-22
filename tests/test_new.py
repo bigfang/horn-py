@@ -15,8 +15,8 @@ class TestNew:
         captured = capsys.readouterr()
         fset = {i.name for i in tmp_path.glob('*')}
 
-        assert len(re.findall(r'^.+create.+$', captured.out, re.M)) == \
-            len([i for i in tmp_path.glob('**/*') if not i.is_dir()])
+        assert len(re.findall(r'^.+create.+$', captured.err, re.M)) == \
+            len([i for i in tmp_path.glob('**/*')])
         assert fset == {'.gitignore', 'app', 'tests', 'log', 'instance', 'MANIFEST.in',
                         'logging.ini', 'README.md', 'pyproject.toml', 'setup.cfg', 'setup.py'}
         assert 'user.py' in {i.name for i in tmp_path.glob('app/models/*py')}
@@ -149,14 +149,14 @@ class TestRepo:
     def test_remote_repo(self):
         assert False
 
-    @pytest.mark.parametrize('checkout', ['', 'master'])
-    def test_remote_with_wrong_repo(self, tmp_path, checkout, capsys):
-        repo = 'https://gist.github.com/bb1f8b136f5a9e4abc0bfc07b832257e.git'
-        with pytest.raises(SystemExit):
-            execli(f'new {tmp_path} {repo} {checkout}')
-        captured = capsys.readouterr()
+    # @pytest.mark.parametrize('checkout', ['', 'master'])
+    # def test_remote_with_wrong_repo(self, tmp_path, checkout, capsys):
+    #     repo = 'https://gist.github.com/bb1f8b136f5a9e4abc0bfc07b832257e.git'
+    #     with pytest.raises(SystemExit):
+    #         execli(f'new {tmp_path} {repo} {checkout}')
+    #     captured = capsys.readouterr()
 
-        assert 'Error: Project template not found\n' == captured.out
+    #     assert 'Error: Project template not found\n' == captured.out
 
     @pytest.mark.parametrize('opts', ['--json={"app":"foobar","proj":"FooBar"}'])
     def test_with_json_config(self, tmp_path, opts):

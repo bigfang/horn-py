@@ -3,9 +3,11 @@ cache: pip
 sudo: false
 
 python:
-  - 3.6
   - 3.7
   - 3.8
+  - 3.9
+  - 3.10
+  - 3.11
   - pypy3
 
 install:
@@ -17,9 +19,7 @@ install:
 before_script:
   - poetry about
 script:
-  - "if [[ $TRAVIS_PYTHON_VERSION == 'pypy3' ]]; then poetry add importlib_resources; fi"
-  - "if [[ $TRAVIS_PYTHON_VERSION == '3.6' ]]; then poetry add importlib_resources; fi"
-  - poetry run tox
+  - poetry run pytest
 
 after_success:
   - codecov

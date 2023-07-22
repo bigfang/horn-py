@@ -1,6 +1,6 @@
 import inflection
 from pampy import match, _, TAIL
-from copier import copy
+from copier import run_copy
 
 from horn.path import TPL_PATH, get_location
 from horn.tpl import get_proj_info, merge_fields, validate_type, validate_attr, validate_opts
@@ -40,7 +40,7 @@ def run(opts):
     bindings.update(get_proj_info())
 
     location = get_location(bindings) or TPL_PATH
-    copy(f'{location}/gen', '.', data=bindings, exclude=['*/schemas/*', '*/views/*', 'tests/*'])
+    run_copy(f'{location}/gen', '.', data=bindings, exclude=['*/schemas/*', '*/views/*', 'tests/*'])
 
 
 def resolve_assign(ftype, default):

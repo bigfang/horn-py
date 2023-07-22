@@ -2,7 +2,7 @@ import secrets
 from pathlib import Path
 
 import inflection
-from copier import copy
+from copier import run_copy
 
 from horn.path import TPL_PATH
 
@@ -31,4 +31,4 @@ def run(opts):
             'tests/views/test_session.py'
         ])
 
-    copy(f'{TPL_PATH}/new', opts.get('<target>'), data=bindings, exclude=ignore_list)
+    run_copy(f'{TPL_PATH}/new', opts.get('<target>'), data=bindings, exclude=ignore_list)

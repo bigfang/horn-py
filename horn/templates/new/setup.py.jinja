@@ -1,0 +1,15 @@
+from setuptools import find_packages, setup
+
+from {{ app }} import __version__
+
+
+with open('README.md', 'r') as f:
+    readme = f.read()
+
+setup(
+    name='{{ app }}',
+    version=__version__,
+    packages=find_packages(exclude=['tests']),
+    description='{{ proj }} backend',
+    long_description=readme,
+)

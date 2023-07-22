@@ -1,0 +1,72 @@
+from flask import Blueprint
+
+from sqlalchemy.exc import IntegrityError
+
+from {{ app }}.core import doc, use_kwargs, marshal_with{% if not bare %}, jwt_required{% endif %}
+from {{ app }}.core.database import db, atomic   # noqa: F401
+from {{ app }}.models import {{ module }}
+from {{ app }}.schemas.{{ singular }} import {{ singular }}_schema, {{ singular }}_schemas
+
+
+bp = Blueprint('{{ singular }}', __name__)
+
+
+@doc(tags=['{{ module }}'], description='list {{ plural }}')
+@bp.route('/{{ plural }}', methods=['GET'], provide_automatic_options=False)
+{%- if not bare %}
+@jwt_required
+{%- endif %}
+@marshal_with({{ singular }}_schemas, code=200)
+def index():
+    {{ plural }} = {{ module }}.query.all()
+    return {{ plural }}
+
+
+@doc(tags=['{{ module }}'], description='create {{ singular }}')
+@bp.route('/{{ plural }}', methods=['POST'], provide_automatic_options=False)
+{%- if not bare %}
+@jwt_required
+{%- endif %}
+@use_kwargs({{ singular }}_schema)
+@marshal_with({{ singular }}_schema, code=201)
+def create(**attrs):
+    {{ singular }} = {{ module }}.create(**attrs)
+    return {{ singular }}, 201
+
+
+@doc(tags=['{{ module }}'], description='show {{ singular }}')
+@bp.route('/{{ plural }}/<int:pk>', methods=['GET'], provide_automatic_options=False)
+{%- if not bare %}
+@jwt_required
+{%- endif %}
+@marshal_with({{ singular }}_schema, code=200)
+def show(pk):
+    {{ singular }} = {{ module }}.query.get_or_404(pk)
+    return {{ singular }}
+
+
+@doc(tags=['{{ module }}'], description='update {{ singular }}')
+@bp.route('/{{ plural }}/<int:pk>', methods=['PUT', 'PATCH'], provide_automatic_options=False)
+{%- if not bare %}
+@jwt_required
+{%- endif %}
+@use_kwargs({{ singular }}_schema)
+@marshal_with({{ singular }}_schema, code=200)
+def update(pk, **attrs):
+    {{ singular }} = {{ module }}.query.get_or_404(pk)
+    return {{ singular }}.update(**attrs)
+
+
+@doc(tags=['{{ module }}'], description='delete {{ singular }}')
+@bp.route('/{{ plural }}/<int:pk>', methods=['DELETE'], provide_automatic_options=False)
+{%- if not bare %}
+@jwt_required
+{%- endif %}
+@marshal_with(None, code=204)   # FIXME
+def delete(pk):
+    {{ singular }} = {{ module }}.query.get_or_404(pk)
+    try:
+        {{ singular }}.delete()
+    except IntegrityError as err:
+        raise err
+    return True

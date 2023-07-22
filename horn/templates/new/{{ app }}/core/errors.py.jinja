@@ -1,0 +1,94 @@
+import traceback
+
+from flask import jsonify, current_app
+
+
+ERR_CODE_MAP = {
+    400: 'Bad Request',
+    401: 'Unauthorized',
+    403: 'Forbidden',
+    404: 'Not Found',
+    409: 'Conflict',
+
+    500: 'Internal Server Error'
+}
+
+
+def template(msg=None, code=None, detail=None, status=500):
+
+    code = code or status
+    msg = msg or ERR_CODE_MAP.get(code)
+
+    assert isinstance(status, int)
+    assert isinstance(code, int)
+    assert isinstance(msg, str)
+    assert isinstance(detail, str) or detail is None
+
+    payload = {
+        'message': msg,
+        'code': code,
+        'detail': detail
+    }
+    if current_app.env != 'production':
+        payload.update({'traceback': traceback.format_exc()})
+
+    return {
+        'payload': payload,
+        'status': status
+    }
+
+
+def make_err_resp(error):
+    response = error.to_json()
+    response.status_code = error.status
+    return response
+
+
+class {{ proj }}Error(Exception):
+    status = 500
+
+    def __init__(self, payload, status=None):
+        Exception.__init__(self)
+        self.payload = payload
+        if status is not None:
+            self.status = status
+
+    def to_json(self):
+        return jsonify(self.payload)
+
+    @classmethod
+    def custom(cls, msg=None, code=None, err=None, status=500):
+        detail = repr(err)
+        if isinstance(err, str):
+            detail = err
+        if detail == 'None':
+            detail = None
+
+        tpl = template(msg=msg, code=code, detail=detail, status=status)
+        return cls(**tpl)
+
+    @classmethod
+    def bad_request(cls, err=None, code=None):
+        return cls.custom(err=err, code=code, status=400)
+
+    @classmethod
+    def unauthorized(cls, err=None, code=None):
+        return cls.custom(err=err, code=code, status=401)
+
+    @classmethod
+    def forbidden(cls, err=None, code=None):
+        return cls.custom(err=err, code=code, status=403)
+
+    @classmethod
+    def not_found(cls, err=None, code=None):
+        return cls.custom(err=err, code=code, status=404)
+
+    @classmethod
+    def conflict(cls, err=None, code=None):
+        return cls.custom(err=err, code=code, status=409)
+
+
+class ErrorHandler(object):
+    @classmethod
+    def handle_{{ app }}(cls, error):
+        return make_err_resp(error)

@@ -1,0 +1,135 @@
+from functools import wraps
+
+from sqlalchemy.orm import relationship
+
+from {{ app }}.exts import db
+
+
+# Alias common SQLAlchemy names
+Column = db.Column
+
+
+class __CRUDMixin(object):
+    @classmethod
+    def create(cls, commit=True, **kwargs):
+        instance = cls(**kwargs)
+        return instance.save(commit=commit)
+
+    def update(self, commit=True, **kwargs):
+        for attr, value in kwargs.items():
+            setattr(self, attr, value)
+        return self.save(commit=commit)
+
+    def save(self, commit=True):
+        db.session.add(self)
+        if commit:
+            self.commit()
+        return self
+
+    def delete(self, commit=True):
+        db.session.delete(self)
+        if commit:
+            self.commit()
+
+    @classmethod
+    def exists(cls, id):
+        rcd = cls.query.get(id)
+        return True and rcd
+
+    @classmethod
+    def upsert(cls, constraint, commit=True, **kwargs):
+        q = cls.query
+        rcd = None
+        if isinstance(constraint, str):
+            rcd = cls.query.filter(
+                getattr(cls, constraint) == kwargs.get(constraint)).first()
+        elif isinstance(constraint, list) or isinstance(constraint, tuple):
+            for c in constraint:
+                q = q.filter(getattr(cls, c) == kwargs.get(c))
+            rcd = q.first()
+
+        if not rcd:
+            instance = cls(**kwargs)
+            return instance.save(commit=commit)
+        else:
+            for k, v in kwargs.items():
+                setattr(rcd, k, v)
+            return rcd.save(commit=commit)
+
+    @classmethod
+    def bulk_save(cls, rcds, commit=True):
+        assert isinstance(rcds, list)
+        db.session.add_all(rcds)
+        if commit:
+            cls.commit()
+        return True
+
+    @classmethod
+    def bulk_delete(cls, rcds, commit=True):
+        assert isinstance(rcds, list)
+        for rcd in rcds:
+            db.session.delete(rcd)
+        if commit:
+            cls.commit()
+        return True
+
+    @classmethod
+    def commit(cls):
+        try:
+            db.session.commit()
+        except Exception:
+            db.session.rollback()
+            raise
+
+    @classmethod
+    def flush(cls):
+        db.session.flush()
+
+
+class Model(__CRUDMixin, db.Model):
+    """Base model class that includes CRUD convenience methods."""
+    __abstract__ = True
+
+
+def reference_col(tablename, nullable=False, pk_name='id', **kwargs):
+    """Column that adds primary key foreign key reference.
+
+    Usage: ::
+
+        category_id = reference_col('category')
+        category = relationship('Category', backref='categories')
+    """
+    return db.Column(db.ForeignKey('{0}.{1}'.format(tablename, pk_name)),
+                     nullable=nullable, **kwargs)
+
+
+def atomic(session, nested=False):
+    def wrapper(func):
+        @wraps(func)
+        def inner(*args, **kwargs):
+            if session.autocommit is True and nested is False:
+                session.begin()  # start a transaction
+
+            try:
+                with session.begin_nested():
+                    resp = func(*args, **kwargs)
+                if not nested:
+                    session.commit()  # transaction finished
+            except Exception as e:
+                if not nested:
+                    session.rollback()
+                    session.remove()
+                raise e
+            return resp
+        return inner
+    return wrapper
+
+
+__all__ = [
+    'db',
+    'Model',
+    'Column',
+    'relationship',
+    'reference_col',
+    'atomic'
+]

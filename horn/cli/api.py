@@ -1,6 +1,6 @@
 import inflection
 from pampy import match, _, TAIL
-from copier import copy
+from copier import run_copy
 
 from horn.path import TPL_PATH, get_location
 from horn.tpl import get_proj_info
@@ -43,8 +43,8 @@ def run(opts):
     bindings.update(get_proj_info())
 
     location = get_location(bindings) or TPL_PATH
-    copy(f'{location}/gen', '.', data=bindings, exclude=['*/models/*', '*/schemas/*', 'tests/*'])
-    copy(f'{location}/gen/tests', './tests', data=bindings)
+    run_copy(f'{location}/gen', '.', data=bindings, exclude=['*/models/*', '*/schemas/*', 'tests/*'])
+    run_copy(f'{location}/gen/tests', './tests', data=bindings)
 
 
 def opt_pipe(opts):

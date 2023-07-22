@@ -33,7 +33,7 @@ flake:
 	@poetry run flake8
 
 test:
-	@poetry run py.test $(add)
+	@poetry run pytest $(add)
 
 install:
 	@poetry run pip install -e .

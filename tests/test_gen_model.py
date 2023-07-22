@@ -2,6 +2,8 @@ import re
 
 import pytest
 
+from io import StringIO
+
 from . import execli, lint
 
 
@@ -12,7 +14,7 @@ class TestGenModel:
         execli(f'gen model {module} {table} {fields}', proj_path)
         captured = capsys.readouterr()
 
-        match = re.search(r'^.+create.+\s+(\w+\/models/post.py)$', captured.out, re.M)
+        match = re.search(r'^.+create.+\s+(\w+\/models/post.py)$', captured.err, re.M)
         assert match.group(1)
         genf = (proj_path / match.group(1))
         assert genf.is_file()
@@ -54,11 +56,11 @@ class TestGenModel:
                               ('Post', 'Blog_Posts', 'title:string content:text author:ref:users'),
                               ('Post', 'BLOG_POSTS', 'title:string content:text author:ref:users')])
     def test_table_name_should_be_lowercase(self, proj_path, module, table, fields, monkeypatch, capsys):
-        monkeypatch.setattr('builtins.input', lambda x: 'y')
+        monkeypatch.setattr('sys.stdin', StringIO('Y\n'))
         execli(f'gen model {module} {table} {fields}', proj_path)
         captured = capsys.readouterr()
 
-        match = re.search(r'^.+(?:create|force|identical).+\s+(\w+\/models/post.py)$', captured.out, re.M)
+        match = re.search(r'^.+(?:create|conflict|identical).+\s+(\w+\/models/post.py)$', captured.err, re.M)
         assert match.group(1)
         genf = (proj_path / match.group(1))
         assert genf.is_file()
@@ -104,11 +106,11 @@ class TestGenModel:
                               ('Post', 'posts', 'title:string:dump:load content:text author:default:1:ref:users:load'),
                               ('Post', 'posts', 'title:string:nonull:dump content:text author:default:1:ref:users:nonull')])
     def test_model_should_ignore_schema_attrs(self, proj_path, module, table, fields, monkeypatch, capsys):
-        monkeypatch.setattr('builtins.input', lambda x: 'y')
+        monkeypatch.setattr('sys.stdin', StringIO('y\n'))
         execli(f'gen model {module} {table} {fields}', proj_path)
         captured = capsys.readouterr()
 
-        match = re.search(r'^.+(?:create|force|identical).+\s+(\w+\/models/post.py)$', captured.out, re.M)
+        match = re.search(r'^.+(?:create|conflict|identical).+\s+(\w+\/models/post.py)$', captured.err, re.M)
         assert match.group(1)
         genf = (proj_path / match.group(1))
         assert genf.is_file()
@@ -124,11 +126,11 @@ class TestGenModel:
                               ('Post', 'posts', 'title:string content:text author:default:1:ref:users'),
                               ('Post', 'posts', 'title:string content:text author:default:1:ref:users:nonull')])
     def test_ref_with_default(self, proj_path, module, table, fields, monkeypatch, capsys):
-        monkeypatch.setattr('builtins.input', lambda x: 'y')
+        monkeypatch.setattr('sys.stdin', StringIO('y\n'))
         execli(f'gen model {module} {table} {fields}', proj_path)
         captured = capsys.readouterr()
 
-        match = re.search(r'^.+(?:create|force|identical).+\s+(\w+\/models/post.py)$', captured.out, re.M)
+        match = re.search(r'^.+(?:create|conflict|identical).+\s+(\w+\/models/post.py)$', captured.err, re.M)
         assert match.group(1)
         genf = (proj_path / match.group(1))
         assert genf.is_file()

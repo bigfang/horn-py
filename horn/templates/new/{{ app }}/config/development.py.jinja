@@ -1,0 +1,14 @@
+{% if not bare -%}
+from datetime import timedelta
+{%- endif %}
+
+from .default import *          # NOQA F401
+
+
+ENV = 'development'
+DEBUG = True
+{%- if not bare %}
+JWT_ACCESS_TOKEN_EXPIRES = timedelta(10 ** 6)
+{%- endif %}
+
+SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:postgres@localhost/{{ app }}_dev'

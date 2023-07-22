@@ -1,0 +1,54 @@
+{{ '[' }}tool.poetry{{ ']' }}
+name = "{{ app }}"
+version = "0.1.0"
+description = "{{ proj }} backend"
+authors = ["Your Name <you@example.com>"]
+{%- if pypi %}
+{%- set domain = pypi.split('.') %}
+
+{{ '{{ ' }}tool.poetry.source{{ ' }}' }}
+name = "{{ domain[1] }}"
+url = "{{ pypi }}"
+{%- endif %}
+
+{{ '[' }}tool.poetry.dependencies{{ ']' }}
+python = "^3.6"
+flask = "^1.1.2"
+flask-marshmallow = "^0.11.0"
+flask-sqlalchemy = "^2.4.1"
+flask-migrate = "^2.5.3"
+flask-apispec = "^0.8.8"
+{% if not bare -%}
+Flask-Bcrypt = "^0.7.1"
+Flask-Jwt-Extended = "^3.24.1"
+{%- endif %}
+marshmallow-sqlalchemy = "^0.22.3"
+psycopg2 = {version = "^2.8.5", optional = true}
+
+{{ '[' }}tool.poetry.dev-dependencies{{ ']' }}
+pytest = "^5.2"
+flake8 = "^3.7.9"
+pytest-cov = "^2.8.1"
+factory-boy = "^2.12.0"
+psycopg2-binary = "^2.8.5"
+
+{{ '[' }}tool.poetry.extras{{ ']' }}
+pg = ["psycopg2"]
+
+{{ '[' }}build-system{{ ']' }}
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
+
+{{ '[' }}horn{{ ']' }}
+directory = "{{ target }}"
+project_name = "{{ proj }}"
+app_name = "{{ app }}"
+{%- if bare %}
+bare = true
+{%- endif %}
+{%- if from %}
+from = "{{ from }}"
+{%- endif %}
+{%- if checkout %}
+checkout = "{{ checkout }}"
+{%- endif -%}

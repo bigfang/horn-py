@@ -1,34 +1,76 @@
+[project]
+name = "horn-py"
+authors = [{ name="bigfang", email="bitair@gmail.com" }]
+description = "A Flask scaffolding tool"
+readme = "README.md"
+dynamic = ["version"]
+requires-python = ">=3.7"
+dependencies = [
+  'docopt>=0.6',
+  'toml>=0.10.2',
+  'inflection>=0.5.1',
+  'pampy>=0.3.0',
+  'copier>=8.1.0',
+]
+classifiers = [
+  'Topic :: Utilities',
+  'Programming Language :: Python :: 3.7',
+  'Programming Language :: Python :: 3.8',
+  'Programming Language :: Python :: 3.9',
+  'Programming Language :: Python :: 3.10',
+  'Programming Language :: Python :: 3.11',
+  'Programming Language :: Python :: Implementation :: CPython',
+  'Programming Language :: Python :: Implementation :: PyPy',
+  'License :: OSI Approved :: MIT License',
+]
+
+[project.scripts]
+horn = "horn:main"
+
+[project.urls]
+Documentation = "https://bigfang.github.io/horn-py"
+"Source code" = "https://github.com/bigfang/horn-py"
+
+
+[tool.hatch.version]
+path = "horn/__init__.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["horn"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+
 [tool.poetry]
 name = "horn-py"
-version = "0.6.3"
+version = "0.0.0"
 description = "A Flask scaffolding tool"
 authors = ["bigfang <bitair@gmail.com>"]
 license = "MIT"
 packages = [{ include="horn", from="." }]
 readme = "README.md"
 
+[tool.poetry.scripts]
+horn = "horn:main"
+
 [[tool.poetry.source]]
-name = "douban"
-url = "https://pypi.doubanio.com/simple"
-default = true
+name = "tuna"
+url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+priority = "default"
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = "^3.8.1"
 docopt = "^0.6.2"
-copier = "~2.3.3"
+copier = "^8.1.0"
 pampy = "^0.3.0"
-toml = "^0.10.0"
-inflection = "^0.4.0"
-wheel = "^0.34.2"
+toml = "^0.10.2"
+inflection = "^0.5.1"
 
-[tool.poetry.dev-dependencies]
-flake8 = "^3.7.9"
-twine = "^3.1.1"
-pytest = "^5.4.1"
-pytest-cov = "^2.8.1"
-pytest-testdox = "^1.2.1"
-tox = "^3.14.6"
-
-[build-system]
-requires = ["poetry>=0.12"]
-build-backend = "poetry.masonry.api"
+[tool.poetry.group.dev.dependencies]
+flake8 = "^6.0.0"
+pytest = "^7.4.0"
+pytest-cov = "^4.1.0"
+pytest-testdox = "^3.0.1"
+hatch = "^1.7.0"
