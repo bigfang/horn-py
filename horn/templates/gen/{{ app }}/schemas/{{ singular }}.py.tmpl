@@ -1,0 +1,42 @@
+from {{ app }}.core.schema import {% if model %}Model{% endif %}Schema{% if fields %}, fields{% endif %}
+{%- if model %}
+from {{ app }}.models import {{ model }}
+{% endif %}
+from .helpers import SchemaMixin
+
+
+class {{ module }}Schema({% if model %}Model{% endif %}Schema, SchemaMixin):
+    {%- for field in fields %}
+    {% if field.type == 'Nested' -%}
+    {{ field.field }} = fields.{{ field.type }}('{{ field.schema }}'
+    {%- if field.required %}, required=True{% endif %}
+    {%- if field.none and field.required %}, {% endif -%}
+    {% if field.none %}allow_none=True{% endif %})
+    {%- else -%}
+    {{ field.field }} = fields.{{ field.type }}(
+    {%- if field.required %}required=True{% endif %}
+    {%- if field.none and field.required %}, {% endif -%}
+    {% if field.none %}allow_none=True{% endif %})
+    {%- endif -%}
+    {% endfor %}
+
+    class Meta(SchemaMixin.Meta):
+        {%- if model %}
+        model = {{ model }}
+        {%- endif %}
+        {%- if fields %}
+        fields = ('id', {% for field in fields %}'{{ field.field }}', {% endfor %})
+        {%- endif %}
+        {%- if dump_only %}
+        dump_only = ({% for attr in dump_only %}'{{ attr }}', {% endfor %})
+        {%- endif %}
+        {%- if load_only %}
+        load_only = ({% for attr in load_only %}'{{ attr }}', {% endfor %})
+        {%- endif %}
+        {%- if exclude %}
+        exclude = ({% for attr in exclude %}'{{ attr }}', {% endfor %})
+        {%- endif %}
+
+
+{{ singular }}_schema = {{ module }}Schema()
+{{ singular }}_schemas = {{ module }}Schema(many=True)

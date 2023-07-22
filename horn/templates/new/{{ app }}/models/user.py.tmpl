@@ -1,0 +1,33 @@
+from {{ app }}.core.database import db, Column, Model
+from {{ app }}.exts import bcrypt
+
+
+class User(Model):
+    __tablename__ = 'users'
+
+    id = Column(db.Integer, primary_key=True, doc='id')
+    username = Column(db.String(), unique=True, nullable=False, index=True, doc='user name')
+    email = Column(db.String(), unique=True, nullable=False, index=True, doc='email')
+    password = Column(db.Binary(128), nullable=True, doc='passowrd')
+    inserted_at = Column(db.DateTime, nullable=False, index=True,
+                         server_default=db.func.now(), doc='insert time')
+    updated_at = Column(db.DateTime, nullable=False, index=True,
+                        server_default=db.func.now(), onupdate=db.func.now(),
+                        doc='update time')
+    token: str = None
+
+    def __init__(self, username, email, password=None, **kwargs):
+        Model.__init__(self, username=username, email=email, **kwargs)
+        if password:
+            self.set_password(password)
+        else:
+            self.password = None
+
+    def set_password(self, password):
+        self.password = bcrypt.generate_password_hash(password)
+
+    def check_password(self, value):
+        return bcrypt.check_password_hash(self.password, value)
+
+    def __repr__(self):
+        return f'<User({self.username!r})>'

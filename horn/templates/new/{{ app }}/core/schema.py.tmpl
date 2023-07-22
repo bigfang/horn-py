@@ -1,0 +1,26 @@
+from marshmallow import post_load
+from webargs.fields import DelimitedList
+
+from {{ app }}.exts import ma
+
+
+fields = ma
+Schema = ma.Schema
+
+fields.DelimitedList = DelimitedList
+
+
+# https://github.com/sloria/webargs/issues/126
+# https://github.com/jmcarp/flask-apispec/issues/73
+class ModelSchema(ma.ModelSchema):
+    @post_load()
+    def make_instance(self, data, **kwargs):
+        return data
+
+
+__all__ = [
+    'ma',
+    'ModelSchema',
+    'Schema',
+    'fields'
+]

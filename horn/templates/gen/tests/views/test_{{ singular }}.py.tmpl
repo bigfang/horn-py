@@ -1,0 +1,34 @@
+import pytest
+from flask import url_for
+
+
+class Test{{ module }}(object):
+
+    def test_index(self, client):
+        resp = client.get(url_for('{{ singular }}.index'))
+        assert resp.status_code == 200
+
+    @pytest.mark.skip()
+    def test_create(self, client):
+        payload = {
+        }
+        resp = client.post(url_for('{{ singular }}.create'), json=payload)
+        assert resp.status_code == 201
+        assert resp.json['url'] == payload['url']
+
+    @pytest.mark.skip()
+    def test_update(self, client):
+        payload = {
+        }
+        resp = client.put(url_for('{{ singular }}.update', pk=sample.id), json=payload)
+        assert resp.status_code == 200
+
+    @pytest.mark.skip()
+    def test_show(self, client):
+        resp = client.get(url_for('{{ singular }}.show', pk=sample.id))
+        assert resp.status_code == 200
+
+    @pytest.mark.skip()
+    def test_delete(self, client):
+        resp = client.delete(url_for('{{ singular }}.delete', pk=sample.id))
+        assert resp.status_code == 200

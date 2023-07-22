@@ -1,0 +1,9 @@
+from .default import *          # NOQA F401
+
+
+ENV = 'development'
+TESTING = True
+{%- if not bare %}
+BCRYPT_LOG_ROUNDS = 4
+{%- endif %}
+SQLALCHEMY_DATABASE_URI = 'sqlite://'

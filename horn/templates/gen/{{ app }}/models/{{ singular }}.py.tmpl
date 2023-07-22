@@ -1,0 +1,35 @@
+from {{ app }}.core.database import db, Column, Model
+{%-  if has_ref -%}
+, reference_col, relationship
+{%- endif %}
+
+
+class {{ module }}(Model):
+    __tablename__ = '{{ table }}'
+
+    id = db.Column(db.Integer, primary_key=True, doc='id')
+    {% for field in fields if not field.type == 'reference' -%}
+    {{ field.field }} = Column(db.{{ field.type }}
+        {%- if field.default %}, default={{ field.default|safe }} {%- endif %}
+        {%- if field.uniq %}, unique=True {%- endif %}
+        {%- if field.index %}, index=True {%- endif %}
+        {%- if field.nonull %}, nullable=False {%- endif %}, doc='{{ module }} {{ field.field }}')
+{% if not loop.last %}    {% endif -%}
+    {%- endfor -%}
+    {% for field in fields if field.type == 'reference' %}
+    {{ field.field }}_id = reference_col('{{ field.table }}'
+        {%- if field.default %}, default={{ field.default|safe }} {%- endif %}
+        {%- if field.uniq %}, unique=True {%- endif %}
+        {%- if field.index %}, index=True {%- endif %}
+        {%- if field.nonull %}, nullable=False {%- endif %}, doc='{{ field.field }} id')
+    {{ field.field }} = relationship('{{ field.cam_field }}', back_populates='{{ table }}')
+{% if not loop.last %}{% endif -%}
+    {%- endfor %}
+    inserted_at = db.Column(db.DateTime, nullable=False, index=True,
+                            server_default=db.func.now(), doc='insert time')
+    updated_at = db.Column(db.DateTime, nullable=False, index=True,
+                           server_default=db.func.now(), onupdate=db.func.now(),
+                           doc='update time')
+
+    def __repr__(self):
+        return f'<{{ module }}({self.id!r})>'
